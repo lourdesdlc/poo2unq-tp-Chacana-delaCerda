@@ -1,5 +1,4 @@
-package tpgrupal;
-
+package reserva;
 
 public class ReservaPendiente extends EstadoReserva {
 

@@ -1,7 +1,8 @@
-package tpgrupal;
+package reserva;
 
 import java.sql.Date;
 
+import tpgrupal.Inmueble;
 import usuario.Inquilino;
 import usuario.Usuario;
 

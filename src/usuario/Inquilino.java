@@ -2,6 +2,8 @@ package usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import reserva.Reserva;
 import tpgrupal.*;
 
 public class Inquilino extends Usuario {
