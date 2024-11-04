@@ -1,9 +1,11 @@
 package tpgrupal;
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import filtroDeBusqueda.CriterioBusqueda;
 import usuario.Usuario;
 
 public class SitioWeb {
@@ -23,16 +25,17 @@ public class SitioWeb {
         inmuebles.add(inmueble);
     }
 
-    public List<Inmueble> buscarInmuebles(String ciudad, LocalDate fechaEntrada, LocalDate fechaSalida, 
-                                          Integer capacidad, Double precioMin, Double precioMax) {
-        // Implementar búsqueda con filtros
-        return new ArrayList<>();  // Retorna lista filtrada
+    public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
+    	// Filtra la lista de inmuebles usando el criterio recibido como parámetro
+        return inmuebles.stream()
+                .filter(criterio::cumple)
+                .collect(Collectors.toList());
     }
 
     public void mostrarDetallesInmueble(Inmueble inmueble){}
 
-	public void darDeAltaInmueble(Inmueble inmueble) {
+	/*public void darDeAltaInmueble(Inmueble inmueble) {
 		// TODO Auto-generated method stub
 		
-	};
+	}; */
 }

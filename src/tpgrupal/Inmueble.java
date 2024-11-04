@@ -8,7 +8,7 @@ import usuario.Propietario;
 
 public class Inmueble {
 	private Propietario propietario;
-    private String tipo;
+    private TipoInmueble tipo;
     private double superficie;
     private String pais;
     private String ciudad;
@@ -28,7 +28,7 @@ public class Inmueble {
 	private double precioEstandar; 
     ////////////////////////////////////////////////
     
-	public Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion,
+	public Inmueble(TipoInmueble tipo, double superficie, String pais, String ciudad, String direccion,
 			List<Servicio> servicios, int capacidad, List<String> fotos,
 			String checkIn, String checkOut, List<FormaDePago> formasDePago,
 			List<PrecioPorPeriodo> preciosPorPeriodos, int precioEstandar) {
@@ -71,7 +71,7 @@ public class Inmueble {
 
     // Getters y setters
     public Propietario getPropietario() { return propietario; }
-    public String getTipo() { return tipo; }
+    public TipoInmueble getTipo() { return tipo; }
     public double getSuperficie() { return superficie; }
     public String getPais() { return pais; }
     public String getCiudad() { return ciudad; }

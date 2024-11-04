@@ -19,9 +19,9 @@ public class Propietario extends Usuario {
 	        inmuebles.add(inmueble);
 	    }
 
-	    //dar de alta un inmueble en el sitio
+	    //dar de alta un inmueble en el sitio(registrar un inmueble en el sitio)
 	    public void darDeAltaInmueble(Inmueble inmueble) {
-	    	sitioWeb.darDeAltaInmueble(inmueble);
+	    	sitioWeb.registrarInmueble(inmueble);
 	    }
 	    
 	    
