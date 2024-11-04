@@ -1,71 +1,86 @@
 package tpgrupal;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 import usuario.Propietario;
 
 public class Inmueble {
+	private Propietario propietario;
     private String tipo;
     private double superficie;
     private String pais;
     private String ciudad;
     private String direccion;
-    private List<String> servicios;
     private int capacidad;
     private List<String> fotos; // Máximo de 5 fotos
     private String checkIn;
     private String checkOut;
+    private List<Servicio> servicios;
     
-    //Podria ser un enum?
-    private List<String> formasDePago; 
-    /////////////////////////////////////////7
+    //Enum FormaDePago
+    private List<FormaDePago> formasDePago; 
+    /////////////////////////////////////////
     
-    private Map<String, Double> preciosPorPeriodo; // Almacena precios por distintos períodos
-    private Propietario propietario;
+    // Lista de períodos con precios variables
+    private List<PrecioPorPeriodo> preciosPorPeriodos;
+	private double precioEstandar; 
+    ////////////////////////////////////////////////
     
-    public Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion,
-                    List<String> servicios, int capacidad, List<String> fotos,
-                    String checkIn, String checkOut, List<String> formasDePago,
-                    Map<String, Double> preciosPorPeriodo) {
-        this.tipo = tipo;
-        this.superficie = superficie;
-        this.pais = pais;
-        this.ciudad = ciudad;
-        this.direccion = direccion;
-        this.servicios = servicios;
-        this.capacidad = capacidad;
-        this.fotos = fotos;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.formasDePago = formasDePago;
-        this.preciosPorPeriodo = preciosPorPeriodo;
+	public Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion,
+			List<Servicio> servicios, int capacidad, List<String> fotos,
+			String checkIn, String checkOut, List<FormaDePago> formasDePago,
+			List<PrecioPorPeriodo> preciosPorPeriodos, int precioEstandar) {
+		this.tipo = tipo;
+		this.superficie = superficie;
+		this.pais = pais;
+		this.ciudad = ciudad;
+		this.direccion = direccion;
+		this.servicios = servicios;
+		this.capacidad = capacidad;
+		this.fotos = fotos;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+		this.formasDePago = formasDePago;
+		this.preciosPorPeriodos = preciosPorPeriodos;
+		this.precioEstandar = precioEstandar;
+	}
+    
+    public double calcularPrecioTotal(LocalDate fechaInicio, LocalDate fechaFin) {
+        double precioTotal = 0;
+        LocalDate fechaActual = fechaInicio;
+
+        while (!fechaActual.isAfter(fechaFin)) {
+        //algunos dias podrian ser estandar y otros de periodos especiales
+            precioTotal += obtenerPrecioParaFecha(fechaActual);
+            fechaActual = fechaActual.plusDays(1);
+        }
+
+        return precioTotal;
     }
 
+    private double obtenerPrecioParaFecha(LocalDate fecha) {
+        return preciosPorPeriodos.stream()
+                .filter(periodo -> periodo.incluye(fecha))
+                .map(PrecioPorPeriodo::getPrecioPorDia)
+                .findFirst()
+                .orElse(precioEstandar);
+    }
+    
+
     // Getters y setters
+    public Propietario getPropietario() { return propietario; }
     public String getTipo() { return tipo; }
     public double getSuperficie() { return superficie; }
+    public String getPais() { return pais; }
+    public String getCiudad() { return ciudad; }
     public String getDireccion() { return direccion; }
-    public List<String> getServicios() { return servicios; }
     public int getCapacidad() { return capacidad; }
     public List<String> getFotos() { return fotos; }
-    public Map<String, Double> getPrecios() { return preciosPorPeriodo; }
-    public Propietario getPropietario() { return propietario; }
-    // Agregar métodos adicionales para verificar disponibilidad, calcular precios, etc.
-
-	public String getPais() {
-		return pais;
-	}
-
-	public String getCiudad() {
-		return ciudad;
-	}
-
-	public String getCheckIn() {
-		return checkIn;
-	}
-
-	public String getCheckOut() {
-		return checkOut;
-	}
+	public String getCheckIn() { return checkIn; }
+	public String getCheckOut() { return checkOut; }
+	public List<Servicio> getServicios() { return servicios; }
+	public List<FormaDePago> getFormasDePago() { return formasDePago; }
+	public List<PrecioPorPeriodo> getpreciosPorPeriodos() { return preciosPorPeriodos; }
 }

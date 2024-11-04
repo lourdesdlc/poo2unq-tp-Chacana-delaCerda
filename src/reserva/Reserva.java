@@ -8,17 +8,15 @@ import usuario.Usuario;
 
 public class Reserva {
     private Inquilino inquilino;
-    //private Propietario propietario; es necesario?
     private Inmueble inmueble;
     private Date checkIn;
     private Date checkOut;
     private String formaDePago;
 	private EstadoReserva estado;
 
-    public Reserva(Inquilino inquilino, Usuario propietario, Inmueble inmueble, 
-                   Date fechaEntrada, Date fechaSalida, String formaDePago) {
+    public Reserva(Inquilino inquilino, Inmueble inmueble, Date fechaEntrada, 
+    		Date fechaSalida, String formaDePago) {
         this.inquilino = inquilino;
-        //this.propietario = propietario;
         this.inmueble = inmueble;
         this.checkIn = fechaEntrada;
         this.checkOut = fechaSalida;
