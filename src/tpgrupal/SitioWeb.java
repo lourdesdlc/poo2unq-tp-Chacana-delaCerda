@@ -1,6 +1,5 @@
 package tpgrupal;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,31 +7,43 @@ import filtroDeBusqueda.CriterioBusqueda;
 import usuario.Usuario;
 
 public class SitioWeb {
-    private List<Inmueble> inmuebles;
-    private List<Usuario> usuarios;
+	private List<Inmueble> inmuebles;
+	private List<Usuario> usuarios;
 
-    public SitioWeb() {
-        inmuebles = new ArrayList<>();
-        usuarios = new ArrayList<>();
-    }
+	public SitioWeb() {
+		inmuebles = new ArrayList<>();
+		usuarios = new ArrayList<>();
+	}
 
-    public void registrarUsuario(Usuario usuario) {
-        usuarios.add(usuario);
-    }
+	public void registrarUsuario(Usuario usuario) {
+		usuarios.add(usuario);
+	}
+	
+	// pensar en clase Validador. 
+	public void registrarInmueble(Inmueble inmueble) {
 
-    public void registrarInmueble(Inmueble inmueble) {
-        inmuebles.add(inmueble);
-    }
+		if (usuarios.contains(inmueble.getPropietario())) {
 
-    public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
-    	// Filtra la lista de inmuebles usando el criterio recibido como parámetro
-        return criterio.buscar(inmuebles);
-    }
+			inmuebles.add(inmueble);
+		}
 
-    public void mostrarDetallesInmueble(Inmueble inmueble){}
+		else {
+			throw new IllegalArgumentException("El propietario no está registrado en el sistema.");
+		}
+	}
 
-	/*public void darDeAltaInmueble(Inmueble inmueble) {
-		// TODO Auto-generated method stub
-		
-	}; */
+	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
+		// Filtra la lista de inmuebles usando el criterio recibido como parámetro
+		return criterio.buscar(inmuebles);
+	}
+
+	public void mostrarDetallesInmueble(Inmueble inmueble) {
+	}
+
+	/*
+	 * public void darDeAltaInmueble(Inmueble inmueble) { // TODO Auto-generated
+	 * method stub
+	 * 
+	 * };
+	 */
 }

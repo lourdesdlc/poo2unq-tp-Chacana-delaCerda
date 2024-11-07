@@ -1,42 +1,45 @@
 package usuario;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import reserva.Reserva;
 import tpgrupal.*;
+
 public class Propietario extends Usuario {
-	    private List<Inmueble> inmuebles;
-	    private SitioWeb sitioWeb;
-	    private int antiguedadEnElSitio;
+	private Set<Inmueble> inmuebles; 
+	private SitioWeb sitioWeb; 
+	private int antiguedadEnElSitio;
 
-	    public Propietario(String nombreCompleto, String email, String telefono) {
-	        super(nombreCompleto, email, telefono);
-	        this.inmuebles = new ArrayList<>();
-	    }
+	// Constructor de la clase Propietario
+	public Propietario(String nombreCompleto, String email, String telefono) {
+		super(nombreCompleto, email, telefono);
+		this.inmuebles = new HashSet<>(); 
+		this.sitioWeb = new SitioWeb(); 
+		this.antiguedadEnElSitio = 0; 
+	}
 
-	    // Agrega un inmueble al portafolio del propietario
-	    public void agregarInmueble(Inmueble inmueble) {
-	        inmuebles.add(inmueble);
-	    }
+	/** duda 
+	public void agregarInmueble(Inmueble inmueble) {
+		inmuebles.add(inmueble);
+	}*/
 
-	    //dar de alta un inmueble en el sitio(registrar un inmueble en el sitio)
-	    public void darDeAltaInmueble(Inmueble inmueble) {
-	    	sitioWeb.registrarInmueble(inmueble);
-	    }
-	    
-	    
-	    // Acepta una reserva y confirma la misma
-	    public void aceptarReserva(Reserva reserva) {
-	        reserva.confirmarReserva();
-	    }
+		/*pasamos el inmueble por patr*/
+	public void darDeAltaInmueble(Inmueble inmueble) {
+		inmuebles.add(inmueble);
+		sitioWeb.registrarInmueble(inmueble);
+	}
 
-	    // Mostrar información de inmuebles y puntuación del propietario
-	    public void mostrarPortafolio(){};
-	    
-	    //Getters y Setters
-	    // Obtiene la lista de inmuebles del propietario
-	    public List<Inmueble> getInmueblesPropios() {
-	    	return inmuebles;
-	    }
+	public void aceptarReserva(Reserva reserva) {
+		reserva.confirmarReserva();
+	}
+
+	public void mostrarPortafolio() {
+	};
+
+	public List<Inmueble> getInmueblesPropios() {
+		return inmuebles;
+	}
 }
