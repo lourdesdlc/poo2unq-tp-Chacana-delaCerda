@@ -8,6 +8,7 @@ import tpgrupal.*;
 public class Propietario extends Usuario {
 	    private List<Inmueble> inmuebles;
 	    private SitioWeb sitioWeb;
+	    private int antiguedadEnElSitio;
 
 	    public Propietario(String nombreCompleto, String email, String telefono) {
 	        super(nombreCompleto, email, telefono);

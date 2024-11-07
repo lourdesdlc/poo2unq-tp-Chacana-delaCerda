@@ -1,7 +1,6 @@
 package tpgrupal;
 
 public class TipoInmueble {
-	//Elegi que sea una clase porque no se especifican los tipos existentes.
     private String nombre;
 
     public TipoInmueble(String nombre) {

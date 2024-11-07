@@ -2,11 +2,11 @@ package tpgrupal;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
+import ranking.Rankeable;
 import usuario.Propietario;
 
-public class Inmueble {
+public class Inmueble extends Rankeable{
 	private Propietario propietario;
     private TipoInmueble tipo;
     private double superficie;

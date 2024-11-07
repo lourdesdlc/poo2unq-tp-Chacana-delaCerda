@@ -18,7 +18,7 @@ public class FiltroPorFecha implements FiltroDeBusqueda {
     public boolean cumple(Inmueble inmueble) {
         //falta implementar
     	//return inmueble.estaDisponibleEntre(fechaEntrada, fechaSalida);
-
+    	//return inmueble.getFechaDisponible().isBefore(fechaSalida) && inmueble.getFechaDisponible().isAfter(fechaEntrada);
     	return true;
     }
 }

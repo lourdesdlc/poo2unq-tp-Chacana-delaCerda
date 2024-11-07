@@ -3,7 +3,6 @@ package tpgrupal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import filtroDeBusqueda.CriterioBusqueda;
 import usuario.Usuario;
@@ -27,9 +26,7 @@ public class SitioWeb {
 
     public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
     	// Filtra la lista de inmuebles usando el criterio recibido como parámetro
-        return inmuebles.stream()
-                .filter(criterio::cumple)
-                .collect(Collectors.toList());
+        return criterio.buscar(inmuebles);
     }
 
     public void mostrarDetallesInmueble(Inmueble inmueble){}
