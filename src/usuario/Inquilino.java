@@ -3,6 +3,8 @@ package usuario;
 import java.util.ArrayList;
 import java.util.List;
 
+import ranking.Rankeable;
+import ranking.Ranking;
 import reserva.Reserva;
 import tpgrupal.*;
 
@@ -21,8 +23,5 @@ public class Inquilino extends Usuario {
 	    public List<Reserva> getReservasRealizadas() {
 	        return reservas;
 	    }
-
-	    // Mostrar información de puntuación y reservas del inquilino
-	    public void mostrarHistorial() {};
 	    
 }

@@ -1,9 +1,9 @@
 package usuario;
 
-import java.util.ArrayList;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
 
 import reserva.Reserva;
 import tpgrupal.*;
@@ -35,10 +35,16 @@ public class Propietario extends Usuario {
 		reserva.confirmarReserva();
 	}
 
-	public void mostrarPortafolio() {
-	};
-
-	public Set<Inmueble> getInmueblesPropios() {
-		return inmuebles;
+	@Override
+	public void mostrarHistorial() {
+		/*Entre la información del dueño el sistema
+		 incorpora aquella relativa a su operatoria con el sitio: cuánto hace que es usuario,
+		 cuántas veces ha alquilado ese inmueble, cuántas veces ha alquilado inmuebles
+		 (más a allá del seleccionado en particular) y cuáles han sido
+		 */
 	}
+	
+	public Set<Inmueble> getInmueblesPropios() {
+    	return inmuebles;
+    }
 }

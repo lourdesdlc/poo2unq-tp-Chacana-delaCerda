@@ -1,6 +1,7 @@
 package usuario;
 
 import ranking.Rankeable;
+import ranking.Ranking;
 
 public class Usuario extends Rankeable{
     private String nombreCompleto;
@@ -12,7 +13,17 @@ public class Usuario extends Rankeable{
         this.email = email;
         this.telefono = telefono;
     }
-
+	//MISMO METODO PARA CADA RANKEADOR pero NO para RANKEABLE
+    public void rankear(Rankeable rankeable, Ranking ranking) {
+    	rankeable.agregarRanking(ranking);
+    }
+    
+	public void mostrarHistorial() {
+		//información propia del dueño, el puntaje que otros usuarios le han dado a él mismo
+		//y el puntaje promedio que ha obtenido
+		//LO MISMO PARA INQUILINO
+	};
+    
     public String getEmail() {
         return email;
     }
