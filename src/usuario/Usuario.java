@@ -13,7 +13,6 @@ public class Usuario extends Rankeable{
         this.telefono = telefono;
     }
 
-    // Getters y setters
     public String getEmail() {
         return email;
     }

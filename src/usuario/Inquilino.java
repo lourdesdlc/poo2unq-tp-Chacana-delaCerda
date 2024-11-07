@@ -14,17 +14,15 @@ public class Inquilino extends Usuario {
 	        this.reservas = new ArrayList<>();
 	    }
 
-	    // Agrega una reserva completada a la lista de reservas
 	    public void agregarReserva(Reserva reserva) {
 	        reservas.add(reserva);
 	    }
-
-	    // Obtener la lista de reservas
+	    
 	    public List<Reserva> getReservasRealizadas() {
 	        return reservas;
 	    }
 
 	    // Mostrar información de puntuación y reservas del inquilino
 	    public void mostrarHistorial() {};
-
+	    
 }

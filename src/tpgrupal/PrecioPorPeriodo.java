@@ -17,7 +17,6 @@ public class PrecioPorPeriodo {
     public LocalDate getFechaFin() { return fechaFin; }
     public double getPrecioPorDia() { return precioPorDia; }
 
-    // Método para verificar si una fecha cae dentro de este período
     public boolean incluye(LocalDate fecha) {
         return (fecha.isEqual(fechaInicio) || fecha.isAfter(fechaInicio)) &&
                (fecha.isEqual(fechaFin) || fecha.isBefore(fechaFin));

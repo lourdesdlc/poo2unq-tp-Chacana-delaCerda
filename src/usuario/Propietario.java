@@ -13,7 +13,6 @@ public class Propietario extends Usuario {
 	private SitioWeb sitioWeb; 
 	private int antiguedadEnElSitio;
 
-	// Constructor de la clase Propietario
 	public Propietario(String nombreCompleto, String email, String telefono) {
 		super(nombreCompleto, email, telefono);
 		this.inmuebles = new HashSet<>(); 

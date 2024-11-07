@@ -6,10 +6,10 @@ import java.util.Map;
 	  * FALTA terminar
 	  */
 	 
-    private Rankeable entidadRanqueada;  // En este caso, el inmueble.
-    private Rankeable entidadRanqueadora;  // El inquilino.
-    private Map<String, Double> puntajesPorCategoria; // Puntajes por categoría.
-    private String comentario;  // Comentario del inquilino.
+    private Rankeable entidadRanqueada; 
+    private Rankeable entidadRanqueadora;  
+    private Map<String, Double> puntajesPorCategoria; 
+    private String comentario;  
 
     public Ranking(Rankeable entidadRanqueada, Rankeable entidadRanqueadora, Map<String, Double> puntajesPorCategoria, String comentario) {
         this.entidadRanqueada = entidadRanqueada;
@@ -18,7 +18,6 @@ import java.util.Map;
         this.comentario = comentario;
     }
 
-    // Método para calcular el promedio
     public double calcularPromedio() {
         double suma = 0;
         for (Double puntaje : puntajesPorCategoria.values()) {
