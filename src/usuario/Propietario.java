@@ -39,7 +39,7 @@ public class Propietario extends Usuario {
 	public void mostrarPortafolio() {
 	};
 
-	public List<Inmueble> getInmueblesPropios() {
+	public Set<Inmueble> getInmueblesPropios() {
 		return inmuebles;
 	}
 }
