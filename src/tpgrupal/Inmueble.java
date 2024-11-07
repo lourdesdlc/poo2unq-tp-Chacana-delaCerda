@@ -6,7 +6,7 @@ import java.util.List;
 import ranking.Rankeable;
 import usuario.Propietario;
 
-public class Inmueble extends Rankeable{
+public class Inmueble extends Rankeable{ /*ojo con esto de extends, es necesaria la herencia?*/
 	private Propietario propietario;
     private TipoInmueble tipo;
     private double superficie;
