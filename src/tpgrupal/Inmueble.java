@@ -15,8 +15,8 @@ public class Inmueble extends Rankeable{ /*ojo con esto de extends, es necesaria
     private String direccion;
     private int capacidad;
     private List<String> fotos; // Máximo de 5 fotos
-    private String checkIn;
-    private String checkOut;
+    private LocalDate checkIn;
+    private LocalDate checkOut;
     private List<Servicio> servicios;
     
     //Enum FormaDePago
@@ -30,7 +30,7 @@ public class Inmueble extends Rankeable{ /*ojo con esto de extends, es necesaria
     
 	public Inmueble(TipoInmueble tipo, double superficie, String pais, String ciudad, String direccion,
 			List<Servicio> servicios, int capacidad, List<String> fotos,
-			String checkIn, String checkOut, List<FormaDePago> formasDePago,
+			LocalDate checkIn, LocalDate checkOut, List<FormaDePago> formasDePago,
 			List<PrecioPorPeriodo> preciosPorPeriodos, int precioEstandar) {
 		this.tipo = tipo;
 		this.superficie = superficie;
@@ -78,8 +78,8 @@ public class Inmueble extends Rankeable{ /*ojo con esto de extends, es necesaria
     public String getDireccion() { return direccion; }
     public int getCapacidad() { return capacidad; }
     public List<String> getFotos() { return fotos; }
-	public String getCheckIn() { return checkIn; }
-	public String getCheckOut() { return checkOut; }
+	public LocalDate getCheckIn() { return checkIn; }
+	public LocalDate getCheckOut() { return checkOut; }
 	public List<Servicio> getServicios() { return servicios; }
 	public List<FormaDePago> getFormasDePago() { return formasDePago; }
 	public List<PrecioPorPeriodo> getpreciosPorPeriodos() { return preciosPorPeriodos; }
