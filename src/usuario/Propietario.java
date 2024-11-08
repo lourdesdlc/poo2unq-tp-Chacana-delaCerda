@@ -22,14 +22,14 @@ public class Propietario extends Usuario {
 	/* pasamos el inmueble por patr */
 	public void darDeAltaInmueble(Inmueble inmueble) {
 		inmuebles.add(inmueble);
-		sitioWeb.registrarInmueble(inmueble);
+		sitioWeb.registrarInmuebleDe(inmueble,this);
 	}
 
 	public void aceptarReserva(Reserva reserva) {
 		reserva.confirmarReserva();
 	}
 
-	public void cambiarPoliticaDeCancealcion(Inmueble i, PoliticaCancelacion p) {
+	public void cambiarPoliticaDeCancelacion(Inmueble i, PoliticaCancelacion p) {
 		if (inmuebles.contains(i)) { // Por ahora para hacer esto, el inmueble debe estar publicado en web.
 			i.cambiarPolitica(p);
 		} else {

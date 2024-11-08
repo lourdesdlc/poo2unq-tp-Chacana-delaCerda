@@ -8,7 +8,7 @@ import ranking.RankingInmueble;
 import tpgrupal.Inmueble;
 import tpgrupal.SitioWeb;
 
-public class Usuario {
+public abstract class Usuario {
 	private String nombreCompleto;
 	private String email;
 	private String telefono;

@@ -175,7 +175,7 @@ public class Inmueble {
 
 	}
 
-	public Double precio() {a
+	public Double precio() {
 		return this.getPrecioPorDia();
 	}
 

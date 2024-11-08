@@ -8,6 +8,7 @@ import Observadores.BajaDePrecio;
 import filtroDeBusqueda.CriterioBusqueda;
 import ranking.Rankeable;
 import ranking.Ranking;
+import usuario.Propietario;
 import usuario.Usuario;
 
 public class SitioWeb {
@@ -23,16 +24,14 @@ public class SitioWeb {
 	}
 
 	// pensar en clase Validador.
-	public void registrarInmueble(Inmueble inmueble) {
-
+	public void registrarInmuebleDe(Inmueble inmueble, Propietario propietario) {
 		if (usuarios.contains(inmueble.getPropietario())) {
-
+			inmuebles.add(inmueble);
+		} else {
+			this.registrarUsuario(propietario);
 			inmuebles.add(inmueble);
 		}
 
-		else {
-			throw new IllegalArgumentException("El propietario no está registrado en el sistema.");
-		}
 	}
 
 	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
@@ -54,52 +53,40 @@ public class SitioWeb {
 
 	}
 
-	// OBSERVER COMPORTAMIENTO 
-	
-	
+	// OBSERVER COMPORTAMIENTO
+
 	public void registrarIntereado(Interesado interesado) {
 
-		interesados.add(interesado);
+		this.interesados.add(interesado);
 
 	}
-	
-	
-	
-	
-	
-    // Método general para enviar notificaciones
-    private void enviarNotificacion(String mensaje, String tipoInmueble) {
-        interesados.stream()
-                   .forEach(interesado -> interesado.recibirNotificacionDe(mensaje, tipoInmueble));
-    }
-	
+
+	public void desubscribirIntereado(Interesado interesado) {
+		this.interesados.remove(interesado);
+
+	}
+
+	// Método general para enviar notificaciones
+	private void enviarNotificacion(String mensaje, String tipoInmueble) {
+		interesados.stream().forEach(interesado -> interesado.recibirNotificacionDe(mensaje, tipoInmueble));
+	}
+
 	public void notificarBajaDePrecio(Inmueble i, Double monto) { // usar en donde corresponda.
 		String mensaje = "No te pierdas esta oferta: Un inmueble " + i.getTipo() + " a tan sólo " + monto + " pesos.";
-		 enviarNotificacion(mensaje, i.getTipo());
+		enviarNotificacion(mensaje, i.getTipo());
 
 	}
-	
+
 	public void notificarCancelacionDeInmueble(Inmueble i) {
 		String mensaje = "El/la " + i.getTipo() + " que te interesa se ha liberado! Corre a reservarlo!";
-		 enviarNotificacion(mensaje, i.getTipo());
+		enviarNotificacion(mensaje, i.getTipo());
 
 	}
-	
+
 	public void notificarReservaDeInmueble(Inmueble i) { // Este es el general? lo recbien todos?
-		String mensaje = "Se reservo el Inmueble " + i.getTipo() ;
-		 enviarNotificacion(mensaje, i.getTipo());
+		String mensaje = "Se reservo el Inmueble " + i.getTipo();
+		enviarNotificacion(mensaje, i.getTipo());
 	}
-
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
 
 	// GETTERS
 	public void agregarRanking(Ranking ranking) {
@@ -138,11 +125,6 @@ public class SitioWeb {
 	public void setRankingsRecibidos(Set<Ranking> rankingsRecibidos) {
 		this.rankeados = rankingsRecibidos;
 
-	}
-
-	public void desubscribirIntereado(Interesado interesado) {
-		this.interesados.remove(interesado);
-		
 	}
 
 }
