@@ -1,6 +1,6 @@
 package tpgrupal;
 
-public class TipoInmueble {
+public class TipoInmueble { // ENUM
     private String nombre;
 
     public TipoInmueble(String nombre) {

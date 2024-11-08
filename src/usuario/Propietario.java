@@ -4,19 +4,17 @@ package usuario;
 import java.util.HashSet;
 import java.util.Set;
 
-
+import ranking.Ranking;
 import reserva.Reserva;
 import tpgrupal.*;
 
 public class Propietario extends Usuario {
 	private Set<Inmueble> inmuebles; 
-	private SitioWeb sitioWeb; 
 	private int antiguedadEnElSitio;
 
 	public Propietario(String nombreCompleto, String email, String telefono) {
 		super(nombreCompleto, email, telefono);
 		this.inmuebles = new HashSet<>(); 
-		this.sitioWeb = new SitioWeb(); 
 		this.antiguedadEnElSitio = 0; 
 	}
 
@@ -35,6 +33,8 @@ public class Propietario extends Usuario {
 		reserva.confirmarReserva();
 	}
 
+
+	
 	@Override
 	public void mostrarHistorial() {
 		/*Entre la información del dueño el sistema

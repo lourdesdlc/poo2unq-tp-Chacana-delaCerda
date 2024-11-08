@@ -1,6 +1,6 @@
 package tpgrupal;
 
-public class Servicio {
+public class Servicio { // ENUM
     private String nombre;
 
     public Servicio(String nombre) {

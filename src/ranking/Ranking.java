@@ -1,45 +1,50 @@
 package ranking;
+
 import java.util.Map;
 
- public class Ranking {
-	 /*
-	  * FALTA terminar
-	  */
-	 
-    private Rankeable entidadRanqueada; 
-    private Rankeable entidadRanqueadora;  
-    private Map<String, Double> puntajesPorCategoria; 
-    private String comentario;  
+import usuario.Usuario;
 
-    public Ranking(Rankeable entidadRanqueada, Rankeable entidadRanqueadora, Map<String, Double> puntajesPorCategoria, String comentario) {
-        this.entidadRanqueada = entidadRanqueada;
-        this.entidadRanqueadora = entidadRanqueadora;
-        this.puntajesPorCategoria = puntajesPorCategoria;
-        this.comentario = comentario;
-    }
+public class Ranking {
 
-    public double calcularPromedio() {
-        double suma = 0;
-        for (Double puntaje : puntajesPorCategoria.values()) {
-            suma += puntaje;
-        }
-        return suma / puntajesPorCategoria.size();
-    }
+	private String categoria; // Ej Limpieza
+	private int puntajesPorCategoria; // del 1 al 5
+	private String comentario;
 
-    // Métodos getters
-    public Rankeable getEntidadRanqueada() {
-        return entidadRanqueada;
-    }
+	public Ranking(String categoria, int puntajesPorCategoria, String comentario) {
+		super();
 
-    public Rankeable getEntidadRanqueadora() {
-        return entidadRanqueadora;
-    }
+		this.categoria = categoria;
+		this.puntajesPorCategoria = puntajesPorCategoria;
+		this.comentario = comentario;
+	}
 
-    public Map<String, Double> getPuntajesPorCategoria() {
-        return puntajesPorCategoria;
-    }
+	/*
+	public double calcularPromedio() {
+		hacer nueva logica }*/
+	
 
-    public String getComentario() {
-        return comentario;
-    }
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
+	public int getPuntajesPorCategoria() {
+		return puntajesPorCategoria;
+	}
+
+	public void setPuntajesPorCategoria(int puntajesPorCategoria) {
+		this.puntajesPorCategoria = puntajesPorCategoria;
+	}
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+
 }

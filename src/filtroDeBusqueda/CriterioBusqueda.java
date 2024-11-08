@@ -3,6 +3,7 @@ package filtroDeBusqueda;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import tpgrupal.Inmueble;
@@ -31,7 +32,7 @@ public class CriterioBusqueda {
 	     return filtroCompuesto.cumple(inmueble);
 	 }
 	
-	 public List<Inmueble> buscar(List<Inmueble> inmuebles) {
+	 public List<Inmueble> buscar(Set<Inmueble> inmuebles) {
 	     return inmuebles.stream()
 	             .filter(this::cumple)
 	             .collect(Collectors.toList());
