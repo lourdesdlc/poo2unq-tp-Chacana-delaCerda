@@ -25,7 +25,7 @@ public class SitioWeb {
 
 	// pensar en clase Validador.
 	public void registrarInmuebleDe(Inmueble inmueble, Propietario propietario) {
-		if (usuarios.contains(inmueble.getPropietario())) {
+		if (usuarios.contains(propietario)) {
 			inmuebles.add(inmueble);
 		} else {
 			this.registrarUsuario(propietario);
