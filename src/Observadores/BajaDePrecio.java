@@ -1,4 +1,4 @@
-package Observer;
+package Observadores;
 
 import java.util.Set;
 
@@ -7,13 +7,14 @@ import tpgrupal.Interesado;
 import tpgrupal.SitioWeb;
 
 public class BajaDePrecio extends Interesado {
-
+	private HomePagePublisher publicador;
+	
 	public BajaDePrecio(SitioWeb web, Set<String> inmuebleInteresado, HomePagePublisher publicador) {
 		super(web, inmuebleInteresado);
 		this.publicador = publicador;
 	}
 
-	private HomePagePublisher publicador;
+	
 
 	@Override
 	public void recibirNotificacionDe(String mensaje, String inmueble) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import Observer.BajaDePrecio;
+import Observadores.BajaDePrecio;
 import filtroDeBusqueda.CriterioBusqueda;
 import ranking.Rankeable;
 import ranking.Ranking;
