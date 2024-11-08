@@ -1,29 +1,25 @@
 package usuario;
 
-
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import politicaCancelacion.PoliticaCancelacion;
 import ranking.Ranking;
 import reserva.Reserva;
 import tpgrupal.*;
 
 public class Propietario extends Usuario {
-	private Set<Inmueble> inmuebles; 
-	private int antiguedadEnElSitio;
+
+	private Set<Inmueble> inmuebles;
+	private LocalDate antiguedadEnElSitio;
 
 	public Propietario(String nombreCompleto, String email, String telefono) {
 		super(nombreCompleto, email, telefono);
-		this.inmuebles = new HashSet<>(); 
-		this.antiguedadEnElSitio = 0; 
+		// TODO Auto-generated constructor stub
 	}
 
-	/** duda 
-	public void agregarInmueble(Inmueble inmueble) {
-		inmuebles.add(inmueble);
-	}*/
-
-		/*pasamos el inmueble por patr*/
+	/* pasamos el inmueble por patr */
 	public void darDeAltaInmueble(Inmueble inmueble) {
 		inmuebles.add(inmueble);
 		sitioWeb.registrarInmueble(inmueble);
@@ -33,18 +29,36 @@ public class Propietario extends Usuario {
 		reserva.confirmarReserva();
 	}
 
+	public void cambiarPoliticaDeCancealcion(Inmueble i, PoliticaCancelacion p) {
+		if (inmuebles.contains(i)) { // Por ahora para hacer esto, el inmueble debe estar publicado en web.
+			i.cambiarPolitica(p);
+		} else {
+			throw new IllegalArgumentException("Este inmueble no te pertence");
+		}
 
-	
+	}
+
+	public void reducirPrecioDeInmueble(Inmueble i, Double monto) {
+		if (inmuebles.contains(i)) { // Por ahora para hacer esto, el inmueble debe estar publicado en web.
+			i.cambiarPrecio(i.precio() - monto);
+			sitioWeb.notificarBajaDePrecio(i, monto);
+		} else {
+			throw new IllegalArgumentException("Este inmueble no te pertence");
+		}
+
+	}
+
 	@Override
 	public void mostrarHistorial() {
-		/*Entre la información del dueño el sistema
-		 incorpora aquella relativa a su operatoria con el sitio: cuánto hace que es usuario,
-		 cuántas veces ha alquilado ese inmueble, cuántas veces ha alquilado inmuebles
-		 (más a allá del seleccionado en particular) y cuáles han sido
+		/*
+		 * Entre la información del dueño el sistema incorpora aquella relativa a su
+		 * operatoria con el sitio: cuánto hace que es usuario, cuántas veces ha
+		 * alquilado ese inmueble, cuántas veces ha alquilado inmuebles (más a allá del
+		 * seleccionado en particular) y cuáles han sido
 		 */
 	}
-	
+
 	public Set<Inmueble> getInmueblesPropios() {
-    	return inmuebles;
-    }
+		return inmuebles;
+	}
 }

@@ -2,13 +2,15 @@ package tpgrupal;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
+import politicaCancelacion.PoliticaCancelacion;
 import ranking.Rankeable;
 import usuario.Propietario;
 
-public class Inmueble { /* ojo con esto de extends, es necesaria la herencia? */
+public class Inmueble {
 	private Propietario propietario;
-	private TipoInmueble tipo;
+	private String tipo;
 	private double superficie;
 	private String pais;
 	private String ciudad;
@@ -18,33 +20,12 @@ public class Inmueble { /* ojo con esto de extends, es necesaria la herencia? */
 	private LocalDate checkIn;
 	private LocalDate checkOut;
 	private List<Servicio> servicios;
-
 	// Enum FormaDePago
-	private List<FormaDePago> formasDePago;
-	/////////////////////////////////////////
-
+	private Set<FormaDePago> formasDePago;
 	// Lista de períodos con precios variables
-	private List<PrecioPorPeriodo> preciosPorPeriodos;
-	private double precioEstandar;
-	////////////////////////////////////////////////
-
-	public Inmueble(TipoInmueble tipo, double superficie, String pais, String ciudad, String direccion,
-			List<Servicio> servicios, int capacidad, List<String> fotos, LocalDate checkIn, LocalDate checkOut,
-			List<FormaDePago> formasDePago, List<PrecioPorPeriodo> preciosPorPeriodos, int precioEstandar) {
-		this.tipo = tipo;
-		this.superficie = superficie;
-		this.pais = pais;
-		this.ciudad = ciudad;
-		this.direccion = direccion;
-		this.servicios = servicios;
-		this.capacidad = capacidad;
-		this.fotos = fotos;
-		this.checkIn = checkIn;
-		this.checkOut = checkOut;
-		this.formasDePago = formasDePago;
-		this.preciosPorPeriodos = preciosPorPeriodos;
-		this.precioEstandar = precioEstandar;
-	}
+	private Set<PrecioPorPeriodo> preciosPorPeriodos;
+	private double precioPorDia;
+	private PoliticaCancelacion tipoDeCancelacion;
 
 	public double calcularPrecioTotal(LocalDate fechaInicio, LocalDate fechaFin) {
 		double precioTotal = 0;
@@ -64,56 +45,138 @@ public class Inmueble { /* ojo con esto de extends, es necesaria la herencia? */
 				.map(PrecioPorPeriodo::getPrecioPorDia).findFirst().orElse(precioEstandar);
 	}
 
-	// Getters y setters
 	public Propietario getPropietario() {
 		return propietario;
 	}
 
-	public TipoInmueble getTipo() {
+	public void setPropietario(Propietario propietario) {
+		this.propietario = propietario;
+	}
+
+	public String getTipo() {
 		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public double getSuperficie() {
 		return superficie;
 	}
 
+	public void setSuperficie(double superficie) {
+		this.superficie = superficie;
+	}
+
 	public String getPais() {
 		return pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
 	}
 
 	public String getCiudad() {
 		return ciudad;
 	}
 
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+
 	public String getDireccion() {
 		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public int getCapacidad() {
 		return capacidad;
 	}
 
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+
 	public List<String> getFotos() {
 		return fotos;
+	}
+
+	public void setFotos(List<String> fotos) {
+		this.fotos = fotos;
 	}
 
 	public LocalDate getCheckIn() {
 		return checkIn;
 	}
 
+	public void setCheckIn(LocalDate checkIn) {
+		this.checkIn = checkIn;
+	}
+
 	public LocalDate getCheckOut() {
 		return checkOut;
+	}
+
+	public void setCheckOut(LocalDate checkOut) {
+		this.checkOut = checkOut;
 	}
 
 	public List<Servicio> getServicios() {
 		return servicios;
 	}
 
-	public List<FormaDePago> getFormasDePago() {
+	public void setServicios(List<Servicio> servicios) {
+		this.servicios = servicios;
+	}
+
+	public Set<FormaDePago> getFormasDePago() {
 		return formasDePago;
 	}
 
-	public List<PrecioPorPeriodo> getpreciosPorPeriodos() {
+	public void setFormasDePago(Set<FormaDePago> formasDePago) {
+		this.formasDePago = formasDePago;
+	}
+
+	public Set<PrecioPorPeriodo> getPreciosPorPeriodos() {
 		return preciosPorPeriodos;
 	}
+
+	public void setPreciosPorPeriodos(Set<PrecioPorPeriodo> preciosPorPeriodos) {
+		this.preciosPorPeriodos = preciosPorPeriodos;
+	}
+
+	public PoliticaCancelacion getTipoDeCancelacion() {
+		return tipoDeCancelacion;
+	}
+
+	public void setTipoDeCancelacion(PoliticaCancelacion tipoDeCancelacion) {
+		this.tipoDeCancelacion = tipoDeCancelacion;
+	}
+
+	public void cambiarPolitica(PoliticaCancelacion p) { // doble encapsulamiento
+		this.setTipoDeCancelacion(p);
+
+	}
+
+	public double getPrecioPorDia() {
+		return precioPorDia;
+	}
+
+	public void setPrecioPorDia(double precioPorDia) {
+		this.precioPorDia = precioPorDia;
+	}
+
+	public void cambiarPrecio(Double monto) {
+		this.setPrecioPorDia(monto);
+
+	}
+
+	public Double precio() {a
+		return this.getPrecioPorDia();
+	}
+
 }
