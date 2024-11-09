@@ -42,7 +42,7 @@ public class Inmueble {
 
 	private double obtenerPrecioParaFecha(LocalDate fecha) {
 		return preciosPorPeriodos.stream().filter(periodo -> periodo.incluye(fecha))
-				.map(PrecioPorPeriodo::getPrecioPorDia).findFirst().orElse(precioEstandar);
+				.map(PrecioPorPeriodo::getPrecioPorDia).findFirst().orElse(precioPorDia);
 	}
 
 	public Propietario getPropietario() {
