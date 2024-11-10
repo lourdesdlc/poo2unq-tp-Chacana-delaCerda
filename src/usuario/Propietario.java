@@ -12,15 +12,15 @@ import tpgrupal.*;
 public class Propietario extends Usuario {
 
 	private Set<Inmueble> inmuebles;
-	private LocalDate antiguedadEnElSitio;
+	
 
 	public Propietario(String nombreCompleto, String email, String telefono) {
 		super(nombreCompleto, email, telefono);
 		// TODO Auto-generated constructor stub
 	}
 
-	/* pasamos el inmueble por patr */
-	public void darDeAltaInmueble(Inmueble inmueble) {
+
+	public void publicarInmuble(Inmueble inmueble) {
 		inmuebles.add(inmueble);
 		sitioWeb.registrarInmuebleDe(inmueble, this);
 	}

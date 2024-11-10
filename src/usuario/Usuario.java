@@ -1,5 +1,7 @@
 package usuario;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import ranking.Rankeable;
@@ -13,6 +15,7 @@ public abstract class Usuario {
 	private String email;
 	private String telefono;
 	protected SitioWeb sitioWeb;
+	private LocalDate antiguedadEnElSitio;
 
 	public Usuario(String nombreCompleto, String email, String telefono) {
 		this.nombreCompleto = nombreCompleto;
@@ -72,8 +75,25 @@ public abstract class Usuario {
 		this.telefono = telefono;
 	}
 
+	public LocalDate getAntiguedadEnElSitio() {
+		return antiguedadEnElSitio;
+	}
+
+	public void setAntiguedadEnElSitio(LocalDate localTime) {
+		this.antiguedadEnElSitio = localTime;
+	}
+
 	public void registrarEnWeb(SitioWeb sitioWeb) {
 		this.setSitioWeb(sitioWeb);
 	}
 
+	public void ingresarAlSitio(SitioWeb sitioWeb) {
+		this.setSitioWeb(sitioWeb);
+		this.darFechaInicioEnWeb();
+	}
+
+	private void darFechaInicioEnWeb() {
+		this.setAntiguedadEnElSitio(LocalDate.now()); // espero que esto no de problemas en los futuros test
+
+	}
 }

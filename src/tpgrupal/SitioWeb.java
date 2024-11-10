@@ -19,7 +19,8 @@ public class SitioWeb {
 	private Set<Interesado> interesados;
 
 	public void registrarUsuario(Usuario usuario) {
-		usuario.registrarEnWeb(this); // vinculacion a mismo sitioWeb
+
+		usuario.ingresarAlSitio(this);// vinculacion a mismo sitioWeb
 		usuarios.add(usuario);
 	}
 
