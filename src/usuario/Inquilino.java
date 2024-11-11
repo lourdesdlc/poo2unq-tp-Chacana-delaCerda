@@ -35,4 +35,8 @@ public class Inquilino extends Usuario {
 		this.sitioWeb.solicitarReservaConFormaDePago(reserva, formaDePago);
 	}
 
+	public void cancelarReserva(Reserva reserva) {
+		this.sitioWeb.anularReserva(reserva);
+	}
+	
 }

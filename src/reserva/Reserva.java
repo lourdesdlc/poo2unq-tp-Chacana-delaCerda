@@ -104,4 +104,19 @@ public class Reserva {
 		this.setFormaDePago(formaDePago);
 
 	}
+
+	public Inmueble inmueble() {
+
+		return this.getInmueble();
+	}
+
+	public String mailInquilino() {
+
+		return this.inquilino.getEmail();
+	}
+
+	public String mailPropietario() {
+		// TODO Auto-generated method stub
+		return  this.inmueble.getPropietario().getEmail();
+	}
 }

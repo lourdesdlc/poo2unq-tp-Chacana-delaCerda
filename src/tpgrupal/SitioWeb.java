@@ -23,6 +23,7 @@ public class SitioWeb {
 	private Set<Ranking> rankeados = new HashSet<>();
 	private Set<Interesado> interesados = new HashSet<>();
 	private Set<Reserva> reservas = new HashSet<>();
+	private EmailSender email;
 
 	// GETTERS
 	public void agregarRanking(Ranking ranking) {
@@ -104,8 +105,6 @@ public class SitioWeb {
 
 	}
 
-	// OBSERVER COMPORTAMIENTO
-
 	public void registrarIntereado(Interesado interesado) {
 
 		this.interesados.add(interesado);
@@ -117,6 +116,7 @@ public class SitioWeb {
 
 	}
 
+	// OBSERVER COMPORTAMIENTO
 	// Método general para enviar notificaciones
 	private void enviarNotificacion(String mensaje, String tipoInmueble) {
 		interesados.stream().forEach(interesado -> interesado.recibirNotificacionDe(mensaje, tipoInmueble));
@@ -142,15 +142,37 @@ public class SitioWeb {
 	// COMPORTAMIENTO DE RESERVAS
 
 	public void solicitarReservaConFormaDePago(Reserva reserva, String formaDePago) {
-		
+
 		reserva.establecerModoDePago(formaDePago);
 
 		reserva.getPropietario().evaluarSolicitudDeReserva(reserva);
 	}
 
 	public void consolidarReserva(Reserva reserva) {
-		this.reservas.add(reserva);
-		reserva.confirmarReserva();
+		if (this.reservas.contains(reserva)) {
+
+			this.reservas.add(reserva);
+
+			reserva.confirmarReserva();
+			// email al inquilino
+			email.enviarMail(reserva.mailInquilino(), "Reserva Confirmada");
+			// notificacion a obvservadores
+			this.notificarReservaConcretadaDeInmueble(reserva.getInmueble());
+
+		} else {
+			throw new RuntimeException("Error, Reserva no regitrada");
+		}
+	}
+
+	public void anularReserva(Reserva reserva) {
+		if (this.reservas.contains(reserva)) {
+			reserva.cancelarReserva();
+			// email al Propietario
+			email.enviarMail(reserva.mailPropietario(), "Reserva Cancelada");
+			// notificacion a obvservadores
+			this.notificarCancelacionDeInmueble(reserva.getInmueble());
+
+		}
 
 	}
 

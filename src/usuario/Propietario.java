@@ -28,7 +28,7 @@ public class Propietario extends Usuario {
 
 	// estos cambios tambien afectan a la set de website!
 	public void cambiarPoliticaDeCancelacion(Inmueble i, PoliticaCancelacion p) {
-		if (inmuebles.contains(i)) { // Por ahora para hacer esto, el inmueble debe estar publicado en web.
+		if (esPropietarioDelInmueble(i)) { // Por ahora para hacer esto, el inmueble debe estar publicado en web.
 			i.cambiarPolitica(p);
 		} else {
 			throw new IllegalArgumentException("Este inmueble no te pertence");
@@ -37,13 +37,17 @@ public class Propietario extends Usuario {
 	}
 
 	public void reducirPrecioDeInmueble(Inmueble i, Double monto) {
-		if (inmuebles.contains(i)) { // Por ahora para hacer esto, el inmueble debe estar publicado en web.
+		if (esPropietarioDelInmueble(i)) { // Por ahora para hacer esto, el inmueble debe estar publicado en web.
 			i.cambiarPrecio(i.precio() - monto);
 			sitioWeb.notificarBajaDePrecio(i, monto);
 		} else {
 			throw new IllegalArgumentException("Este inmueble no te pertence");
 		}
 
+	}
+
+	public boolean esPropietarioDelInmueble(Inmueble i) {
+		return inmuebles.contains(i);
 	}
 
 	@Override
@@ -61,15 +65,15 @@ public class Propietario extends Usuario {
 	}
 
 	public void evaluarSolicitudDeReserva(Reserva reserva) {
-		reservasPropias.add(reserva);
+		if (esPropietarioDelInmueble(reserva.inmueble()))
+			reservasPropias.add(reserva);
 	}
 
 	public void aceptarReserva(Reserva reserva) {
 		if (this.reservasPropias.contains(reserva)) {
-			
+
 			sitioWeb.consolidarReserva(reserva);
-		
-			
+
 		} else
 			throw new RuntimeException("Esta reserva no te pertence");
 	}
