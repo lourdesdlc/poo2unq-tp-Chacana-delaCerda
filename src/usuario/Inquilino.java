@@ -3,6 +3,7 @@ package usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import filtroDeBusqueda.FiltroCompuesto;
 import filtroDeBusqueda.FiltroDeBusqueda;
@@ -18,25 +19,24 @@ import tpgrupal.*;
 
 public class Inquilino extends Usuario {
 
-	public Inquilino(String nombreCompleto, String email, String telefono, LocalDate antiguedadEnElSitio) {
-		super(nombreCompleto, email, telefono, antiguedadEnElSitio);
-		// TODO Auto-generated constructor stub
-	}
+	public Inquilino(String nombreCompleto, String email, String telefono) {
+		super(nombreCompleto, email, telefono);
 
-	private List<Reserva> reservas;
+	}
 
 	public List<Inmueble> buscarInmueble(FiltroCompuesto filtro) { // se deberia pasar al usario?
 
 		return this.sitioWeb.buscarInmuebles(filtro);
 	}
 
-	public void realizarReservaDe(Reserva reserva, String formaDePago) {
+	public void realizarReservaDe(Reserva reserva) {
 
-		this.sitioWeb.solicitarReservaConFormaDePago(reserva, formaDePago);
+		this.sitioWeb.solicitarReserva(reserva);
 	}
 
 	public void cancelarReserva(Reserva reserva) {
 		this.sitioWeb.anularReserva(reserva);
 	}
+
 	
 }

@@ -40,6 +40,22 @@ public class Reserva {
 		this.estado.cancelar();
 	}
 
+	public LocalDate getFechaEntrada() {
+		return fechaEntrada;
+	}
+
+	public void setFechaEntrada(LocalDate fechaEntrada) {
+		this.fechaEntrada = fechaEntrada;
+	}
+
+	public LocalDate getFechaSalida() {
+		return fechaSalida;
+	}
+
+	public void setFechaSalida(LocalDate fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
+
 	private void enviarConfirmacion() {
 	};
 
@@ -57,22 +73,6 @@ public class Reserva {
 
 	public String getFormaPago() {
 		return formaDePago;
-	}
-
-	public Date getFechaEntrada() {
-		return fechaEntrada;
-	}
-
-	public void setFechaEntrada(Date fechaEntrada) {
-		this.fechaEntrada = fechaEntrada;
-	}
-
-	public Date getFechaSalida() {
-		return fechaSalida;
-	}
-
-	public void setFechaSalida(Date fechaSalida) {
-		this.fechaSalida = fechaSalida;
 	}
 
 	public String getFormaDePago() {
@@ -99,12 +99,6 @@ public class Reserva {
 		this.inmueble = inmueble;
 	}
 
-	public void establecerModoDePago(String formaDePago) {
-
-		this.setFormaDePago(formaDePago);
-
-	}
-
 	public Inmueble inmueble() {
 
 		return this.getInmueble();
@@ -117,6 +111,11 @@ public class Reserva {
 
 	public String mailPropietario() {
 		// TODO Auto-generated method stub
-		return  this.inmueble.getPropietario().getEmail();
+		return this.inmueble.getPropietario().getEmail();
+	}
+
+	public String ciudadDeReserva() {
+		
+		return this.getInmueble().getCiudad();
 	}
 }

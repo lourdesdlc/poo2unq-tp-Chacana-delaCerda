@@ -1,12 +1,13 @@
 package usuario;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
+import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import ranking.Rankeable;
 import ranking.Ranking;
-import ranking.RankingInmueble;
+
 import reserva.Reserva;
 import tpgrupal.Inmueble;
 import tpgrupal.SitioWeb;
@@ -17,6 +18,7 @@ public abstract class Usuario {
 	private String telefono;
 	protected SitioWeb sitioWeb;
 	private LocalDate antiguedadEnElSitio; // se establece una vez que se logea
+	private Set<Reserva> reservas;
 
 	public Usuario(String nombreCompleto, String email, String telefono) {
 		super();
@@ -37,6 +39,14 @@ public abstract class Usuario {
 		// y el puntaje promedio que ha obtenido
 		// LO MISMO PARA INQUILINO
 	};
+
+	public Set<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(Set<Reserva> reservas) {
+		this.reservas = reservas;
+	}
 
 	public String getEmail() {
 		return email;
@@ -105,5 +115,25 @@ public abstract class Usuario {
 
 	}
 
-	
+	public Set<Reserva> verReservasPropias() {
+		return this.getReservas();
+	}
+
+	// Las reservas futuras: muestra aquellas reservas con fecha de ingreso
+
+	public Set<Reserva> verReservasFuturas() {
+		LocalDate fechaDeHoy = LocalDate.now();
+
+		return this.getReservas().stream().filter(reserva -> reserva.getFechaEntrada().isAfter(fechaDeHoy))
+				.collect(Collectors.toSet());
+	}
+
+	public Set<Reserva> verReservasPorCiudad(String ciudad) {
+		return this.getReservas().stream().filter(reserva -> reserva.ciudadDeReserva().equalsIgnoreCase(ciudad))
+				.collect(Collectors.toSet());
+	}
+
+	public Set<String> verCiudadesConReservas() {
+		return this.getReservas().stream().map(reserva -> reserva.ciudadDeReserva()).collect(Collectors.toSet());
+	}
 }

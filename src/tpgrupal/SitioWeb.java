@@ -73,9 +73,13 @@ public class SitioWeb {
 		usuarios.add(u);
 	}
 
+	private boolean esUsuarioRegistrado(Usuario u) {
+		return usuarios.contains(u);
+	}
+
 	// pensar en clase Validador.
 	public void registrarInmuebleDe(Inmueble inmueble, Propietario propietario) {
-		if (usuarios.contains(propietario)) {
+		if (esUsuarioRegistrado(propietario)) {
 			inmuebles.add(inmueble);
 		} else {
 			throw new UsuarioException("Error, debes registrarte en la Web para publicar");
@@ -141,11 +145,12 @@ public class SitioWeb {
 
 	// COMPORTAMIENTO DE RESERVAS
 
-	public void solicitarReservaConFormaDePago(Reserva reserva, String formaDePago) {
-
-		reserva.establecerModoDePago(formaDePago);
-
-		reserva.getPropietario().evaluarSolicitudDeReserva(reserva);
+	public void solicitarReserva(Reserva reserva) {
+		if (esUsuarioRegistrado(reserva.getInquilino())) {
+			reserva.getPropietario().evaluarSolicitudDeReserva(reserva);
+		} else {
+			throw new RuntimeException("Error, Usuario no regitrada");
+		}
 	}
 
 	public void consolidarReserva(Reserva reserva) {
@@ -155,7 +160,7 @@ public class SitioWeb {
 
 			reserva.confirmarReserva();
 			// email al inquilino
-			email.enviarMail(reserva.mailInquilino(), "Reserva Confirmada");
+			email.enviarMail(reserva.mailInquilino(), "Reserva Confirmada", reserva);
 			// notificacion a obvservadores
 			this.notificarReservaConcretadaDeInmueble(reserva.getInmueble());
 
@@ -168,7 +173,7 @@ public class SitioWeb {
 		if (this.reservas.contains(reserva)) {
 			reserva.cancelarReserva();
 			// email al Propietario
-			email.enviarMail(reserva.mailPropietario(), "Reserva Cancelada");
+			email.enviarMail(reserva.mailPropietario(), "Reserva Cancelada", reserva);
 			// notificacion a obvservadores
 			this.notificarCancelacionDeInmueble(reserva.getInmueble());
 

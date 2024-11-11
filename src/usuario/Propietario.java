@@ -65,8 +65,9 @@ public class Propietario extends Usuario {
 	}
 
 	public void evaluarSolicitudDeReserva(Reserva reserva) {
-		if (esPropietarioDelInmueble(reserva.inmueble()))
-			reservasPropias.add(reserva);
+		if (esPropietarioDelInmueble(reserva.inmueble())) {
+			reservasPropias.add(reserva); // " el tiempo de visualizar"
+		}
 	}
 
 	public void aceptarReserva(Reserva reserva) {
