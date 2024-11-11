@@ -1,6 +1,7 @@
 package reserva;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import tpgrupal.Inmueble;
 import usuario.Inquilino;
@@ -10,8 +11,8 @@ import usuario.Usuario;
 public class Reserva {
 	private Inquilino inquilino;
 	private Inmueble inmueble;
-	private Date fechaEntrada;
-	private Date fechaSalida;
+	private LocalDate fechaEntrada;
+	private LocalDate fechaSalida;
 	private String formaDePago;
 	private EstadoReserva estado;
 
@@ -26,16 +27,15 @@ public class Reserva {
 	}
 
 	public void confirmarReserva() {
-		this.inmueble.noDisponible
 		this.estado.confirmar();
 	}
 
-	public boolean estaDisponible() {
-		
-		
-		
+	public boolean reservaInterfiereCon(LocalDate nuevaFechaEntrada, LocalDate nuevaFechaSalida) {
+		// Verificamos si el rango de fechas de la nueva reserva interfiere con el rango
+		// actual
+		return !nuevaFechaSalida.isBefore(fechaEntrada) && !nuevaFechaEntrada.isAfter(fechaSalida);
 	}
-	
+
 	public void cancelarReserva() {
 		this.estado.cancelar();
 	}

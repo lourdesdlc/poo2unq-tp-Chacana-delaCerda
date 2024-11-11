@@ -16,7 +16,12 @@ public class FiltroPorFecha extends FiltroDeBusqueda {
 
 	@Override
 	public boolean cumple(Inmueble inmueble) { // TESTAR
-		return !inmueble.getCheckIn().isAfter(fechaSalida) && !inmueble.getCheckOut().isBefore(fechaEntrada);
+		return inmueble.estaDisponibleParaLasFechas(fechaEntrada, fechaSalida);
+
+		/**
+		 * !inmueble.getCheckIn().isAfter(fechaSalida) &&
+		 * !inmueble.getCheckOut().isBefore(fechaEntrada)
+		 **/
 	}
 
 	@Override

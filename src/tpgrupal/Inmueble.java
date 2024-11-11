@@ -27,7 +27,7 @@ public class Inmueble {
 	private Set<PrecioPorPeriodo> preciosPorPeriodos;
 	private double precioPorDia;
 	private PoliticaCancelacion tipoDeCancelacion;
-	// private Set<Reserva> reservas; pensar...
+	private Set<Reserva> reservas;
 
 	public double calcularPrecioTotal(LocalDate fechaInicio, LocalDate fechaFin) {
 		double precioTotal = 0;
@@ -179,6 +179,13 @@ public class Inmueble {
 
 	public Double precio() {
 		return this.getPrecioPorDia();
+	}
+
+	public boolean estaDisponibleParaLasFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
+		// Método para verificar si el rango de fechas no interfiere con las reservas
+		// existentes
+
+		return reservas.stream().noneMatch(reserva -> reserva.reservaInterfiereCon(fechaEntrada, fechaSalida));
 	}
 
 }
