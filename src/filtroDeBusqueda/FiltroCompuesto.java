@@ -26,7 +26,7 @@ public class FiltroCompuesto extends FiltroDeBusqueda {
 
 	public boolean tieneFiltrosObligatorios() {
 
-		boolean tieneFiltroCiudad = filtros.stream().anyMatch(f -> f.esFiltroCiudad());
+		boolean tieneFiltroCiudad = filtros.stream().anyMatch(f -> f.esFiltroCiudad()); // subtareas
 		boolean tieneFiltroFecha = filtros.stream().anyMatch(f -> f.esFiltroFecha());
 
 		return tieneFiltroCiudad && tieneFiltroFecha;
