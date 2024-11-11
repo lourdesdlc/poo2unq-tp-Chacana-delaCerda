@@ -2,7 +2,7 @@ package filtroDeBusqueda;
 
 import tpgrupal.Inmueble;
 
-public class FiltroPorCantidadHuespedes implements FiltroDeBusqueda{
+public class FiltroPorCantidadHuespedes extends FiltroDeBusqueda{
 	private Integer capacidadMinima;
 
     public FiltroPorCantidadHuespedes(Integer capacidadMinima) {

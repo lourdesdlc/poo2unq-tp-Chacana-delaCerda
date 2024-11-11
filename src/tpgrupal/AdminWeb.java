@@ -2,7 +2,8 @@ package tpgrupal;
 
 import java.util.Set;
 
-
+import exepciones.CategoriaException;
+import exepciones.UsuarioException;
 import ranking.RankingInmueble;
 import ranking.RankingUsuario;
 import usuario.Inquilino;
@@ -83,12 +84,12 @@ public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.
 		return 0;
 	}
 	
-	public void validarRanking(Usuario u, String comentario, int puntaje, String categoria) {
+	public void validarRanking(Usuario u, String comentario, int puntaje, String categoria)  {
 		if (categorias.contains(categoria)) {
 			RankingUsuario r = new RankingUsuario(comentario, puntaje, categoria, u); // DAR DE ALTA
 			web.agregarRanking(r);
 		} else {
-			throw new IllegalArgumentException("La categoria no está registrada en el sistema.");
+			throw new CategoriaException("La categoria no está registrada en el sistema.");
 		}
 	}
 

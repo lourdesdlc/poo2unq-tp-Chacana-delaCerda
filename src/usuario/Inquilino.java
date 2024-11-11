@@ -1,27 +1,32 @@
 package usuario;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import filtroDeBusqueda.FiltroCompuesto;
+import filtroDeBusqueda.FiltroDeBusqueda;
+import filtroDeBusqueda.FiltroPorCantidadHuespedes;
+import filtroDeBusqueda.FiltroPorCiudad;
+import filtroDeBusqueda.FiltroPorFecha;
+import filtroDeBusqueda.FiltroPorPrecioMaximo;
+import filtroDeBusqueda.FiltroPorPrecioMinimo;
 import ranking.Rankeable;
 import ranking.Ranking;
 import reserva.Reserva;
 import tpgrupal.*;
 
 public class Inquilino extends Usuario {
-	    private List<Reserva> reservas;
 
-	    public Inquilino(String nombreCompleto, String email, String telefono) {
-	        super(nombreCompleto, email, telefono);
-	        this.reservas = new ArrayList<>();
-	    }
+	public Inquilino(String nombreCompleto, String email, String telefono, LocalDate antiguedadEnElSitio) {
+		super(nombreCompleto, email, telefono, antiguedadEnElSitio);
+		// TODO Auto-generated constructor stub
+	}
 
-	    public void agregarReserva(Reserva reserva) {
-	        reservas.add(reserva);
-	    }
-	    
-	    public List<Reserva> getReservasRealizadas() {
-	        return reservas;
-	    }
-	    
+	private List<Reserva> reservas;
+
+	public List<Inmueble> buscarInmueble(FiltroCompuesto filtro) {
+
+		return this.sitioWeb.buscarInmuebles(filtro);
+	}
 }

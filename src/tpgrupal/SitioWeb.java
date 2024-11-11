@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 import Observadores.BajaDePrecio;
+import exepciones.FiltroException;
+import exepciones.UsuarioException;
+import filtroDeBusqueda.CreadorDeFiltro;
 import filtroDeBusqueda.CriterioBusqueda;
+import filtroDeBusqueda.FiltroCompuesto;
 import ranking.Rankeable;
 import ranking.Ranking;
 import usuario.Propietario;
@@ -18,10 +22,13 @@ public class SitioWeb {
 	private Set<Ranking> rankeados;
 	private Set<Interesado> interesados;
 
-	public void registrarUsuario(Usuario usuario) {
+	public void registrarUsuario(Usuario u) {
+		u.asignarWeb(this);
+		this.registrarNuevoUsuario(u);
+	}
 
-		usuario.ingresarAlSitio(this);// vinculacion a mismo sitioWeb
-		usuarios.add(usuario);
+	private void registrarNuevoUsuario(Usuario u) {
+		usuarios.add(u);
 	}
 
 	// pensar en clase Validador.
@@ -29,15 +36,16 @@ public class SitioWeb {
 		if (usuarios.contains(propietario)) {
 			inmuebles.add(inmueble);
 		} else {
-			this.registrarUsuario(propietario);
-			inmuebles.add(inmueble);
+			throw new UsuarioException("Error, debes registrarte en la Web para publicar");
 		}
-
 	}
 
-	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
-		// Filtra la lista de inmuebles usando el criterio recibido como parámetro
-		return criterio.buscar(inmuebles);
+	public List<Inmueble> buscarInmuebles(FiltroCompuesto filtro) { // testear
+		if (filtro.tieneFiltrosObligatorios())
+			return inmuebles.stream().filter(inmueble -> filtro.cumple(inmueble)).toList();
+		else {
+			throw new FiltroException("Error, Falta un filtro obligatorio");
+		}
 	}
 
 	public void mostrarDetallesInmueble(Inmueble inmueble) {

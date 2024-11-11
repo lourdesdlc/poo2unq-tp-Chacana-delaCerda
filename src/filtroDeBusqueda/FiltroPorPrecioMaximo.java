@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import tpgrupal.Inmueble;
 
-public class FiltroPorPrecioMaximo implements FiltroDeBusqueda {
+public class FiltroPorPrecioMaximo extends FiltroDeBusqueda {
     private Double precioMaximo;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;

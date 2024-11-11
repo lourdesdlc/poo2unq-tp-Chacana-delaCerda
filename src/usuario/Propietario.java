@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import exepciones.UsuarioException;
 import politicaCancelacion.PoliticaCancelacion;
 import ranking.Ranking;
 import reserva.Reserva;
@@ -12,17 +13,16 @@ import tpgrupal.*;
 public class Propietario extends Usuario {
 
 	private Set<Inmueble> inmuebles;
-	
 
 	public Propietario(String nombreCompleto, String email, String telefono) {
 		super(nombreCompleto, email, telefono);
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public void publicarInmuble(Inmueble inmueble) {
 		inmuebles.add(inmueble);
 		sitioWeb.registrarInmuebleDe(inmueble, this);
+
 	}
 
 	public void aceptarReserva(Reserva reserva) {

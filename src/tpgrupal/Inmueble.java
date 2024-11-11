@@ -10,7 +10,7 @@ import usuario.Propietario;
 
 public class Inmueble {
 	private Propietario propietario;
-	private String tipo;
+	private TipoDeInmueble tipo;
 	private double superficie;
 	private String pais;
 	private String ciudad;

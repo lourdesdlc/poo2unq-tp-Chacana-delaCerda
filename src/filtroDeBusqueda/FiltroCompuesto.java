@@ -5,15 +5,32 @@ import java.util.List;
 
 import tpgrupal.Inmueble;
 
-class FiltroCompuesto implements FiltroDeBusqueda {
-    private List<FiltroDeBusqueda> filtros = new ArrayList<>();
+public class FiltroCompuesto extends FiltroDeBusqueda {
 
-    public void agregarFiltro(FiltroDeBusqueda filtro) {
-        filtros.add(filtro);
-    }
+	private List<FiltroDeBusqueda> filtros = new ArrayList<>();
 
-    @Override
-    public boolean cumple(Inmueble inmueble) {
-        return filtros.stream().allMatch(filtro -> filtro.cumple(inmueble));
-    }
+	public FiltroCompuesto() {
+		super();
+		this.filtros = new ArrayList<>();
+	}
+
+	public void agregarFiltro(FiltroDeBusqueda filtro) {
+		filtros.add(filtro);
+	}
+
+	@Override
+	public boolean cumple(Inmueble inmueble) {
+
+		return filtros.stream().allMatch(filtro -> filtro.cumple(inmueble));
+	}
+
+	public boolean tieneFiltrosObligatorios() {
+
+		boolean tieneFiltroCiudad = filtros.stream().anyMatch(f -> f.esFiltroCiudad());
+		boolean tieneFiltroFecha = filtros.stream().anyMatch(f -> f.esFiltroFecha());
+
+		return tieneFiltroCiudad && tieneFiltroFecha;
+
+	}
+
 }

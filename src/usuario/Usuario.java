@@ -17,10 +17,12 @@ public abstract class Usuario {
 	protected SitioWeb sitioWeb;
 	private LocalDate antiguedadEnElSitio;
 
-	public Usuario(String nombreCompleto, String email, String telefono) {
+	public Usuario(String nombreCompleto, String email, String telefono, LocalDate antiguedadEnElSitio) {
+		super();
 		this.nombreCompleto = nombreCompleto;
 		this.email = email;
 		this.telefono = telefono;
+		this.antiguedadEnElSitio = antiguedadEnElSitio;
 	}
 
 	// MISMO METODO PARA CADA RANKEADOR pero NO para RANKEABLE
@@ -87,13 +89,18 @@ public abstract class Usuario {
 		this.setSitioWeb(sitioWeb);
 	}
 
-	public void ingresarAlSitio(SitioWeb sitioWeb) {
-		this.setSitioWeb(sitioWeb);
+	public void ingresarAlSitio() {
+		this.sitioWeb.registrarUsuario(this);
 		this.darFechaInicioEnWeb();
 	}
 
 	private void darFechaInicioEnWeb() {
 		this.setAntiguedadEnElSitio(LocalDate.now()); // espero que esto no de problemas en los futuros test
+
+	}
+
+	public void asignarWeb(SitioWeb web) {
+		this.sitioWeb = web;
 
 	}
 }
