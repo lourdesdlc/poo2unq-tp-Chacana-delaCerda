@@ -1,58 +1,81 @@
 package BusquedaTest;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-
+import exepciones.FiltroException;
 import filtroDeBusqueda.FiltroCompuesto;
 import filtroDeBusqueda.FiltroPorCiudad;
 import filtroDeBusqueda.FiltroPorFecha;
 import tpgrupal.Inmueble;
 import tpgrupal.SitioWeb;
 import usuario.Inquilino;
-import usuario.Usuario;
 
 public class BusquedaTest {
-	private Inquilino user;
-	private SitioWeb web;
-	private Inmueble casita;
-	private LocalDate inicio;
-	private LocalDate fin;
 
-	@BeforeEach
-	void setUp() {
+    private Inquilino user;
+    private SitioWeb web;
+    private Inmueble casita;
+    private LocalDate inicio;
+    private LocalDate fin;
 
-		user = new Inquilino("Spreen", "@", "11", null);
-		web = new SitioWeb();
-		casita = mock(Inmueble.class);
+    @BeforeEach
+    void setUp() {
+        // Inicializar fechas
+        inicio = LocalDate.of(2024, 11, 15); // 15 de Noviembre de 2024
+        fin = LocalDate.of(2024, 11, 20); // 20 de Noviembre de 2024
 
-		web.registrarUsuario(user);
-		web.getInmuebles().add(casita);
+        // Crear usuario Inquilino
+        user = new Inquilino("Spreen", "@", "11", LocalDate.of(2022, 11, 15));
 
-		inicio = LocalDate.of(2024, 11, 15); // 15 de Noviembre de 2024
-		fin = LocalDate.of(2024, 11, 20); // 20 de Noviembre de 2024
+        // Crear un sitio web
+        web = new SitioWeb();
 
-		// Definir los comportamientos de los getters del mock para que devuelvan fechas
-		// que cumplen con la condición
-		when(casita.getCheckIn()).thenReturn(LocalDate.of(2024, 11, 14)); // Check-in antes de fecha de salida
-		when(casita.getCheckOut()).thenReturn(LocalDate.of(2024, 11, 18)); // Check-out dentro del rango de fechas
-		when(casita.getCiudad()).thenReturn("Quilmes");
-	}
+        // Crear un mock de Inmueble
+        casita = mock(Inmueble.class);
 
-	@Test
-	public void usuarioRealizaBusquedaEfectiva() {
-		FiltroCompuesto filtro = new FiltroCompuesto();
+        // Registrar al usuario en el sitio web
+        web.registrarUsuario(user);
 
-		filtro.agregarFiltro(new FiltroPorCiudad("Quilmes"));
-		filtro.agregarFiltro(new FiltroPorFecha(inicio, fin));
+        // Agregar el inmueble al sitio web
+        web.getInmuebles().add(casita);
 
-		assertTrue(user.buscarInmueble(filtro).contains(casita));
+        // Configurar el comportamiento del mock para devolver valores esperados
+        when(casita.getCheckIn()).thenReturn(LocalDate.of(2024, 11, 14)); // Check-in antes de fecha de salida
+        when(casita.getCheckOut()).thenReturn(LocalDate.of(2024, 11, 18)); // Check-out dentro del rango de fechas
+        when(casita.getCiudad()).thenReturn("Quilmes");
+    }
 
-	}
+    @Test
+    public void usuarioRealizaBusquedaEfectiva() {
+        // Crear el filtro compuesto con ciudad y fechas
+        FiltroCompuesto filtro = new FiltroCompuesto();
+        filtro.agregarFiltro(new FiltroPorCiudad("Quilmes"));
+        filtro.agregarFiltro(new FiltroPorFecha(inicio, fin));
 
+        // Verificar que el inmueble casita esté en los resultados de la búsqueda
+        assertTrue(user.buscarInmueble(filtro).contains(casita));
+    }
+
+    @Test
+    public void usuarioRealizaBusquedaErronea() {
+        // Crear el filtro compuesto con solo fechas
+        FiltroCompuesto filtro = new FiltroCompuesto();
+        filtro.agregarFiltro(new FiltroPorFecha(inicio, fin));
+
+        // Verificar que se lance la excepción esperada
+        FiltroException exception = assertThrows(FiltroException.class, () -> {
+            user.buscarInmueble(filtro);
+        });
+
+        // Verificar el mensaje de la excepción si es necesario
+        assertEquals("Error, Falta un filtro obligatorio", exception.getMessage());
+    }
 }

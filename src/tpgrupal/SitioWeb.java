@@ -19,7 +19,7 @@ public class SitioWeb {
 	private Set<Inmueble> inmuebles = new HashSet<>();
 	private Set<Usuario> usuarios = new HashSet<>();
 	private Set<Ranking> rankeados = new HashSet<>();
-	private Set<Interesado> interesados = new HashSet<>();
+	private Set<Interesado>  interesados = new HashSet<>();
 
 	public void registrarUsuario(Usuario u) {
 		u.asignarWeb(this);
