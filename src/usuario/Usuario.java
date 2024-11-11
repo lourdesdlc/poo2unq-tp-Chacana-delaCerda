@@ -7,6 +7,7 @@ import java.util.List;
 import ranking.Rankeable;
 import ranking.Ranking;
 import ranking.RankingInmueble;
+import reserva.Reserva;
 import tpgrupal.Inmueble;
 import tpgrupal.SitioWeb;
 
@@ -15,14 +16,14 @@ public abstract class Usuario {
 	private String email;
 	private String telefono;
 	protected SitioWeb sitioWeb;
-	private LocalDate antiguedadEnElSitio;
+	private LocalDate antiguedadEnElSitio; // se establece una vez que se logea
 
-	public Usuario(String nombreCompleto, String email, String telefono, LocalDate antiguedadEnElSitio) {
+	public Usuario(String nombreCompleto, String email, String telefono) {
 		super();
 		this.nombreCompleto = nombreCompleto;
 		this.email = email;
 		this.telefono = telefono;
-		this.antiguedadEnElSitio = antiguedadEnElSitio;
+
 	}
 
 	// MISMO METODO PARA CADA RANKEADOR pero NO para RANKEABLE
@@ -103,4 +104,6 @@ public abstract class Usuario {
 		this.sitioWeb = web;
 
 	}
+
+	
 }

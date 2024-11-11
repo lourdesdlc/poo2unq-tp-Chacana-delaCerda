@@ -11,6 +11,8 @@ import exepciones.UsuarioException;
 import filtroDeBusqueda.FiltroCompuesto;
 import ranking.Rankeable;
 import ranking.Ranking;
+import reserva.Reserva;
+import usuario.Inquilino;
 import usuario.Propietario;
 import usuario.Usuario;
 
@@ -19,7 +21,47 @@ public class SitioWeb {
 	private Set<Inmueble> inmuebles = new HashSet<>();
 	private Set<Usuario> usuarios = new HashSet<>();
 	private Set<Ranking> rankeados = new HashSet<>();
-	private Set<Interesado>  interesados = new HashSet<>();
+	private Set<Interesado> interesados = new HashSet<>();
+	private Set<Reserva> reservas = new HashSet<>();
+
+	// GETTERS
+	public void agregarRanking(Ranking ranking) {
+		this.rankeados.add(ranking);
+
+	}
+
+	public AdminWeb getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(AdminWeb admin) {
+		this.admin = admin;
+	}
+
+	public Set<Inmueble> getInmuebles() {
+		return inmuebles;
+	}
+
+	public void setInmuebles(Set<Inmueble> inmuebles) {
+		this.inmuebles = inmuebles;
+	}
+
+	public Set<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(Set<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Set<Ranking> getRankingsRecibidos() {
+		return rankeados;
+	}
+
+	public void setRankingsRecibidos(Set<Ranking> rankingsRecibidos) {
+		this.rankeados = rankingsRecibidos;
+
+	}
 
 	public void registrarUsuario(Usuario u) {
 		u.asignarWeb(this);
@@ -40,6 +82,7 @@ public class SitioWeb {
 	}
 
 	public List<Inmueble> buscarInmuebles(FiltroCompuesto filtro) { // testear
+
 		if (filtro.tieneFiltrosObligatorios())
 			return inmuebles.stream().filter(inmueble -> filtro.cumple(inmueble)).toList();
 		else {
@@ -91,47 +134,23 @@ public class SitioWeb {
 
 	}
 
-	public void notificarReservaDeInmueble(Inmueble i) { // Este es el general? lo recbien todos?
+	public void notificarReservaConcretadaDeInmueble(Inmueble i) { // Este es el general? lo recbien todos?
 		String mensaje = "Se reservo el Inmueble " + i.getTipo();
 		enviarNotificacion(mensaje, i.getTipo());
 	}
 
-	// GETTERS
-	public void agregarRanking(Ranking ranking) {
-		this.rankeados.add(ranking);
+	// COMPORTAMIENTO DE RESERVAS
 
+	public void solicitarReservaConFormaDePago(Reserva reserva, String formaDePago) {
+		
+		reserva.establecerModoDePago(formaDePago);
+
+		reserva.getPropietario().evaluarSolicitudDeReserva(reserva);
 	}
 
-	public AdminWeb getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(AdminWeb admin) {
-		this.admin = admin;
-	}
-
-	public Set<Inmueble> getInmuebles() {
-		return inmuebles;
-	}
-
-	public void setInmuebles(Set<Inmueble> inmuebles) {
-		this.inmuebles = inmuebles;
-	}
-
-	public Set<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(Set<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	public Set<Ranking> getRankingsRecibidos() {
-		return rankeados;
-	}
-
-	public void setRankingsRecibidos(Set<Ranking> rankingsRecibidos) {
-		this.rankeados = rankingsRecibidos;
+	public void consolidarReserva(Reserva reserva) {
+		this.reservas.add(reserva);
+		reserva.confirmarReserva();
 
 	}
 

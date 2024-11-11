@@ -13,6 +13,7 @@ import tpgrupal.*;
 public class Propietario extends Usuario {
 
 	private Set<Inmueble> inmuebles;
+	private Set<Reserva> reservasPropias;
 
 	public Propietario(String nombreCompleto, String email, String telefono) {
 		super(nombreCompleto, email, telefono);
@@ -23,10 +24,6 @@ public class Propietario extends Usuario {
 		inmuebles.add(inmueble);
 		sitioWeb.registrarInmuebleDe(inmueble, this);
 
-	}
-
-	public void aceptarReserva(Reserva reserva) {
-		reserva.confirmarReserva();
 	}
 
 	// estos cambios tambien afectan a la set de website!
@@ -61,5 +58,19 @@ public class Propietario extends Usuario {
 
 	public Set<Inmueble> getInmueblesPropios() {
 		return inmuebles;
+	}
+
+	public void evaluarSolicitudDeReserva(Reserva reserva) {
+		reservasPropias.add(reserva);
+	}
+
+	public void aceptarReserva(Reserva reserva) {
+		if (this.reservasPropias.contains(reserva)) {
+			
+			sitioWeb.consolidarReserva(reserva);
+		
+			
+		} else
+			throw new RuntimeException("Esta reserva no te pertence");
 	}
 }

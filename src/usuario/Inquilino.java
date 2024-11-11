@@ -25,8 +25,14 @@ public class Inquilino extends Usuario {
 
 	private List<Reserva> reservas;
 
-	public List<Inmueble> buscarInmueble(FiltroCompuesto filtro) {
+	public List<Inmueble> buscarInmueble(FiltroCompuesto filtro) { // se deberia pasar al usario?
 
 		return this.sitioWeb.buscarInmuebles(filtro);
 	}
+
+	public void realizarReservaDe(Reserva reserva, String formaDePago) {
+
+		this.sitioWeb.solicitarReservaConFormaDePago(reserva, formaDePago);
+	}
+
 }

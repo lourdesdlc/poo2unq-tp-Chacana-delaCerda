@@ -6,6 +6,7 @@ import java.util.Set;
 
 import politicaCancelacion.PoliticaCancelacion;
 import ranking.Rankeable;
+import reserva.Reserva;
 import usuario.Propietario;
 
 public class Inmueble {
@@ -17,8 +18,8 @@ public class Inmueble {
 	private String direccion;
 	private int capacidad;
 	private List<String> fotos; // Máximo de 5 fotos
-	private LocalDate checkIn;
-	private LocalDate checkOut;
+	private LocalDate checkIn; // 9 am
+	private LocalDate checkOut; // 10pm
 	private List<Servicio> servicios;
 	// Enum FormaDePago
 	private Set<FormaDePago> formasDePago;
@@ -26,6 +27,7 @@ public class Inmueble {
 	private Set<PrecioPorPeriodo> preciosPorPeriodos;
 	private double precioPorDia;
 	private PoliticaCancelacion tipoDeCancelacion;
+	// private Set<Reserva> reservas; pensar...
 
 	public double calcularPrecioTotal(LocalDate fechaInicio, LocalDate fechaFin) {
 		double precioTotal = 0;
