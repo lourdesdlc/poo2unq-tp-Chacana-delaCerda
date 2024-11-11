@@ -1,14 +1,13 @@
 package tpgrupal;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import Observadores.BajaDePrecio;
 import exepciones.FiltroException;
 import exepciones.UsuarioException;
-import filtroDeBusqueda.CreadorDeFiltro;
-import filtroDeBusqueda.CriterioBusqueda;
 import filtroDeBusqueda.FiltroCompuesto;
 import ranking.Rankeable;
 import ranking.Ranking;
@@ -17,10 +16,10 @@ import usuario.Usuario;
 
 public class SitioWeb {
 	private AdminWeb admin;
-	private Set<Inmueble> inmuebles;
-	private Set<Usuario> usuarios;
-	private Set<Ranking> rankeados;
-	private Set<Interesado> interesados;
+	private Set<Inmueble> inmuebles = new HashSet<>();
+	private Set<Usuario> usuarios = new HashSet<>();
+	private Set<Ranking> rankeados = new HashSet<>();
+	private Set<Interesado> interesados = new HashSet<>();
 
 	public void registrarUsuario(Usuario u) {
 		u.asignarWeb(this);
