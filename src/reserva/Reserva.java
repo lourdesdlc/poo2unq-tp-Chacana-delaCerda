@@ -46,7 +46,7 @@ public class Reserva {
 	public double precioTotal() {
 		//retorna el valor total de la reserva. 
 		//le delega el calculo al inmbueble reservado
-		return inmueble.calcularPrecioTotal(fechaEntrada, fechaSalida);
+		return inmueble.calcularPrecioParaRango(fechaEntrada, fechaSalida);
 	}
 	
 	public void cancelarReserva() {

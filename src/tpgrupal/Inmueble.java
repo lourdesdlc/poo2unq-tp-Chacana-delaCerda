@@ -28,23 +28,20 @@ public class Inmueble {
 	private PoliticaCancelacion politicaDeCancelacion;
 	private Set<Reserva> reservas;
 
-	public double calcularPrecioTotal(LocalDate fechaInicio, LocalDate fechaFin) {
-		//calcula el precio de un periodo de dias
-		double precioTotal = 0;
-		LocalDate fechaActual = fechaInicio;
-
-		while (!fechaActual.isAfter(fechaFin)) {
-			// algunos dias podrian ser estandar y otros de periodos especiales
-			precioTotal += obtenerPrecioParaFecha(fechaActual);
-			fechaActual = fechaActual.plusDays(1);
-		}
-		
-		return precioTotal;
+	public double calcularPrecioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
+		//calcula el precio de un rango de dias
+		// algunos dias podrian ser estandar y otros de periodos especiales
+	    return fechaInicio.datesUntil(fechaFin.plusDays(1))
+	            .mapToDouble(this::obtenerPrecioParaFecha)
+	            .sum();
 	}
 
 	private double obtenerPrecioParaFecha(LocalDate fecha) {
-		return preciosPorPeriodos.stream().filter(periodo -> periodo.incluye(fecha))
-				.map(PrecioPorPeriodo::getPrecioPorDia).findFirst().orElse(precioPorDia);
+	    return preciosPorPeriodos.stream()
+	            .filter(periodo -> periodo.incluye(fecha))
+	            .map(PrecioPorPeriodo::getPrecioPorDia)
+	            .findFirst()
+	            .orElse(precioPorDia);
 	}
 
 	public double calcularPenalidadPorCancelacion(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal) {
