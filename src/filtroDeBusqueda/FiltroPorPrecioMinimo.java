@@ -2,7 +2,7 @@ package filtroDeBusqueda;
 
 import java.time.LocalDate;
 
-import tpgrupal.Inmueble;
+import Inmueble.Inmueble;
 
 public class FiltroPorPrecioMinimo extends FiltroDeBusqueda {
 	private Double precioMinimo;

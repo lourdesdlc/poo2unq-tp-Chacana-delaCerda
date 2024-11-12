@@ -1,4 +1,4 @@
-package tpgrupal;
+package Inmueble;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.Set;
 
 import politicaCancelacion.PoliticaCancelacion;
 import reserva.Reserva;
+import tpgrupal.FormaDePago;
+import tpgrupal.PrecioPorPeriodo;
+import tpgrupal.Servicio;
 import usuario.Propietario;
 
 public class Inmueble {

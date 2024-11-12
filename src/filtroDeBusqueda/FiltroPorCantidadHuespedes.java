@@ -1,6 +1,6 @@
 package filtroDeBusqueda;
 
-import tpgrupal.Inmueble;
+import Inmueble.Inmueble;
 
 public class FiltroPorCantidadHuespedes extends FiltroDeBusqueda{
 	private Integer capacidadMinima;

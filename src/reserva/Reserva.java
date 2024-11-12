@@ -3,7 +3,7 @@ package reserva;
 
 import java.time.LocalDate;
 
-import tpgrupal.Inmueble;
+import Inmueble.Inmueble;
 import usuario.Inquilino;
 import usuario.Propietario;
 

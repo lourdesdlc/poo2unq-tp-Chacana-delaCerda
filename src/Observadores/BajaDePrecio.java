@@ -3,8 +3,7 @@ package Observadores;
 import java.util.Set;
 
 import notificaciones.HomePagePublisher;
-import tpgrupal.Interesado;
-import tpgrupal.SitioWeb;
+import sitioWeb.SitioWeb;
 
 public class BajaDePrecio extends Interesado {
 	private HomePagePublisher publicador;

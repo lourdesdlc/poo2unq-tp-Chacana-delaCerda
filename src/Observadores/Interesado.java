@@ -1,6 +1,8 @@
-package tpgrupal;
+package Observadores;
 
 import java.util.Set;
+
+import sitioWeb.SitioWeb;
 
 public abstract class Interesado {
 

@@ -3,8 +3,7 @@ package Observadores;
 import java.util.Set;
 
 import notificaciones.PopUpWindow;
-import tpgrupal.Interesado;
-import tpgrupal.SitioWeb;
+import sitioWeb.SitioWeb;
 
 public class Cancelacion extends Interesado {
 	private PopUpWindow notificadorCelular;

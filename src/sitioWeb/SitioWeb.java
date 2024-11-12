@@ -1,12 +1,15 @@
-package tpgrupal;
+package sitioWeb;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import Inmueble.Inmueble;
+import Observadores.Interesado;
 import exepciones.FiltroException;
 import exepciones.UsuarioException;
 import filtroDeBusqueda.FiltroCompuesto;
+import notificaciones.EmailSender;
 import ranking.Ranking;
 import reserva.Reserva;
 import usuario.Propietario;

@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import Inmueble.Inmueble;
 import ranking.Rankeable;
 import ranking.Ranking;
 
 import reserva.Reserva;
-import tpgrupal.Inmueble;
-import tpgrupal.SitioWeb;
+import sitioWeb.SitioWeb;
 
 public abstract class Usuario {
 	private String nombreCompleto;

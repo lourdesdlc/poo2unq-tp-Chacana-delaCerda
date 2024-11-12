@@ -3,7 +3,7 @@ package filtroDeBusqueda;
 import java.util.ArrayList;
 import java.util.List;
 
-import tpgrupal.Inmueble;
+import Inmueble.Inmueble;
 
 public class FiltroCompuesto extends FiltroDeBusqueda {
 

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import Inmueble.Inmueble;
 import exepciones.UsuarioException;
 import politicaCancelacion.PoliticaCancelacion;
 import ranking.Ranking;

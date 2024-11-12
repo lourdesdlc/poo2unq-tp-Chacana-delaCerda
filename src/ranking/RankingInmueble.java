@@ -1,6 +1,6 @@
 package ranking;
 
-import tpgrupal.Inmueble;
+import Inmueble.Inmueble;
 import usuario.Usuario;
 
 public class RankingInmueble extends Ranking {

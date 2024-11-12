@@ -1,4 +1,4 @@
-package tpgrupal;
+package notificaciones;
 
 import reserva.Reserva;
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import Inmueble.Inmueble;
 import filtroDeBusqueda.FiltroCompuesto;
 import filtroDeBusqueda.FiltroDeBusqueda;
 import filtroDeBusqueda.FiltroPorCantidadHuespedes;

@@ -2,6 +2,9 @@ package BusquedaTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import Inmueble.Inmueble;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,8 +17,7 @@ import exepciones.FiltroException;
 import filtroDeBusqueda.FiltroCompuesto;
 import filtroDeBusqueda.FiltroPorCiudad;
 import filtroDeBusqueda.FiltroPorFecha;
-import tpgrupal.Inmueble;
-import tpgrupal.SitioWeb;
+import sitioWeb.SitioWeb;
 import usuario.Inquilino;
 
 public class BusquedaTest {
@@ -33,7 +35,7 @@ public class BusquedaTest {
         fin = LocalDate.of(2024, 11, 20); // 20 de Noviembre de 2024
 
         // Crear usuario Inquilino
-        user = new Inquilino("Spreen", "@", "11", LocalDate.of(2022, 11, 15));
+        user = new Inquilino("Spreen", "@", "11");
 
         // Crear un sitio web
         web = new SitioWeb();
