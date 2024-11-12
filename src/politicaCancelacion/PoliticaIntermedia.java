@@ -1,22 +1,19 @@
 package politicaCancelacion;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
-public class PoliticaIntermedia implements PoliticaCancelacion{
+public class PoliticaIntermedia extends PoliticaCancelacion{
 	@Override
-    public double calcularPenalidad(Date fechaCancelacion, Date fechaCheckIn) {
-        long diasDiferencia = (fechaCheckIn.getTime() - fechaCancelacion.getTime()) / (1000 * 60 * 60 * 24);
-        if (diasDiferencia >= 20) {
-            return 0.0;
-        } else if (diasDiferencia >= 10) {
-            return 0.5 * calcularPrecioDiario(); // 50% de penalidad
+	public double calcularPenalidad(LocalDate fechaInicio, LocalDate fechaSalida, double precioTotal) {
+		
+        int diasAntesDeInicio = diasAntesDeInicio(fechaInicio);
+        
+        if (diasAntesDeInicio > 20) {
+            return 0.0; 
+        } else if (diasAntesDeInicio >= 10) {
+            return precioTotal * 0.5; 
         } else {
-            return calcularPrecioDiario(); // Penalidad total
+            return precioTotal; 
         }
-    }
-
-    private double calcularPrecioDiario() {
-        // Lógica para calcular el precio diario
-        return 100.0;
     }
 }

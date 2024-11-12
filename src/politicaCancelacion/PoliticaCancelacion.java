@@ -1,8 +1,14 @@
 package politicaCancelacion;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 //Patrón Strategy para Políticas de Cancelación
-public interface PoliticaCancelacion {
-	double calcularPenalidad(Date fechaCancelacion, Date fechaCheckIn);
+public abstract class PoliticaCancelacion {
+	
+	public int diasAntesDeInicio(LocalDate fechaInicio) {
+		return (int) ChronoUnit.DAYS.between(LocalDate.now(), fechaInicio);
+	}
+	
+	public abstract double calcularPenalidad(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal);
 }

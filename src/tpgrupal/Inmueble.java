@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import politicaCancelacion.PoliticaCancelacion;
-import ranking.Rankeable;
 import reserva.Reserva;
 import usuario.Propietario;
 
 public class Inmueble {
 	private Propietario propietario;
-	private TipoDeInmueble tipo;
+	private String tipo;
 	private double superficie;
 	private String pais;
 	private String ciudad;
@@ -25,11 +24,12 @@ public class Inmueble {
 	private Set<FormaDePago> formasDePago;
 	// Lista de períodos con precios variables
 	private Set<PrecioPorPeriodo> preciosPorPeriodos;
-	private double precioPorDia;
-	private PoliticaCancelacion tipoDeCancelacion;
+	private double precioPorDia; //un valor por defecto(por si no es un periodo existente)
+	private PoliticaCancelacion politicaDeCancelacion;
 	private Set<Reserva> reservas;
 
 	public double calcularPrecioTotal(LocalDate fechaInicio, LocalDate fechaFin) {
+		//calcula el precio de un periodo de dias
 		double precioTotal = 0;
 		LocalDate fechaActual = fechaInicio;
 
@@ -38,7 +38,7 @@ public class Inmueble {
 			precioTotal += obtenerPrecioParaFecha(fechaActual);
 			fechaActual = fechaActual.plusDays(1);
 		}
-
+		
 		return precioTotal;
 	}
 
@@ -47,6 +47,18 @@ public class Inmueble {
 				.map(PrecioPorPeriodo::getPrecioPorDia).findFirst().orElse(precioPorDia);
 	}
 
+	public double calcularPenalidadPorCancelacion(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal) {
+		//le delega la responsabilidad de calcular la penalidad a la politicaDeCancelacion
+		return this.politicaDeCancelacion.calcularPenalidad(fechaEntrada, fechaSalida, precioTotal);
+	}
+	
+	public boolean estaDisponibleParaLasFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
+		// Método para verificar si el rango de fechas no interfiere con las reservas
+		// existentes
+
+		return reservas.stream().noneMatch(reserva -> reserva.reservaInterfiereCon(fechaEntrada, fechaSalida));
+	}
+	
 	public Propietario getPropietario() {
 		return propietario;
 	}
@@ -152,11 +164,11 @@ public class Inmueble {
 	}
 
 	public PoliticaCancelacion getTipoDeCancelacion() {
-		return tipoDeCancelacion;
+		return politicaDeCancelacion;
 	}
 
 	public void setTipoDeCancelacion(PoliticaCancelacion tipoDeCancelacion) {
-		this.tipoDeCancelacion = tipoDeCancelacion;
+		this.politicaDeCancelacion = tipoDeCancelacion;
 	}
 
 	public void cambiarPolitica(PoliticaCancelacion p) { // doble encapsulamiento
@@ -181,11 +193,6 @@ public class Inmueble {
 		return this.getPrecioPorDia();
 	}
 
-	public boolean estaDisponibleParaLasFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
-		// Método para verificar si el rango de fechas no interfiere con las reservas
-		// existentes
-
-		return reservas.stream().noneMatch(reserva -> reserva.reservaInterfiereCon(fechaEntrada, fechaSalida));
-	}
+	
 
 }

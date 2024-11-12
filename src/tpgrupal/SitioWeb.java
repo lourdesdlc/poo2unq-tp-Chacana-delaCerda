@@ -1,18 +1,14 @@
 package tpgrupal;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import Observadores.BajaDePrecio;
 import exepciones.FiltroException;
 import exepciones.UsuarioException;
 import filtroDeBusqueda.FiltroCompuesto;
-import ranking.Rankeable;
 import ranking.Ranking;
 import reserva.Reserva;
-import usuario.Inquilino;
 import usuario.Propietario;
 import usuario.Usuario;
 

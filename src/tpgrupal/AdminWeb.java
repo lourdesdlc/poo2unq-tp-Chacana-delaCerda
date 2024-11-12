@@ -2,8 +2,8 @@ package tpgrupal;
 
 import java.util.Set;
 
+import categoria.Categoria;
 import exepciones.CategoriaException;
-import exepciones.UsuarioException;
 import ranking.RankingInmueble;
 import ranking.RankingUsuario;
 import usuario.Inquilino;

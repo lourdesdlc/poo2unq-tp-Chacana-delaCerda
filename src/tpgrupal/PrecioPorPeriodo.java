@@ -13,12 +13,12 @@ public class PrecioPorPeriodo {
         this.precioPorDia = precioPorDia;
     }
 
+    public boolean incluye(LocalDate fecha) {
+    	return (fecha.isEqual(fechaInicio) || fecha.isAfter(fechaInicio)) &&
+    			(fecha.isEqual(fechaFin) || fecha.isBefore(fechaFin));
+    }
+    
     public LocalDate getFechaInicio() { return fechaInicio; }
     public LocalDate getFechaFin() { return fechaFin; }
     public double getPrecioPorDia() { return precioPorDia; }
-
-    public boolean incluye(LocalDate fecha) {
-        return (fecha.isEqual(fechaInicio) || fecha.isAfter(fechaInicio)) &&
-               (fecha.isEqual(fechaFin) || fecha.isBefore(fechaFin));
-    }
 }

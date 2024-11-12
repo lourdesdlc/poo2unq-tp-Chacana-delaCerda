@@ -1,15 +1,11 @@
 package politicaCancelacion;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
-public class PoliticaSinReembolso implements PoliticaCancelacion{
+public class PoliticaSinReembolso extends PoliticaCancelacion{
 	@Override
-    public double calcularPenalidad(Date fechaCancelacion, Date fechaCheckIn) {
-        return calcularPrecioDiario(); // Penalidad total
-    }
-
-    private double calcularPrecioDiario() {
-        // Lógica para calcular el precio diario
-        return 100.0;
+    public double calcularPenalidad(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal) {
+		//Se paga el total de la reserva
+        return precioTotal;
     }
 }
