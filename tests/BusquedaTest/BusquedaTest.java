@@ -21,7 +21,6 @@ import sitioWeb.SitioWeb;
 import usuario.Inquilino;
 
 public class BusquedaTest {
-
 	private Inquilino user;
 	private SitioWeb web;
 	private Inmueble casita;
