@@ -27,38 +27,34 @@ public class Inmueble {
 	private Set<FormaDePago> formasDePago;
 	// Lista de períodos con precios variables
 	private Set<PrecioPorPeriodo> preciosPorPeriodos;
-	private double precioPorDia; //un valor por defecto(por si no es un periodo existente)
+	private double precioPorDia; // un valor por defecto(por si no es un periodo existente)
 	private PoliticaCancelacion politicaDeCancelacion;
 	private Set<Reserva> reservas;
 
 	public double calcularPrecioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
-		//calcula el precio de un rango de dias
+		// calcula el precio de un rango de dias
 		// algunos dias podrian ser estandar y otros de periodos especiales
-	    return fechaInicio.datesUntil(fechaFin.plusDays(1))
-	            .mapToDouble(this::obtenerPrecioParaFecha)
-	            .sum();
+		return fechaInicio.datesUntil(fechaFin.plusDays(1)).mapToDouble(this::obtenerPrecioParaFecha).sum();
 	}
 
 	private double obtenerPrecioParaFecha(LocalDate fecha) {
-	    return preciosPorPeriodos.stream()
-	            .filter(periodo -> periodo.incluye(fecha))
-	            .map(PrecioPorPeriodo::getPrecioPorDia)
-	            .findFirst()
-	            .orElse(precioPorDia);
+		return preciosPorPeriodos.stream().filter(periodo -> periodo.incluye(fecha))
+				.map(PrecioPorPeriodo::getPrecioPorDia).findFirst().orElse(precioPorDia);
 	}
 
 	public double calcularPenalidadPorCancelacion(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal) {
-		//le delega la responsabilidad de calcular la penalidad a la politicaDeCancelacion
+		// le delega la responsabilidad de calcular la penalidad a la
+		// politicaDeCancelacion
 		return this.politicaDeCancelacion.calcularPenalidad(fechaEntrada, fechaSalida, precioTotal);
 	}
-	
+
 	public boolean estaDisponibleParaLasFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
 		// Método para verificar si el rango de fechas no interfiere con las reservas
 		// existentes
 
 		return reservas.stream().noneMatch(reserva -> reserva.reservaInterfiereCon(fechaEntrada, fechaSalida));
 	}
-	
+
 	public Propietario getPropietario() {
 		return propietario;
 	}
@@ -192,7 +188,5 @@ public class Inmueble {
 	public Double precio() {
 		return this.getPrecioPorDia();
 	}
-
-	
 
 }

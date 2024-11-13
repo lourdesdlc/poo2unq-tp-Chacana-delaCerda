@@ -12,8 +12,8 @@ public class PoliticaGratuita extends PoliticaCancelacion{
 			//REVISAR ESTA OPCION
 			return 0;
 		}
-		if (diasAntesDeInicio > 10) {
-			return precioTotal;
+		if (diasAntesDeInicio >= 10) {
+			return 0;
 		} else {
 			int diasReservados = (int) (fechaFinal.toEpochDay() - fechaInicio.toEpochDay());
 			return precioTotal - (2 * (precioTotal / diasReservados));

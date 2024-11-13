@@ -23,6 +23,7 @@ public class SitioWeb {
 	private Set<Interesado> interesados = new HashSet<>();
 	private Set<Reserva> reservas = new HashSet<>();
 	private EmailSender email;
+	private ValidadorGenerico validador; // si se cambia los requesitos de validacion, cambia la clase!
 
 	// GETTERS
 	public void agregarRanking(Ranking ranking) {
@@ -63,17 +64,22 @@ public class SitioWeb {
 
 	}
 
+	public Set<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(Set<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
 	public void registrarUsuario(Usuario u) {
-		u.asignarWeb(this);
+
 		this.registrarNuevoUsuario(u);
+		u.darFechaInicioEnWeb(); // la antiguedad
 	}
 
 	private void registrarNuevoUsuario(Usuario u) {
 		usuarios.add(u);
-	}
-
-	private boolean esUsuarioRegistrado(Usuario u) {
-		return usuarios.contains(u);
 	}
 
 	// pensar en clase Validador.
@@ -146,14 +152,15 @@ public class SitioWeb {
 
 	public void solicitarReserva(Reserva reserva) {
 		if (esUsuarioRegistrado(reserva.getInquilino())) {
-			reserva.getPropietario().evaluarSolicitudDeReserva(reserva);
+			reserva.propietarioAsigando().evaluarSolicitudDeReserva(reserva);
 		} else {
 			throw new RuntimeException("Error, Usuario no regitrada");
 		}
 	}
 
 	public void consolidarReserva(Reserva reserva) {
-		if (this.reservas.contains(reserva)) {
+
+		if (this.esUsuarioRegistrado(reserva.propietarioAsigando())) {
 
 			this.reservas.add(reserva);
 
@@ -169,7 +176,7 @@ public class SitioWeb {
 	}
 
 	public void anularReserva(Reserva reserva) {
-		if (this.reservas.contains(reserva)) {
+		if (this.esReservaRegistrada(reserva)) {
 			reserva.cancelarReserva();
 			// email al Propietario
 			email.enviarMail(reserva.mailPropietario(), "Reserva Cancelada", reserva);
@@ -178,6 +185,18 @@ public class SitioWeb {
 
 		}
 
+	}
+
+	// Validaciones
+
+	private boolean esUsuarioRegistrado(Usuario u) {
+
+		return this.validador.validarRegistro(u, this.getUsuarios());
+	}
+
+	private boolean esReservaRegistrada(Reserva reserva) {
+
+		return this.validador.validarRegistro(reserva, this.getReservas());
 	}
 
 }

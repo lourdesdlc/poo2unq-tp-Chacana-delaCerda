@@ -24,7 +24,7 @@ public class Reserva {
 		this.estado = new ReservaPendiente(); // Estado inicial
 	}
 
-	public Propietario getPropietario() {
+	public Propietario propietarioAsigando() {
 		return this.inmueble.getPropietario();
 	}
 
@@ -128,5 +128,7 @@ public class Reserva {
 		
 		return this.getInmueble().getCiudad();
 	}
+
+
 	
 }

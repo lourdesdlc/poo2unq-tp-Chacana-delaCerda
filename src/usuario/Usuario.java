@@ -96,16 +96,12 @@ public abstract class Usuario {
 		this.antiguedadEnElSitio = localTime;
 	}
 
-	public void registrarEnWeb(SitioWeb sitioWeb) {
+	public void registrarseEnSitioWeb(SitioWeb sitioWeb) {
 		this.setSitioWeb(sitioWeb);
+		sitioWeb.registrarUsuario(this);
 	}
 
-	public void ingresarAlSitio() {
-		this.sitioWeb.registrarUsuario(this);
-		this.darFechaInicioEnWeb();
-	}
-
-	private void darFechaInicioEnWeb() {
+	public void darFechaInicioEnWeb() {
 		this.setAntiguedadEnElSitio(LocalDate.now()); // espero que esto no de problemas en los futuros test
 
 	}
