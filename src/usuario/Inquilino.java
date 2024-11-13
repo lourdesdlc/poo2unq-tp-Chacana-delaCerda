@@ -35,9 +35,12 @@ public class Inquilino extends Usuario {
 		this.sitioWeb.solicitarReserva(reserva);
 	}
 
+	public void realizarReservaCondiconal(Reserva reserva) {
+		this.sitioWeb.solicitarReservaCondicional(reserva);
+	}
+
 	public void cancelarReserva(Reserva reserva) {
 		this.sitioWeb.anularReserva(reserva);
 	}
 
-	
 }

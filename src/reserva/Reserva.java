@@ -1,12 +1,10 @@
 package reserva;
 
-
 import java.time.LocalDate;
 
 import Inmueble.Inmueble;
 import usuario.Inquilino;
 import usuario.Propietario;
-
 
 public class Reserva {
 	private Inquilino inquilino;
@@ -15,7 +13,7 @@ public class Reserva {
 	private LocalDate fechaSalida;
 	private String formaDePago;
 	private EstadoReserva estado;
-	
+
 	private double precioTotal;
 
 	public Reserva(Inquilino inquilino, Inmueble inmueble) {
@@ -39,16 +37,16 @@ public class Reserva {
 	}
 
 	public double calcularPenalidadPorCancelacion(LocalDate fechaEntrada, LocalDate fechaSalida) {
-		//le delega la responsabilidad de calcular la penalidad al inmueble
+		// le delega la responsabilidad de calcular la penalidad al inmueble
 		return inmueble.calcularPenalidadPorCancelacion(fechaEntrada, fechaSalida, precioTotal);
 	}
-	
+
 	public double precioTotal() {
-		//retorna el valor total de la reserva. 
-		//le delega el calculo al inmbueble reservado
+		// retorna el valor total de la reserva.
+		// le delega el calculo al inmbueble reservado
 		return inmueble.calcularPrecioParaRango(fechaEntrada, fechaSalida);
 	}
-	
+
 	public void cancelarReserva() {
 		this.estado.cancelar();
 	}
@@ -125,10 +123,13 @@ public class Reserva {
 	}
 
 	public String ciudadDeReserva() {
-		
+
 		return this.getInmueble().getCiudad();
 	}
 
+	public boolean esCondicionalEn(LocalDate fechaIncio, LocalDate fechaFin) {
 
-	
+		return this.getInmueble().estaDisponibleParaLasFechas(fechaIncio, fechaFin);
+	}
+
 }

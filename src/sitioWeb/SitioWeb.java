@@ -1,5 +1,6 @@
 package sitioWeb;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -159,6 +160,11 @@ public class SitioWeb {
 	}
 
 	public void consolidarReserva(Reserva reserva) {
+		if (this.esReservaConflictivaEnFechas(reserva)) {
+
+			this.encolarReservaEn(reserva.getInmueble());
+
+		}
 
 		if (this.esUsuarioRegistrado(reserva.propietarioAsigando())) {
 
@@ -175,6 +181,16 @@ public class SitioWeb {
 		}
 	}
 
+	private void encolarReservaEn(Inmueble inmueble) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private boolean esReservaConflictivaEnFechas(Reserva reserva) {
+
+		return false;
+	}
+
 	public void anularReserva(Reserva reserva) {
 		if (this.esReservaRegistrada(reserva)) {
 			reserva.cancelarReserva();
@@ -182,11 +198,8 @@ public class SitioWeb {
 			email.enviarMail(reserva.mailPropietario(), "Reserva Cancelada", reserva);
 			// notificacion a obvservadores
 			this.notificarCancelacionDeInmueble(reserva.getInmueble());
-
 		}
-
 	}
-
 	// Validaciones
 
 	private boolean esUsuarioRegistrado(Usuario u) {
@@ -199,4 +212,15 @@ public class SitioWeb {
 		return this.validador.validarRegistro(reserva, this.getReservas());
 	}
 
+	public void solicitarReservaCondicional(Reserva reserva) {
+		if (this.esUsuarioRegistrado(reserva.getInquilino() && this.esReservaCondiconal(reserva))) {
+		
+		}
+
+	}
+
+	private boolean esReservaCondiconal(Reserva reserva) { // usuario que se quiere encolar
+		
+		return reserva.esCondicionalEn(reserva.getFechaEntrada(), reserva.getFechaSalida());
+ }
 }
