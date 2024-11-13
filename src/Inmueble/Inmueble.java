@@ -2,6 +2,7 @@ package Inmueble;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import politicaCancelacion.PoliticaCancelacion;
@@ -11,7 +12,7 @@ import tpgrupal.PrecioPorPeriodo;
 import tpgrupal.Servicio;
 import usuario.Propietario;
 
-public class Inmueble {
+public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa.13
 	private Propietario propietario;
 	private String tipo;
 	private double superficie;
@@ -29,9 +30,10 @@ public class Inmueble {
 	private Set<PrecioPorPeriodo> preciosPorPeriodos;
 	private double precioPorDia; // un valor por defecto(por si no es un periodo existente)
 	private PoliticaCancelacion politicaDeCancelacion;
-	private Set<Reserva> reservas;
-	
-	private Set<Reserva> reservasEncoladas;
+
+	private Set<Reserva> reservas; // reservasFuturas
+
+	private Queue<Reserva> reservasEncoladas;
 
 	public double calcularPrecioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
 		// calcula el precio de un rango de dias
@@ -59,7 +61,6 @@ public class Inmueble {
 
 	public void encolar(Reserva reserva) {
 		reservasEncoladas.add(reserva);
-		
 	}
 
 	public Propietario getPropietario() {
@@ -197,9 +198,40 @@ public class Inmueble {
 	}
 
 	public void verificarEncoladas(LocalDate fechaEntrada) {
-		
-		
+
 	}
 
+	public void agregarReservaCondicional(Reserva reserva) {
+		this.reservasEncoladas.add(reserva); // reserva duplicada
+
+	}
+/*
+	public void evaluarEncoladas(LocalDate fechaInicio, LocalDate fechaFin) {
+		if (reservasEncoladas != null && !reservasEncoladas.isEmpty()) {
+			// Encuentra la primera reserva encolada que interfiera con las fechas
+			// proporcionadas
+			reservasEncoladas.stream().filter(r -> r.reservaInterfiereCon(fechaInicio, fechaFin)).findFirst()
+					.ifPresent(reserva -> {
+						this.getPropietario().aceptarReserva(reserva);
+						reservasEncoladas.remove(reserva); // Elimina la reserva de la cola
+					});
+		}
+	}*/
+
+	public void agregarReserva(Reserva reserva) {
+		reservas.add(reserva);
+
+	}
+
+	public void eliminarReserva(Reserva reserva) {
+		reservas.remove(reserva);
+
+	}
+
+	public void evaluarReservasEncoladasParaInmueble() {
+			if(!reservasEncoladas.isEmpty())
+			this.getPropietario().evaluarSolicitudDeReserva(reservasEncoladas.poll());
+			
+	}
 
 }

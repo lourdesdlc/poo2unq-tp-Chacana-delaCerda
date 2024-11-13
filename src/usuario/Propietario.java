@@ -65,15 +65,16 @@ public class Propietario extends Usuario {
 		return inmuebles;
 	}
 
-	public void evaluarSolicitudDeReserva(Reserva reserva) {
+	public void evaluarSolicitudDeReserva(Reserva reserva) { // L y B
 		if (esPropietarioDelInmueble(reserva.inmueble())) {
 			reservasPropias.add(reserva); // " el tiempo de visualizar"
 		}
 	}
 
-	public void aceptarReserva(Reserva reserva) {
+	public void aceptarReserva(Reserva reserva) { // L
 		if (this.reservasPropias.contains(reserva)) {
-
+			
+			
 			sitioWeb.consolidarReserva(reserva);
 
 		} else

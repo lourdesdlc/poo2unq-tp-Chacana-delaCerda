@@ -159,17 +159,19 @@ public class SitioWeb {
 		}
 	}
 
-	public void consolidarReserva(Reserva reserva) {
-		if (this.esReservaCondicional(reserva)) {
+	public void consolidarReserva(Reserva reserva) { // Dic 3 
+		if (this.esReservaCondicional(reserva)) { // camino con conflicto
 
-			this.encolarReservaEn(reserva.getInmueble());
+			this.encolarReservaEn(reserva, reserva.getInmueble());
 
 		}
 
-		if (this.esUsuarioRegistrado(reserva.propietarioAsigando())) {
+		if (this.esUsuarioRegistrado(reserva.propietarioAsigando())) { // camino libre
 
 			this.reservas.add(reserva);
-
+			
+			reserva.getInmueble().agregarReserva(reserva); // reservas generales del inmueble
+			
 			reserva.confirmarReserva();
 			// email al inquilino
 			email.enviarMail(reserva.mailInquilino(), "Reserva Confirmada", reserva);
@@ -181,14 +183,24 @@ public class SitioWeb {
 		}
 	}
 
-	private void encolarReservaEn(Inmueble inmueble) {
-		// TODO Auto-generated method stub
+	private void encolarReservaEn(Reserva reserva, Inmueble inmueble) {
+
+		inmueble.agregarReservaCondicional(reserva);
 
 	}
 
 	public void anularReserva(Reserva reserva) {
 		if (this.esReservaRegistrada(reserva)) {
+			
 			reserva.cancelarReserva();
+			
+			//subaterea
+			reserva.getInmueble().eliminarReserva(reserva);
+			
+			//reserva.getInmueble().evaluarEncoladas(reserva.getFechaEntrada(), reserva.getFechaSalida());
+
+			reserva.getInmueble().evaluarReservasEncoladasParaInmueble();
+			
 			// email al Propietario
 			email.enviarMail(reserva.mailPropietario(), "Reserva Cancelada", reserva);
 			// notificacion a obvservadores
@@ -209,12 +221,13 @@ public class SitioWeb {
 
 	public void solicitarReservaCondicional(Reserva reserva) {
 		if (this.esUsuarioRegistrado(reserva.getInquilino()) && this.esReservaCondicional(reserva)) {
-			reserva.getInmueble().encolar(reserva);
+			reserva.getInmueble().getPropietario().evaluarSolicitudDeReserva(reserva);
+			//reserva.getInmueble().encolar(reserva);
 		}
 	}
 
 	private boolean esReservaCondicional(Reserva reserva) { // usuario que se quiere encolar
-		
-		return reserva.esCondicionalEn(reserva.getFechaEntrada(), reserva.getFechaSalida());
- }
+
+		return reserva.esCondicionalParaElInmueble(reserva.getFechaEntrada(), reserva.getFechaSalida());
+	}
 }

@@ -128,7 +128,7 @@ public class Reserva {
 		return this.getInmueble().getCiudad();
 	}
 
-	public boolean esCondicionalEn(LocalDate fechaIncio, LocalDate fechaFin) {
+	public boolean esCondicionalParaElInmueble(LocalDate fechaIncio, LocalDate fechaFin) {
 
 		return this.getInmueble().estaDisponibleParaLasFechas(fechaIncio, fechaFin);
 	}
