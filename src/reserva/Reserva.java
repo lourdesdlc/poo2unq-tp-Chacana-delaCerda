@@ -49,6 +49,7 @@ public class Reserva {
 
 	public void cancelarReserva() {
 		this.estado.cancelar();
+		inmueble.verificarEncoladas(fechaEntrada);
 	}
 
 	public LocalDate getFechaEntrada() {

@@ -160,7 +160,7 @@ public class SitioWeb {
 	}
 
 	public void consolidarReserva(Reserva reserva) {
-		if (this.esReservaConflictivaEnFechas(reserva)) {
+		if (this.esReservaCondicional(reserva)) {
 
 			this.encolarReservaEn(reserva.getInmueble());
 
@@ -186,11 +186,6 @@ public class SitioWeb {
 
 	}
 
-	private boolean esReservaConflictivaEnFechas(Reserva reserva) {
-
-		return false;
-	}
-
 	public void anularReserva(Reserva reserva) {
 		if (this.esReservaRegistrada(reserva)) {
 			reserva.cancelarReserva();
@@ -213,13 +208,12 @@ public class SitioWeb {
 	}
 
 	public void solicitarReservaCondicional(Reserva reserva) {
-		if (this.esUsuarioRegistrado(reserva.getInquilino() && this.esReservaCondiconal(reserva))) {
-		
+		if (this.esUsuarioRegistrado(reserva.getInquilino()) && this.esReservaCondicional(reserva)) {
+			reserva.getInmueble().encolar(reserva);
 		}
-
 	}
 
-	private boolean esReservaCondiconal(Reserva reserva) { // usuario que se quiere encolar
+	private boolean esReservaCondicional(Reserva reserva) { // usuario que se quiere encolar
 		
 		return reserva.esCondicionalEn(reserva.getFechaEntrada(), reserva.getFechaSalida());
  }

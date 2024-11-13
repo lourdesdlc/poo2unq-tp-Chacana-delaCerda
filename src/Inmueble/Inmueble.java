@@ -30,6 +30,8 @@ public class Inmueble {
 	private double precioPorDia; // un valor por defecto(por si no es un periodo existente)
 	private PoliticaCancelacion politicaDeCancelacion;
 	private Set<Reserva> reservas;
+	
+	private Set<Reserva> reservasEncoladas;
 
 	public double calcularPrecioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
 		// calcula el precio de un rango de dias
@@ -53,6 +55,11 @@ public class Inmueble {
 		// existentes
 
 		return reservas.stream().noneMatch(reserva -> reserva.reservaInterfiereCon(fechaEntrada, fechaSalida));
+	}
+
+	public void encolar(Reserva reserva) {
+		reservasEncoladas.add(reserva);
+		
 	}
 
 	public Propietario getPropietario() {
@@ -188,5 +195,11 @@ public class Inmueble {
 	public Double precio() {
 		return this.getPrecioPorDia();
 	}
+
+	public void verificarEncoladas(LocalDate fechaEntrada) {
+		
+		
+	}
+
 
 }
