@@ -10,7 +10,6 @@ public abstract class Interesado {
 	protected Set<String> inmuebleInteresado;
 
 	public Interesado(SitioWeb web, Set<String> inmuebleInteresado) {
-		super();
 		this.web = web;
 		this.inmuebleInteresado = inmuebleInteresado;
 	}

@@ -3,6 +3,7 @@ package reserva;
 import java.time.LocalDate;
 
 import Inmueble.Inmueble;
+import tpgrupal.FormaDePago;
 import usuario.Inquilino;
 import usuario.Propietario;
 
@@ -11,7 +12,7 @@ public class Reserva {
 	private Inmueble inmueble;
 	private LocalDate fechaEntrada;
 	private LocalDate fechaSalida;
-	private String formaDePago;
+	private FormaDePago formaDePago;
 	private EstadoReserva estado;
 
 	private double precioTotal;
@@ -80,15 +81,11 @@ public class Reserva {
 		return inquilino;
 	}
 
-	public String getFormaPago() {
+	public FormaDePago getFormaDePago() {
 		return formaDePago;
 	}
 
-	public String getFormaDePago() {
-		return formaDePago;
-	}
-
-	public void setFormaDePago(String formaDePago) {
+	public void setFormaDePago(FormaDePago formaDePago) {
 		this.formaDePago = formaDePago;
 	}
 

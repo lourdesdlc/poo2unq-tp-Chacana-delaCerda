@@ -10,7 +10,6 @@ public class FiltroCompuesto extends FiltroDeBusqueda {
 	private List<FiltroDeBusqueda> filtros = new ArrayList<>();
 
 	public FiltroCompuesto() {
-		super();
 		this.filtros = new ArrayList<>();
 	}
 

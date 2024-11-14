@@ -1,15 +1,10 @@
 package usuario;
 
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import Inmueble.Inmueble;
-import exepciones.UsuarioException;
 import politicaCancelacion.PoliticaCancelacion;
-import ranking.Ranking;
 import reserva.Reserva;
-import tpgrupal.*;
 
 public class Propietario extends Usuario {
 
@@ -18,7 +13,6 @@ public class Propietario extends Usuario {
 
 	public Propietario(String nombreCompleto, String email, String telefono) {
 		super(nombreCompleto, email, telefono);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void publicarInmuble(Inmueble inmueble) {

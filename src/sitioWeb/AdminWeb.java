@@ -3,8 +3,6 @@ package sitioWeb;
 import java.util.Set;
 
 import Inmueble.Inmueble;
-import Inmueble.TipoDeInmueble;
-import categoria.Categoria;
 import exepciones.CategoriaException;
 import ranking.Ranking;
 import ranking.RankingInmueble;
@@ -19,12 +17,18 @@ public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.
 	private Set<Ranking> rankings;
 
 	public AdminWeb(Set<String> categorias , Set<Servicio> serviciosInmuebles) {
-		super();
 		this.categorias = categorias;
-		
 		this.serviciosInmuebles = serviciosInmuebles;
 	}
 
+	public void darDeAltaServicioInmueble(Servicio servicio) {
+		this.serviciosInmuebles.add(servicio);
+	}
+	
+	public void eliminarServicioInmueble(Servicio servicio) {
+		this.serviciosInmuebles.remove(servicio);
+	}
+	
 	public Set<Inquilino> topTenInquilinos() {
 		// FALTA IMPLEMENTAR
 		return null;

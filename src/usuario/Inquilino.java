@@ -1,22 +1,15 @@
 package usuario;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+
+
 import java.util.List;
-import java.util.Set;
+
 
 import Inmueble.Inmueble;
 import filtroDeBusqueda.FiltroCompuesto;
-import filtroDeBusqueda.FiltroDeBusqueda;
-import filtroDeBusqueda.FiltroPorCantidadHuespedes;
-import filtroDeBusqueda.FiltroPorCiudad;
-import filtroDeBusqueda.FiltroPorFecha;
-import filtroDeBusqueda.FiltroPorPrecioMaximo;
-import filtroDeBusqueda.FiltroPorPrecioMinimo;
-import ranking.Rankeable;
-import ranking.Ranking;
+
 import reserva.Reserva;
-import tpgrupal.*;
+
 
 public class Inquilino extends Usuario {
 
