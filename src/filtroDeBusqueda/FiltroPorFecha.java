@@ -4,29 +4,17 @@ import java.time.LocalDate;
 
 import Inmueble.Inmueble;
 
-public class FiltroPorFecha extends FiltroDeBusqueda {
-
+public class FiltroPorFecha implements FiltroDeBusqueda {
 	private LocalDate fechaEntrada;
-	private LocalDate fechaSalida;
-
-	public FiltroPorFecha(LocalDate fechaEntrada, LocalDate fechaSalida) {
-		this.fechaEntrada = fechaEntrada;
-		this.fechaSalida = fechaSalida;
-	}
-
-	@Override
-	public boolean cumple(Inmueble inmueble) { // TESTAR
-		return inmueble.estaDisponibleParaLasFechas(fechaEntrada, fechaSalida);
-
-		/**
-		 * !inmueble.getCheckIn().isAfter(fechaSalida) &&
-		 * !inmueble.getCheckOut().isBefore(fechaEntrada)
-		 **/
-	}
-
-	@Override
-	public boolean esFiltroFecha() {
-		return true;
-	}
-
+    private LocalDate fechaSalida;
+    public FiltroPorFecha(LocalDate fechaEntrada, LocalDate fechaSalida) {
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+    }
+    @Override
+    public boolean cumple(Inmueble inmueble) {
+        //falta implementar
+    	//return inmueble.estaDisponibleEntre(fechaEntrada, fechaSalida);
+    	return true;
+    }
 }
