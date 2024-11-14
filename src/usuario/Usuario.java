@@ -21,16 +21,11 @@ public abstract class Usuario {
 	private Set<Reserva> reservas;
 
 	public Usuario(String nombreCompleto, String email, String telefono) {
-		super();
+
 		this.nombreCompleto = nombreCompleto;
 		this.email = email;
 		this.telefono = telefono;
 
-	}
-
-	// MISMO METODO PARA CADA RANKEADOR pero NO para RANKEABLE
-	public void rankear(Rankeable rankeable, Ranking ranking) {
-		rankeable.agregarRanking(ranking);
 	}
 
 	public void mostrarHistorial() {
