@@ -20,17 +20,13 @@ public class SitioWeb {
 	private AdminWeb admin;
 	private Set<Inmueble> inmuebles = new HashSet<>();
 	private Set<Usuario> usuarios = new HashSet<>();
-	private Set<Ranking> rankeados = new HashSet<>();
 	private Set<Interesado> interesados = new HashSet<>();
 	private Set<Reserva> reservas = new HashSet<>();
 	private EmailSender email;
 	private ValidadorGenerico validador; // si se cambia los requesitos de validacion, cambia la clase!
 
 	// GETTERS
-	public void agregarRanking(Ranking ranking) {
-		this.rankeados.add(ranking);
 
-	}
 
 	public AdminWeb getAdmin() {
 		return admin;
@@ -54,15 +50,6 @@ public class SitioWeb {
 
 	public void setUsuarios(Set<Usuario> usuarios) {
 		this.usuarios = usuarios;
-	}
-
-	public Set<Ranking> getRankingsRecibidos() {
-		return rankeados;
-	}
-
-	public void setRankingsRecibidos(Set<Ranking> rankingsRecibidos) {
-		this.rankeados = rankingsRecibidos;
-
 	}
 
 	public Set<Reserva> getReservas() {
