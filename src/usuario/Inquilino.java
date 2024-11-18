@@ -6,7 +6,7 @@ import java.util.List;
 
 
 import Inmueble.Inmueble;
-import filtroDeBusqueda.FiltroCompuesto;
+import filtroDeBusqueda.CriterioBusqueda;
 
 import reserva.Reserva;
 
@@ -18,9 +18,9 @@ public class Inquilino extends Usuario {
 
 	}
 
-	public List<Inmueble> buscarInmueble(FiltroCompuesto filtro) { // se deberia pasar al usario?
+	public List<Inmueble> buscarInmueble(CriterioBusqueda criterioBusqueda) { // se deberia pasar al usario?
 
-		return this.sitioWeb.buscarInmuebles(filtro);
+		return this.sitioWeb.buscarInmuebles(criterioBusqueda);
 	}
 
 	public void realizarReservaDe(Reserva reserva) {

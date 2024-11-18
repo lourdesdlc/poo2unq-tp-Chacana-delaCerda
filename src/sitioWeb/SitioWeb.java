@@ -1,17 +1,15 @@
 package sitioWeb;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import Inmueble.Inmueble;
 import Observadores.Interesado;
-import exepciones.FiltroException;
 import exepciones.UsuarioException;
-import filtroDeBusqueda.FiltroCompuesto;
+import filtroDeBusqueda.CriterioBusqueda;
 import notificaciones.EmailSender;
-import ranking.Ranking;
 import reserva.Reserva;
 import usuario.Propietario;
 import usuario.Usuario;
@@ -79,14 +77,11 @@ public class SitioWeb {
 		}
 	}
 
-	public List<Inmueble> buscarInmuebles(FiltroCompuesto filtro) { // testear
-
-		if (filtro.tieneFiltrosObligatorios())
-			return inmuebles.stream().filter(inmueble -> filtro.cumple(inmueble)).toList();
-		else {
-			throw new FiltroException("Error, Falta un filtro obligatorio");
-		}
-	}
+	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
+        return inmuebles.stream()
+                .filter(criterio::cumple)
+                .collect(Collectors.toList());
+    }
 
 	public void mostrarDetallesInmueble(Inmueble inmueble) {
 	}
