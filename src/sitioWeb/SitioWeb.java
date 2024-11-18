@@ -7,11 +7,9 @@ import java.util.stream.Collectors;
 
 import Inmueble.Inmueble;
 import Observadores.Interesado;
-import exepciones.UsuarioException;
 import filtroDeBusqueda.CriterioBusqueda;
 import notificaciones.EmailSender;
 import reserva.Reserva;
-import usuario.Propietario;
 import usuario.Usuario;
 
 public class SitioWeb {
@@ -85,7 +83,7 @@ public class SitioWeb {
 
 	public void mostrarDetallesInmueble(Inmueble inmueble) {
 	}
-
+/*
 	public void validarRankingPara(Usuario u, String comentario, int puntaje, String categoria) {
 		admin.validarRanking(u, comentario, puntaje, categoria);
 
@@ -96,7 +94,7 @@ public class SitioWeb {
 		admin.validarRankingDeInmueble(i, comentario, puntaje, categoria);
 
 	}
-
+*/
 	public void registrarIntereado(Interesado interesado) {
 
 		this.interesados.add(interesado);

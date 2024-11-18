@@ -1,49 +1,86 @@
 package sitioWeb;
 
-import java.util.Set;
+import java.util.List;
 
 import Inmueble.Inmueble;
-import exepciones.CategoriaException;
+import Inmueble.TipoInmueble;
+import categoria.Categoria;
 import ranking.Ranking;
-import ranking.RankingInmueble;
-import ranking.RankingUsuario;
 import tpgrupal.Servicio;
-import usuario.Inquilino;
 import usuario.Usuario;
 
 public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.
-	private Set<String> categorias;
-	private Set<Servicio> serviciosInmuebles;
-	private Set<Ranking> rankings;
+	private List<Servicio> serviciosInmuebles;
+	private List<TipoInmueble> tiposDeInmueble;
+	private List<Ranking> rankings;
+	
+	private List<Categoria> categoriasPropietario;
+	private List<Categoria> categoriasInquilino;
+	private List<Categoria> categoriasInmueble;
 
-	public AdminWeb(Set<String> categorias , Set<Servicio> serviciosInmuebles) {
-		this.categorias = categorias;
-		this.serviciosInmuebles = serviciosInmuebles;
+	public AdminWeb(List<TipoInmueble> tiposDeInmueble, List<Categoria> categoriasPropietario,
+			List<Categoria> categoriasInquilino, List<Categoria> categoriasInmueble, List<Servicio> serviciosInmuebles) {
+		this.tiposDeInmueble.addAll(tiposDeInmueble);
+		this.categoriasPropietario.addAll(categoriasPropietario);
+		this.categoriasInquilino.addAll(categoriasInquilino);
+		this.categoriasInmueble.addAll(categoriasInmueble);
+		this.serviciosInmuebles.addAll(serviciosInmuebles);
+		
 	}
-
+	
+	public void darDeAltaTipoInmueble(TipoInmueble tipoInmueble) {
+		this.tiposDeInmueble.add(tipoInmueble);
+	}
+	
+	public void darDeAltaCategoriaPropietario(Categoria categoria) {
+		this.categoriasPropietario.add(categoria);
+	}
+	
+	public void darDeAltaCategoriaInquilino(Categoria categoria) {
+		this.categoriasInquilino.add(categoria);
+	}
+	
+	public void darDeAltaCategoriaInmueble(Categoria categoria) {
+		this.categoriasInmueble.add(categoria);
+	}
+	
 	public void darDeAltaServicioInmueble(Servicio servicio) {
 		this.serviciosInmuebles.add(servicio);
+	}
+	
+	public void eliminarTipoInmueble(TipoInmueble tipoInmueble) {
+		this.tiposDeInmueble.remove(tipoInmueble);
+	}
+	
+	public void eliminarCategoriaPropietario(Categoria categoria) {
+		this.categoriasPropietario.remove(categoria);
+	}
+	
+	public void eliminarCategoriaInquilino(Categoria categoria) {
+		this.categoriasInquilino.remove(categoria);
+	}
+	
+	public void eliminarCategoriaInmueble(Categoria categoria) {
+		this.categoriasInmueble.remove(categoria);
 	}
 	
 	public void eliminarServicioInmueble(Servicio servicio) {
 		this.serviciosInmuebles.remove(servicio);
 	}
 	
-	public Set<Inquilino> topTenInquilinos() {
-		// FALTA IMPLEMENTAR
+	public List<Usuario> topTenInquilinos() {
+		//FALTA IMPLEMENTAR 
 		return null;
 	}
-
-	public Set<Inmueble> inmueblesLibres() {
-		// FALTA IMPLEMENTAR
+	public List<Inmueble> inmueblesLibres() {
+		//FALTA IMPLEMENTAR  
 		return null;
 	}
-
 	public double tasaOcupacion() {
-		// FALTA IMPLEMENTAR
+		//FALTA IMPLEMENTAR  
 		return 0;
 	}
-
+/*
 	public void validarRanking(Usuario u, String comentario, int puntaje, String categoria) {
 		if (categorias.contains(categoria)) {
 			RankingUsuario r = new RankingUsuario(comentario, puntaje, categoria, u); // DAR DE ALTA
@@ -61,5 +98,5 @@ public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.
 			throw new IllegalArgumentException("La categoria no está registrada en el sistema.");
 		}
 	}
-
+*/
 }
