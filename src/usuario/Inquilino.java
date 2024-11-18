@@ -1,39 +1,22 @@
 package usuario;
 
 
-
 import java.util.List;
-
-
-import Inmueble.Inmueble;
-import filtroDeBusqueda.CriterioBusqueda;
 
 import reserva.Reserva;
 
 
-public class Inquilino extends Usuario {
+public interface Inquilino{
 
-	public Inquilino(String nombreCompleto, String email, String telefono) {
-		super(nombreCompleto, email, telefono);
+	public void agregarReserva(Reserva reserva);
 
-	}
-
-	public List<Inmueble> buscarInmueble(CriterioBusqueda criterioBusqueda) { // se deberia pasar al usario?
-
-		return this.sitioWeb.buscarInmuebles(criterioBusqueda);
-	}
-
-	public void realizarReservaDe(Reserva reserva) {
-
-		this.sitioWeb.solicitarReserva(reserva);
-	}
-
-	public void realizarReservaCondicional(Reserva reserva) {
-		this.sitioWeb.solicitarReservaCondicional(reserva);
-	}
-
-	public void cancelarReserva(Reserva reserva) {
-		this.sitioWeb.anularReserva(reserva);
-	}
-
+	public void cancelarReserva(Reserva reserva);
+	
+	public List<Reserva> getReservas();
+	
+	public List<Reserva> getReservasFuturas();
+	
+	public List<Reserva> getReservasPorCiudad(String ciudad);
+	
+	public List<String> getCiudadesConReservas();
 }

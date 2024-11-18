@@ -1,45 +1,93 @@
 package usuario;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 import Inmueble.Inmueble;
-import ranking.Rankeable;
 import ranking.Ranking;
 
 import reserva.Reserva;
 import sitioWeb.SitioWeb;
 
-public abstract class Usuario {
+public class Usuario implements Propietario, Inquilino{
 	private String nombreCompleto;
 	private String email;
 	private String telefono;
 	protected SitioWeb sitioWeb;
-	private LocalDate antiguedadEnElSitio; // se establece una vez que se logea
-	private Set<Reserva> reservas;
+	private LocalDate fechaDeCreacion;
+	private List<Reserva> reservas;
+	private List<Inmueble> inmuebles;
+	private List<Ranking> rankings;
+	
+	public Usuario(String nombre, String email, String telefono) {
+        setNombreCompleto(nombre);
+        setEmail(email);
+        setTelefono(telefono);
+        fechaDeCreacion = LocalDate.now();
+        reservas = new ArrayList<>();
+        inmuebles = new ArrayList<>();
+        rankings = new ArrayList<>();
+    }
 
-	public Usuario(String nombreCompleto, String email, String telefono) {
-
-		this.nombreCompleto = nombreCompleto;
-		this.email = email;
-		this.telefono = telefono;
-
+	@Override
+	public void agregarReserva(Reserva reserva) {
+		reservas.add(reserva);
+		
 	}
 
-	public void mostrarHistorial() {
-		// información propia del dueño, el puntaje que otros usuarios le han dado a él
-		// mismo
-		// y el puntaje promedio que ha obtenido
-		// LO MISMO PARA INQUILINO
-	};
+	@Override
+	public void cancelarReserva(Reserva reserva) {
+		// TODO Auto-generated method stub
+		
+	}
 
-	public Set<Reserva> getReservas() {
+	@Override
+	public void agregarInmueble(Inmueble inmueble) {
+		inmuebles.add(inmueble);
+		
+	}
+	
+    public void puntuar(Ranking ranking) {
+        //validar CheckOut
+        //validar categoria del ranking
+        rankings.add(ranking);
+    }
+	
+	@Override
+	public List<Inmueble> getInmuebles() {
+		return inmuebles;
+	}
+
+	public void getAntiguedad() {
+		//FALTA IMPLEMENTAR
+	}
+
+	public List<Reserva> getReservas() {
 		return reservas;
 	}
+	
+	public List<Reserva> getReservasFuturas() {
+		LocalDate fechaDeHoy = LocalDate.now();
 
-	public void setReservas(Set<Reserva> reservas) {
+		return reservas.stream().
+				filter(reserva -> reserva.getFechaEntrada().isAfter(fechaDeHoy))
+				.toList();
+	}
+
+	public List<Reserva> getReservasPorCiudad(String ciudad) {
+		return reservas.stream().
+				filter(reserva -> reserva.ciudadDeReserva().equalsIgnoreCase(ciudad))
+				.toList();
+	}
+
+	public List<String> getCiudadesConReservas() {
+		return reservas.stream()
+				.map(reserva -> reserva.ciudadDeReserva())
+				.toList();
+	}
+
+	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
 
@@ -54,21 +102,9 @@ public abstract class Usuario {
 	public String getTelefono() {
 		return telefono;
 	}
-
-	public void rankearA(Usuario u, String categoria, String comentario, int puntaje) {
-		sitioWeb.validarRankingPara(u, comentario, puntaje, categoria);
-	}
-
-	public void rankearA(Inmueble i, String categoria, String comentario, int puntaje) {
-		sitioWeb.validarRankingPara(i, comentario, puntaje, categoria);
-	}
-
+	
 	public SitioWeb getSitioWeb() {
 		return sitioWeb;
-	}
-
-	public void setSitioWeb(SitioWeb sitioWeb) {
-		this.sitioWeb = sitioWeb;
 	}
 
 	public void setNombreCompleto(String nombreCompleto) {
@@ -83,48 +119,8 @@ public abstract class Usuario {
 		this.telefono = telefono;
 	}
 
-	public LocalDate getAntiguedadEnElSitio() {
-		return antiguedadEnElSitio;
+	public LocalDate getfechaDeCreacion() {
+		return fechaDeCreacion;
 	}
 
-	public void setAntiguedadEnElSitio(LocalDate localTime) {
-		this.antiguedadEnElSitio = localTime;
-	}
-
-	public void registrarseEnSitioWeb(SitioWeb sitioWeb) {
-		this.setSitioWeb(sitioWeb);
-		sitioWeb.registrarUsuario(this);
-	}
-
-	public void darFechaInicioEnWeb() {
-		this.setAntiguedadEnElSitio(LocalDate.now()); // espero que esto no de problemas en los futuros test
-
-	}
-
-	public void asignarWeb(SitioWeb web) {
-		this.sitioWeb = web;
-
-	}
-
-	public Set<Reserva> verReservasPropias() {
-		return this.getReservas();
-	}
-
-	// Las reservas futuras: muestra aquellas reservas con fecha de ingreso
-
-	public Set<Reserva> verReservasFuturas() {
-		LocalDate fechaDeHoy = LocalDate.now();
-
-		return this.getReservas().stream().filter(reserva -> reserva.getFechaEntrada().isAfter(fechaDeHoy))
-				.collect(Collectors.toSet());
-	}
-
-	public Set<Reserva> verReservasPorCiudad(String ciudad) {
-		return this.getReservas().stream().filter(reserva -> reserva.ciudadDeReserva().equalsIgnoreCase(ciudad))
-				.collect(Collectors.toSet());
-	}
-
-	public Set<String> verCiudadesConReservas() {
-		return this.getReservas().stream().map(reserva -> reserva.ciudadDeReserva()).collect(Collectors.toSet());
-	}
 }

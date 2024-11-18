@@ -1,11 +1,14 @@
 package Inmueble;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
 import politicaCancelacion.PoliticaCancelacion;
+import ranking.Ranking;
 import reserva.Reserva;
 import tpgrupal.FormaDePago;
 import tpgrupal.PrecioPorPeriodo;
@@ -14,36 +17,60 @@ import usuario.Propietario;
 
 public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa.13
 	private Propietario propietario;
-	private String tipo;
+	private TipoInmueble tipoDeInmueble;
 	private double superficie;
 	private String pais;
 	private String ciudad;
 	private String direccion;
 	private int capacidad;
 	private List<String> fotos; // Máximo de 5 fotos
-	private LocalDate checkIn; // 9 am
-	private LocalDate checkOut; // 10pm
+	private LocalTime checkIn; //representa solo la hora, formato: hh:mm:ss.nnn (hora:minuto.nanosegundo).
+	private LocalTime checkOut; 
 	private List<Servicio> servicios;
 	// Enum FormaDePago
-	private Set<FormaDePago> formasDePago;
+	private List<FormaDePago> formasDePago;
 	// Lista de períodos con precios variables
-	private Set<PrecioPorPeriodo> preciosPorPeriodos;
-	private double precioPorDia; // un valor por defecto(por si no es un periodo existente)
+	private List<PrecioPorPeriodo> preciosPorPeriodos;
+	private double precioBasePorDia; // un valor por defecto(por si no es un periodo existente)
 	private PoliticaCancelacion politicaDeCancelacion;
-
+	private List<Ranking> rankings = new ArrayList<>();
 	private Set<Reserva> reservas; // reservasFuturas
 
 	private Queue<Reserva> reservasEncoladas;
-
-	public double calcularPrecioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
+	
+	 public Inmueble(Propietario propietario, TipoInmueble tipoDeInmueble, 
+			 int superficie, String pais, String ciudad, String direccion, 
+			 List<Servicio> servicios, int capacidad, List<String> fotos, 
+			 LocalTime checkIn, LocalTime checkOut, 
+			 List<FormaDePago> formasDePago, double precioBasePorDia) {
+	        this.propietario = propietario;
+	        this.tipoDeInmueble = tipoDeInmueble;
+	        this.superficie = superficie;
+	        this.pais = pais;
+	        this.ciudad = ciudad;
+	        this.direccion = direccion;
+	        this.servicios = servicios;
+	        this.capacidad = capacidad;
+	        this.fotos = fotos;
+	        this.checkIn = checkIn;
+	        this.checkOut = checkOut;
+	        this.formasDePago = formasDePago;
+	        this.precioBasePorDia = precioBasePorDia;
+	    }
+	
+	public double getPrecio(LocalDate fechaInicio, LocalDate fechaFin) {
 		// calcula el precio de un rango de dias
 		// algunos dias podrian ser estandar y otros de periodos especiales
-		return fechaInicio.datesUntil(fechaFin.plusDays(1)).mapToDouble(this::obtenerPrecioParaFecha).sum();
+		return fechaInicio.datesUntil(fechaFin.plusDays(1))
+				.mapToDouble(this::precioParaFecha).sum();
 	}
-
-	private double obtenerPrecioParaFecha(LocalDate fecha) {
-		return preciosPorPeriodos.stream().filter(periodo -> periodo.incluye(fecha))
-				.map(PrecioPorPeriodo::getPrecioPorDia).findFirst().orElse(precioPorDia);
+	
+	private double precioParaFecha(LocalDate fecha) {
+		return preciosPorPeriodos.stream()
+				.filter(periodo -> periodo.incluye(fecha))
+				.map(PrecioPorPeriodo::getPrecioPorDia)
+				.findFirst()
+				.orElse(precioBasePorDia);
 	}
 
 	public double calcularPenalidadPorCancelacion(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal) {
@@ -59,24 +86,31 @@ public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa
 		return reservas.stream().noneMatch(reserva -> reserva.reservaInterfiereCon(fechaEntrada, fechaSalida));
 	}
 
-	public void encolar(Reserva reserva) {
-		reservasEncoladas.add(reserva);
+	public void cambiarPolitica(PoliticaCancelacion politica) { // doble encapsulamiento
+		//L: No me parece necesario
+		this.setPoliticaDeCancelacion(politica);
+	}
+	
+	public void setPoliticaDeCancelacion(PoliticaCancelacion politica){
+		this.politicaDeCancelacion = politica;
+	}
+	
+	public void agregarReserva(Reserva reserva) {
+		reservas.add(reserva);
+		
+	}
+	
+	public void eliminarReserva(Reserva reserva) {
+		reservas.remove(reserva);
+		
 	}
 
 	public Propietario getPropietario() {
 		return propietario;
 	}
 
-	public void setPropietario(Propietario propietario) {
-		this.propietario = propietario;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public TipoInmueble getTipo() {
+		return tipoDeInmueble;
 	}
 
 	public double getSuperficie() {
@@ -127,19 +161,19 @@ public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa
 		this.fotos = fotos;
 	}
 
-	public LocalDate getCheckIn() {
+	public LocalTime getCheckIn() {
 		return checkIn;
 	}
 
-	public void setCheckIn(LocalDate checkIn) {
+	public void setCheckIn(LocalTime checkIn) {
 		this.checkIn = checkIn;
 	}
 
-	public LocalDate getCheckOut() {
+	public LocalTime getCheckOut() {
 		return checkOut;
 	}
 
-	public void setCheckOut(LocalDate checkOut) {
+	public void setCheckOut(LocalTime checkOut) {
 		this.checkOut = checkOut;
 	}
 
@@ -148,53 +182,51 @@ public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa
 	}
 
 	public void setServicios(List<Servicio> servicios) {
+		//L: No me parece necesario, yo pondria "agregar/eliminar servicio" en todo caso
 		this.servicios = servicios;
 	}
 
-	public Set<FormaDePago> getFormasDePago() {
+	public List<FormaDePago> getFormasDePago() {
 		return formasDePago;
 	}
 
-	public void setFormasDePago(Set<FormaDePago> formasDePago) {
+	public void setFormasDePago(List<FormaDePago> formasDePago) {
+		//L: No me parece necesario, yo pondria "agregar/eliminar forma de pago" en todo caso
 		this.formasDePago = formasDePago;
 	}
 
-	public Set<PrecioPorPeriodo> getPreciosPorPeriodos() {
+	public List<PrecioPorPeriodo> getPreciosPorPeriodos() {
 		return preciosPorPeriodos;
-	}
-
-	public void setPreciosPorPeriodos(Set<PrecioPorPeriodo> preciosPorPeriodos) {
-		this.preciosPorPeriodos = preciosPorPeriodos;
 	}
 
 	public PoliticaCancelacion getTipoDeCancelacion() {
 		return politicaDeCancelacion;
 	}
 
-	public void setTipoDeCancelacion(PoliticaCancelacion tipoDeCancelacion) {
-		this.politicaDeCancelacion = tipoDeCancelacion;
-	}
-
-	public void cambiarPolitica(PoliticaCancelacion p) { // doble encapsulamiento
-		this.setTipoDeCancelacion(p);
-
-	}
-
 	public double getPrecioPorDia() {
-		return precioPorDia;
+		return precioBasePorDia;
 	}
 
 	public void setPrecioPorDia(double precioPorDia) {
-		this.precioPorDia = precioPorDia;
+		this.precioBasePorDia = precioPorDia;
 	}
 
 	public void cambiarPrecio(Double monto) {
+		//L: No me parece necesario
 		this.setPrecioPorDia(monto);
 
 	}
 
-	public Double precio() {
-		return this.getPrecioPorDia();
+	public double precioBasePorDia() {
+		return precioBasePorDia;
+	}
+	
+	public TipoInmueble getTipoDeInmueble() {
+		return tipoDeInmueble;
+	}
+/*
+	public void encolar(Reserva reserva) {
+		reservasEncoladas.add(reserva);
 	}
 
 	public void verificarEncoladas(LocalDate fechaEntrada) {
@@ -205,7 +237,6 @@ public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa
 		this.reservasEncoladas.add(reserva); // reserva duplicada
 
 	}
-/*
 	public void evaluarEncoladas(LocalDate fechaInicio, LocalDate fechaFin) {
 		if (reservasEncoladas != null && !reservasEncoladas.isEmpty()) {
 			// Encuentra la primera reserva encolada que interfiera con las fechas
@@ -216,22 +247,14 @@ public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa
 						reservasEncoladas.remove(reserva); // Elimina la reserva de la cola
 					});
 		}
-	}*/
-
-	public void agregarReserva(Reserva reserva) {
-		reservas.add(reserva);
-
 	}
 
-	public void eliminarReserva(Reserva reserva) {
-		reservas.remove(reserva);
-
-	}
 
 	public void evaluarReservasEncoladasParaInmueble() {
 			if(!reservasEncoladas.isEmpty())
 			this.getPropietario().evaluarSolicitudDeReserva(reservasEncoladas.poll());
 			
 	}
+ */
 
 }

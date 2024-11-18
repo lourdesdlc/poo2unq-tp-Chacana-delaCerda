@@ -48,28 +48,28 @@ class FiltroDeBusquedaTest {
 
     @Test
     void testFiltroPorPrecioMaximo_Cumple() {
-        when(inmueble.calcularPrecioParaRango(any(), any())).thenReturn(500.0);
+        when(inmueble.getPrecio(any(), any())).thenReturn(500.0);
         FiltroPorPrecioMaximo filtro = new FiltroPorPrecioMaximo(600.0, LocalDate.now(), LocalDate.now().plusDays(5));
         assertTrue(filtro.cumple(inmueble));
     }
 
     @Test
     void testFiltroPorPrecioMaximo_NoCumple() {
-        when(inmueble.calcularPrecioParaRango(any(), any())).thenReturn(800.0);
+        when(inmueble.getPrecio(any(), any())).thenReturn(800.0);
         FiltroPorPrecioMaximo filtro = new FiltroPorPrecioMaximo(600.0, LocalDate.now(), LocalDate.now().plusDays(5));
         assertFalse(filtro.cumple(inmueble));
     }
 
     @Test
     void testFiltroPorPrecioMinimo_Cumple() {
-        when(inmueble.calcularPrecioParaRango(any(), any())).thenReturn(800.0);
+        when(inmueble.getPrecio(any(), any())).thenReturn(800.0);
         FiltroPorPrecioMinimo filtro = new FiltroPorPrecioMinimo(700.0, LocalDate.now(), LocalDate.now().plusDays(5));
         assertTrue(filtro.cumple(inmueble));
     }
 
     @Test
     void testFiltroPorPrecioMinimo_NoCumple() {
-        when(inmueble.calcularPrecioParaRango(any(), any())).thenReturn(500.0);
+        when(inmueble.getPrecio(any(), any())).thenReturn(500.0);
         FiltroPorPrecioMinimo filtro = new FiltroPorPrecioMinimo(600.0, LocalDate.now(), LocalDate.now().plusDays(5));
         assertFalse(filtro.cumple(inmueble));
     }
@@ -82,7 +82,7 @@ class FiltroDeBusquedaTest {
 
         LocalDate fechaInicio = LocalDate.now();
         LocalDate fechaFin = fechaInicio.plusDays(5);
-        when(inmueble.calcularPrecioParaRango(any(), any())).thenReturn(500.0);
+        when(inmueble.getPrecio(any(), any())).thenReturn(500.0);
 
         CriterioBusqueda criterio = new CriterioBusqueda("Buenos Aires", fechaInicio, fechaFin)
             .agregarFiltro(new FiltroPorCantidadHuespedes(3))
@@ -99,7 +99,7 @@ class FiltroDeBusquedaTest {
 
         LocalDate fechaInicio = LocalDate.now();
         LocalDate fechaFin = fechaInicio.plusDays(5);
-        when(inmueble.calcularPrecioParaRango(any(), any())).thenReturn(700.0);
+        when(inmueble.getPrecio(any(), any())).thenReturn(700.0);
 
         CriterioBusqueda criterio = new CriterioBusqueda("Buenos Aires", fechaInicio, fechaFin)
             .agregarFiltro(new FiltroPorCantidadHuespedes(3))

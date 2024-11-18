@@ -6,9 +6,10 @@ import Inmueble.Inmueble;
 import tpgrupal.FormaDePago;
 import usuario.Inquilino;
 import usuario.Propietario;
+import usuario.Usuario;
 
 public class Reserva {
-	private Inquilino inquilino;
+	private Usuario inquilino;
 	private Inmueble inmueble;
 	private LocalDate fechaEntrada;
 	private LocalDate fechaSalida;
@@ -17,7 +18,7 @@ public class Reserva {
 
 	private double precioTotal;
 
-	public Reserva(Inquilino inquilino, Inmueble inmueble) {
+	public Reserva(Usuario inquilino, Inmueble inmueble) {
 		this.inquilino = inquilino;
 		this.inmueble = inmueble;
 		this.estado = new ReservaPendiente(); // Estado inicial
@@ -45,12 +46,12 @@ public class Reserva {
 	public double precioTotal() {
 		// retorna el valor total de la reserva.
 		// le delega el calculo al inmbueble reservado
-		return inmueble.calcularPrecioParaRango(fechaEntrada, fechaSalida);
+		return inmueble.getPrecio(fechaEntrada, fechaSalida);
 	}
 
 	public void cancelarReserva() {
 		this.estado.cancelar();
-		inmueble.verificarEncoladas(fechaEntrada);
+		//inmueble.verificarEncoladas(fechaEntrada);
 	}
 
 	public LocalDate getFechaEntrada() {
@@ -77,7 +78,7 @@ public class Reserva {
 		return inmueble;
 	}
 
-	public Inquilino getInquilino() {
+	public Usuario getInquilino() {
 		return inquilino;
 	}
 
@@ -97,7 +98,7 @@ public class Reserva {
 		this.estado = estado;
 	}
 
-	public void setInquilino(Inquilino inquilino) {
+	public void setInquilino(Usuario inquilino) {
 		this.inquilino = inquilino;
 	}
 
@@ -114,12 +115,12 @@ public class Reserva {
 
 		return this.inquilino.getEmail();
 	}
-
+/*
 	public String mailPropietario() {
 		// TODO Auto-generated method stub
 		return this.inmueble.getPropietario().getEmail();
 	}
-
+*/
 	public String ciudadDeReserva() {
 
 		return this.getInmueble().getCiudad();

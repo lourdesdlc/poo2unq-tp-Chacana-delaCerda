@@ -61,7 +61,7 @@ public class SitioWeb {
 	public void registrarUsuario(Usuario u) {
 
 		this.registrarNuevoUsuario(u);
-		u.darFechaInicioEnWeb(); // la antiguedad
+		//u.darFechaInicioEnWeb(); // la antiguedad
 	}
 
 	private void registrarNuevoUsuario(Usuario u) {
@@ -69,14 +69,14 @@ public class SitioWeb {
 	}
 
 	// pensar en clase Validador.
-	public void registrarInmuebleDe(Inmueble inmueble, Propietario propietario) {
+/*	public void registrarInmuebleDe(Inmueble inmueble, Propietario propietario) {
 		if (esUsuarioRegistrado(propietario)) {
 			inmuebles.add(inmueble);
 		} else {
 			throw new UsuarioException("Error, debes registrarte en la Web para publicar");
 		}
 	}
-
+*/
 	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
         return inmuebles.stream()
                 .filter(criterio::cumple)
@@ -107,8 +107,12 @@ public class SitioWeb {
 		this.interesados.remove(interesado);
 
 	}
-
-	// OBSERVER COMPORTAMIENTO
+	
+	
+//COMENTADO PARA QUE NO DE ERROR
+	
+	
+/*	// OBSERVER COMPORTAMIENTO
 	// Método general para enviar notificaciones
 	private void enviarNotificacion(String mensaje, String tipoInmueble) {
 		interesados.stream().forEach(interesado -> interesado.recibirNotificacionDe(mensaje, tipoInmueble));
@@ -119,7 +123,6 @@ public class SitioWeb {
 		enviarNotificacion(mensaje, i.getTipo());
 
 	}
-
 	public void notificarCancelacionDeInmueble(Inmueble i) {
 		String mensaje = "El/la " + i.getTipo() + " que te interesa se ha liberado! Corre a reservarlo!";
 		enviarNotificacion(mensaje, i.getTipo());
@@ -212,4 +215,5 @@ public class SitioWeb {
 
 		return reserva.esCondicionalParaElInmueble(reserva.getFechaEntrada(), reserva.getFechaSalida());
 	}
+ */
 }
