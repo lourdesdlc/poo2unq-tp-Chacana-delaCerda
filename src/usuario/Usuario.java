@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Inmueble.Inmueble;
 import ranking.Ranking;
@@ -88,6 +89,28 @@ public class Usuario implements Propietario, Inquilino{
 				.toList();
 	}
 
+	public void agregarRanking(Ranking ranking) {
+        rankings.add(ranking);
+    }
+	
+    public List<Ranking> getRankings() {
+        return new ArrayList<>(rankings);
+    }
+    
+    @Override
+    public List<String> getComentarios() {
+        return rankings.stream()  
+                .map(Ranking::getComentario) 
+                .collect(Collectors.toList());
+    }
+
+    public double getPuntajePromedio() {
+        return rankings.stream()          
+                .mapToDouble(Ranking::getPuntajePromedio) 
+                .average()                           
+                .orElse(0.0);                        
+    }
+	
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
@@ -123,5 +146,6 @@ public class Usuario implements Propietario, Inquilino{
 	public LocalDate getfechaDeCreacion() {
 		return fechaDeCreacion;
 	}
+
 
 }

@@ -3,10 +3,11 @@ package usuario;
 
 import java.util.List;
 
+import ranking.Rankeable;
 import reserva.Reserva;
 
 
-public interface Inquilino{
+public interface Inquilino extends Rankeable{
 
 	public void agregarReserva(Reserva reserva);
 

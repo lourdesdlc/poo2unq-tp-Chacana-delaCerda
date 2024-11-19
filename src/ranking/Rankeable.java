@@ -1,13 +1,18 @@
 package ranking;
 
+import java.util.List;
+
 public interface Rankeable {
 
 	public void agregarRanking(Ranking ranking);
 
-	public Ranking obtenerRankings(Ranking ranking);
+	public List<Ranking> getRankings();
 
-	public String obtenerComentariosDe(Ranking ranking);
+	public List<String> getComentarios();
 
-	public double obtenerPromedioPuntajeDe(Ranking ranking);
+	public double getPuntajePromedio();
+	
+	//public double getPuntajePromedioPorCategoria(Categoria c);
+	//o public Map<Categoria, int> getPuntajePromedioPorCategoria(); ??
 
 }
