@@ -1,88 +1,114 @@
 package sitioWeb;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import Inmueble.Inmueble;
-import Observadores.Interesado;
+import Inmueble.TipoInmueble;
+import categoria.Categoria;
+import categoria.TipoRankeable;
 import filtroDeBusqueda.CriterioBusqueda;
-import notificaciones.EmailSender;
-import reserva.Reserva;
+import tpgrupal.Servicio;
 import usuario.Usuario;
 
 public class SitioWeb {
-	private AdminWeb admin;
-	private Set<Inmueble> inmuebles = new HashSet<>();
-	private Set<Usuario> usuarios = new HashSet<>();
-	private Set<Interesado> interesados = new HashSet<>();
-	private Set<Reserva> reservas = new HashSet<>();
-	private EmailSender email;
-	private ValidadorGenerico validador; // si se cambia los requesitos de validacion, cambia la clase!
+	private List<Usuario> usuarios = new ArrayList<>();
+	private List<Servicio> serviciosInmuebles = new ArrayList<>();
+	private List<TipoInmueble> tiposDeInmueble = new ArrayList<>();
+	private List<Categoria> categorias = new ArrayList<>();
 
-	// GETTERS
-
-
-	public AdminWeb getAdmin() {
-		return admin;
+	public SitioWeb(List<TipoInmueble> tiposDeInmueble, List<Categoria> categorias, List<Servicio> serviciosInmuebles) {
+		this.tiposDeInmueble.addAll(tiposDeInmueble);
+		this.categorias.addAll(categorias);
+		this.serviciosInmuebles.addAll(serviciosInmuebles);
+		
 	}
 
-	public void setAdmin(AdminWeb admin) {
-		this.admin = admin;
+	public void registrarUsuario(Usuario usuario) {
+		this.usuarios.add(usuario);
 	}
 
-	public Set<Inmueble> getInmuebles() {
-		return inmuebles;
-	}
+	private List<Inmueble> getInmuebles(){
+        return usuarios.stream()
+        		.flatMap(u -> u.getInmuebles().stream())
+        		.collect(Collectors.toList());
+    }
+	
+	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
+        return this.getInmuebles().stream()
+                .filter(criterio::cumple)
+                .collect(Collectors.toList());
+    }
 
-	public void setInmuebles(Set<Inmueble> inmuebles) {
-		this.inmuebles = inmuebles;
+	public void mostrarDetallesInmueble(Inmueble inmueble) {
+		
 	}
+	
+	public List<Categoria> getListaDeCategoriasValidas(TipoRankeable tipoRankeable) {
+        return categorias.stream()
+                         .filter(categoria -> categoria.getTipoRankeable() == (tipoRankeable))
+                         .toList();
+    }
+	
+	public boolean esCategoriaValida(Categoria categoria){
+        return getListaDeCategoriasValidas(categoria.getTipoRankeable())
+        		.contains(categoria);
+    }
 
-	public Set<Usuario> getUsuarios() {
+	public void darDeAltaTipoInmueble(TipoInmueble tipoInmueble) {
+		this.tiposDeInmueble.add(tipoInmueble);
+	}
+	
+	public void darDeAltaCategoria(Categoria categoria) {
+		this.categorias.add(categoria);
+	}
+	
+	public void darDeAltaServicioInmueble(Servicio servicio) {
+		this.serviciosInmuebles.add(servicio);
+	}
+	
+	public void eliminarTipoInmueble(TipoInmueble tipoInmueble) {
+		this.tiposDeInmueble.remove(tipoInmueble);
+	}
+	
+	public void eliminarCategoria(Categoria categoria) {
+		this.categorias.remove(categoria);
+	}
+	
+	public void eliminarServicioInmueble(Servicio servicio) {
+		this.serviciosInmuebles.remove(servicio);
+	}
+	
+	public List<Usuario> topTenInquilinos() {
+		//FALTA IMPLEMENTAR 
+		return null;
+	}
+	public List<Inmueble> inmueblesLibres() {
+		//FALTA IMPLEMENTAR  
+		return null;
+	}
+	
+	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
-
-	public void setUsuarios(Set<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	
+	public double tasaOcupacion() {
+		//FALTA IMPLEMENTAR  
+		return 0;
 	}
-
-	public Set<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(Set<Reserva> reservas) {
-		this.reservas = reservas;
-	}
-
-	public void registrarUsuario(Usuario u) {
-
-		this.registrarNuevoUsuario(u);
-		//u.darFechaInicioEnWeb(); // la antiguedad
-	}
-
-	private void registrarNuevoUsuario(Usuario u) {
-		usuarios.add(u);
-	}
-
+	
+//COMENTADO PARA QUE NO DE ERROR
+	
 	// pensar en clase Validador.
-/*	public void registrarInmuebleDe(Inmueble inmueble, Propietario propietario) {
+	/*	public void registrarInmuebleDe(Inmueble inmueble, Propietario propietario) {
 		if (esUsuarioRegistrado(propietario)) {
 			inmuebles.add(inmueble);
 		} else {
 			throw new UsuarioException("Error, debes registrarte en la Web para publicar");
 		}
 	}
-*/
-	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
-        return inmuebles.stream()
-                .filter(criterio::cumple)
-                .collect(Collectors.toList());
-    }
-
-	public void mostrarDetallesInmueble(Inmueble inmueble) {
-	}
+	 */
 /*
 	public void validarRankingPara(Usuario u, String comentario, int puntaje, String categoria) {
 		admin.validarRanking(u, comentario, puntaje, categoria);
@@ -94,15 +120,15 @@ public class SitioWeb {
 		admin.validarRankingDeInmueble(i, comentario, puntaje, categoria);
 
 	}
-*/
+
 	public void registrarIntereado(Interesado interesado) {
 
-		this.interesados.add(interesado);
+		//this.interesados.add(interesado);
 
 	}
 
 	public void desubscribirIntereado(Interesado interesado) {
-		this.interesados.remove(interesado);
+		//this.interesados.remove(interesado);
 
 	}
 	
@@ -213,5 +239,5 @@ public class SitioWeb {
 
 		return reserva.esCondicionalParaElInmueble(reserva.getFechaEntrada(), reserva.getFechaSalida());
 	}
- */
+*/
 }

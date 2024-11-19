@@ -10,13 +10,11 @@ import Inmueble.Inmueble;
 import ranking.Ranking;
 
 import reserva.Reserva;
-import sitioWeb.SitioWeb;
 
 public class Usuario implements Propietario, Inquilino{
 	private String nombreCompleto;
 	private String email;
 	private String telefono;
-	protected SitioWeb sitioWeb;
 	private LocalDate fechaDeCreacion;
 	private List<Reserva> reservas;
 	private List<Inmueble> inmuebles;
@@ -125,10 +123,6 @@ public class Usuario implements Propietario, Inquilino{
 
 	public String getTelefono() {
 		return telefono;
-	}
-	
-	public SitioWeb getSitioWeb() {
-		return sitioWeb;
 	}
 
 	public void setNombreCompleto(String nombreCompleto) {

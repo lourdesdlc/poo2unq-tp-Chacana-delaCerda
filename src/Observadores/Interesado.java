@@ -13,7 +13,8 @@ public abstract class Interesado {
 		this.web = web;
 		this.inmuebleInteresado = inmuebleInteresado;
 	}
-
+//COMENTADO PARA QUE NO DE ERROR
+/*
 	public void suscribirseASitio(SitioWeb web) {
 		this.web = web;
 		this.web.registrarIntereado(this);
@@ -24,7 +25,7 @@ public abstract class Interesado {
 		this.web = null; // RARO
 
 	}
-
+*/
 	public void agregarInteresEn(String inmueble) {
 		inmuebleInteresado.add(inmueble);
 

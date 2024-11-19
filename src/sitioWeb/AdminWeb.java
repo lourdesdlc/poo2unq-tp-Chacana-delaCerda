@@ -5,25 +5,22 @@ import java.util.List;
 import Inmueble.Inmueble;
 import Inmueble.TipoInmueble;
 import categoria.Categoria;
+import categoria.TipoRankeable;
 import ranking.Ranking;
 import tpgrupal.Servicio;
 import usuario.Usuario;
 
 public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.
+	//L: Para mi hay que eliminar esta clase y colocar los metodos de dar de alta en sitio
 	private List<Servicio> serviciosInmuebles;
 	private List<TipoInmueble> tiposDeInmueble;
 	private List<Ranking> rankings;
 	
-	private List<Categoria> categoriasPropietario;
-	private List<Categoria> categoriasInquilino;
-	private List<Categoria> categoriasInmueble;
+	private List<Categoria> categorias;
 
-	public AdminWeb(List<TipoInmueble> tiposDeInmueble, List<Categoria> categoriasPropietario,
-			List<Categoria> categoriasInquilino, List<Categoria> categoriasInmueble, List<Servicio> serviciosInmuebles) {
+	public AdminWeb(List<TipoInmueble> tiposDeInmueble, List<Categoria> categorias, List<Servicio> serviciosInmuebles) {
 		this.tiposDeInmueble.addAll(tiposDeInmueble);
-		this.categoriasPropietario.addAll(categoriasPropietario);
-		this.categoriasInquilino.addAll(categoriasInquilino);
-		this.categoriasInmueble.addAll(categoriasInmueble);
+		this.categorias.addAll(categorias);
 		this.serviciosInmuebles.addAll(serviciosInmuebles);
 		
 	}
@@ -32,16 +29,8 @@ public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.
 		this.tiposDeInmueble.add(tipoInmueble);
 	}
 	
-	public void darDeAltaCategoriaPropietario(Categoria categoria) {
-		this.categoriasPropietario.add(categoria);
-	}
-	
-	public void darDeAltaCategoriaInquilino(Categoria categoria) {
-		this.categoriasInquilino.add(categoria);
-	}
-	
-	public void darDeAltaCategoriaInmueble(Categoria categoria) {
-		this.categoriasInmueble.add(categoria);
+	public void darDeAltaCategoria(Categoria categoria) {
+		this.categorias.add(categoria);
 	}
 	
 	public void darDeAltaServicioInmueble(Servicio servicio) {
@@ -52,21 +41,24 @@ public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.
 		this.tiposDeInmueble.remove(tipoInmueble);
 	}
 	
-	public void eliminarCategoriaPropietario(Categoria categoria) {
-		this.categoriasPropietario.remove(categoria);
-	}
-	
-	public void eliminarCategoriaInquilino(Categoria categoria) {
-		this.categoriasInquilino.remove(categoria);
-	}
-	
-	public void eliminarCategoriaInmueble(Categoria categoria) {
-		this.categoriasInmueble.remove(categoria);
+	public void eliminarCategoria(Categoria categoria) {
+		this.categorias.remove(categoria);
 	}
 	
 	public void eliminarServicioInmueble(Servicio servicio) {
 		this.serviciosInmuebles.remove(servicio);
 	}
+	
+	public List<Categoria> getListaDeCategoriasValidas(TipoRankeable tipoRankeable) {
+        return categorias.stream()
+                         .filter(categoria -> categoria.getTipoRankeable() == (tipoRankeable))
+                         .toList();
+    }
+	
+	public boolean esCategoriaValida(Categoria categoria){
+        return getListaDeCategoriasValidas(categoria.getTipoRankeable())
+        		.contains(categoria);
+    }
 	
 	public List<Usuario> topTenInquilinos() {
 		//FALTA IMPLEMENTAR 

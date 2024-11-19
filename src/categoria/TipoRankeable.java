@@ -1,5 +1,5 @@
 package categoria;
 
-public enum TipoCategoria {
+public enum TipoRankeable {
 	INQUILINO, PROPIETARIO, INMUEBLE
 }
