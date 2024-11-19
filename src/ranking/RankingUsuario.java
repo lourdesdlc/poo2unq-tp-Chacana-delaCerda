@@ -1,14 +1,15 @@
 package ranking;
 
+import categoria.Categoria;
 import usuario.Usuario;
 
 public class RankingUsuario extends Ranking {
 
-	private Usuario usarioRankeado; // a quien se califica
+	private Usuario usuarioRankeado; // a quien se califica
 
-	public RankingUsuario(String categoria, int puntajesPorCategoria, String comentario, Usuario usarioRankeado) {
+	public RankingUsuario(Categoria categoria, int puntajesPorCategoria, String comentario, Usuario usarioRankeado) {
 		super(categoria, puntajesPorCategoria, comentario);
-		this.usarioRankeado = usarioRankeado;
+		this.usuarioRankeado = usarioRankeado;
 	}
 
 }

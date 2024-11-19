@@ -1,6 +1,7 @@
 package usuario;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,14 +42,14 @@ public class Usuario implements Propietario, Inquilino{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void agregarInmueble(Inmueble inmueble) {
 		inmuebles.add(inmueble);
 		
 	}
 	
-    public void puntuar(Ranking ranking) {
+    public void rankear(Ranking ranking) {
         //validar CheckOut
         //validar categoria del ranking
         rankings.add(ranking);
@@ -59,8 +60,8 @@ public class Usuario implements Propietario, Inquilino{
 		return inmuebles;
 	}
 
-	public void getAntiguedad() {
-		//FALTA IMPLEMENTAR
+	public int getAntiguedad() {
+		return Period.between(fechaDeCreacion, LocalDate.now()).getYears();
 	}
 
 	public List<Reserva> getReservas() {

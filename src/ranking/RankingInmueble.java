@@ -1,12 +1,12 @@
 package ranking;
 
 import Inmueble.Inmueble;
-import usuario.Usuario;
+import categoria.Categoria;
 
 public class RankingInmueble extends Ranking {
 	private Inmueble inmueble;
 
-	public RankingInmueble(String categoria, int puntajesPorCategoria, String comentario, Inmueble inmueble) {
+	public RankingInmueble(Categoria categoria, int puntajesPorCategoria, String comentario, Inmueble inmueble) {
 		super(categoria, puntajesPorCategoria, comentario);
 		this.inmueble = inmueble;
 	}

@@ -1,20 +1,22 @@
 package ranking;
 
-import java.util.Map;
-
-import usuario.Usuario;
+import categoria.Categoria;
 
 public class Ranking {
 
-	private String categoria; // Ej Limpieza
-	private int puntajesPorCategoria; // del 1 al 5
+	private Categoria categoria; // Ej Limpieza
+	private int puntaje; // del 1 al 5
 	private String comentario;
 
-	public Ranking(String categoria, int puntajesPorCategoria, String comentario) {
+	//ahora un Ranking es un puntaje por categoria con un comentario
+	//pero podriamos evaluar que Ranking tenga una lista de "PuntajePorCategoria" que sea una class
+	//y ademas el comentario
+	
+	public Ranking(Categoria categoria, int puntaje, String comentario) {
 		super();
 
-		this.categoria = categoria;
-		this.puntajesPorCategoria = puntajesPorCategoria;
+		this.setCategoria(categoria);
+		this.setPuntaje(puntaje);
 		this.comentario = comentario;
 	}
 
@@ -22,21 +24,28 @@ public class Ranking {
 	public double calcularPromedio() {
 		hacer nueva logica }*/
 	
-
-	public String getCategoria() {
+	private void validarPuntaje(int puntaje) {
+        if(puntaje < 1 || puntaje > 5){
+            throw new RuntimeException("El puntaje debe estar en una escala del 1 al 5.");
+        }
+    }
+	
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(String categoria) {
+	public void setCategoria(Categoria categoria) {
+		//validar categoria
 		this.categoria = categoria;
 	}
 
-	public int getPuntajesPorCategoria() {
-		return puntajesPorCategoria;
+	public int getPuntaje() {
+		return puntaje;
 	}
 
-	public void setPuntajesPorCategoria(int puntajesPorCategoria) {
-		this.puntajesPorCategoria = puntajesPorCategoria;
+	public void setPuntaje(int puntaje) {
+		this.validarPuntaje(puntaje);
+		this.puntaje = puntaje;
 	}
 
 	public String getComentario() {
