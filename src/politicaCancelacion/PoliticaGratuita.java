@@ -8,10 +8,6 @@ public class PoliticaGratuita extends PoliticaCancelacion{
 		
 		int diasAntesDeInicio = diasAntesDeInicio(fechaInicio);
 		
-		/*if (diasAntesDeInicio <= 0) {
-			//REVISAR ESTA OPCION
-			return 0;
-		}*/
 		if (diasAntesDeInicio >= 10) {
 			return 0;
 		} else {
