@@ -17,8 +17,9 @@ public class Ranking {
 	private List<PuntajePorCategoria> puntajePorCategoria; 
 	private String comentario;
 	
-	public Ranking(String comentario) {
+	public Ranking(String comentario, SitioWeb sitio) {
 		this.setComentario(comentario);
+		this.setSitio(sitio);
 		this.puntajePorCategoria = new ArrayList<>();
 	}
 
@@ -43,6 +44,10 @@ public class Ranking {
 	        .average()                           
 	        .orElse(0.0);
 	}
+	
+	private void setSitio(SitioWeb sitio) {
+        this.sitio = sitio;
+    }
 	
 	public String getComentario() {
 		return comentario;
