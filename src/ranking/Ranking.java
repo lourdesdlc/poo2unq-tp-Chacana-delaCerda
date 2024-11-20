@@ -33,17 +33,17 @@ public class Ranking {
 	
 	private void validarCategoria(Categoria categoria) {
         if(!sitio.esCategoriaValida(categoria)){
-        	throw new RuntimeException("La categoría ingresada no es válida");
+        	throw new RuntimeException("La categoría ingresada no es válida.");
         }
     }
 	
 	public double getPuntajePromedio() {
 		return puntajePorCategoria.stream()          
-        .mapToDouble(PuntajePorCategoria::getPuntaje) 
-        .average()                           
-        .orElse(0.0);
+	        .mapToDouble(PuntajePorCategoria::getPuntaje) 
+	        .average()                           
+	        .orElse(0.0);
 	}
-
+	
 	public String getComentario() {
 		return comentario;
 	}

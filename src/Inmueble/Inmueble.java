@@ -7,15 +7,19 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import categoria.Categoria;
 import politicaCancelacion.PoliticaCancelacion;
+import ranking.GestorRanking;
+import ranking.Rankeable;
 import ranking.Ranking;
 import reserva.Reserva;
 import tpgrupal.FormaDePago;
 import tpgrupal.PrecioPorPeriodo;
 import tpgrupal.Servicio;
+import usuario.Inquilino;
 import usuario.Propietario;
 
-public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa.13
+public class Inmueble implements Rankeable{ // casa // departamento // lordes.casa.13 --- bruno.casa.13
 	private Propietario propietario;
 	private TipoInmueble tipoDeInmueble;
 	private double superficie;
@@ -93,6 +97,44 @@ public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa
 	
 	public void setPoliticaDeCancelacion(PoliticaCancelacion politica){
 		this.politicaDeCancelacion = politica;
+	}
+	
+	public void checkOut(Reserva reserva){
+        //validar que se pueda hacer checkOut
+        reservas.remove(reserva);
+    }
+	
+	public boolean fueHechoElCheckOut(Inquilino inquilino){
+        return true;
+        //IMPLEMENTAR
+    }
+	
+	@Override
+	public void agregarRanking(Ranking ranking) {
+		//creo que no es necesario validar el ranking porque al crearlo
+		//ya se valida el puntaje y categoria. pero REVISAR
+		rankings.add(ranking);
+		
+	}
+	
+	@Override
+    public List<Ranking> getRankings() {
+        return rankings;
+    }
+    
+    @Override
+    public List<String> getComentarios() {
+        return GestorRanking.getComentarios(rankings); 
+    }
+
+    @Override
+    public double getPuntajePromedio() {
+        return GestorRanking.getPuntajePromedio(rankings);                       
+    }
+	
+    @Override
+	public double getPuntajePromedioEnCategoria(Categoria categoria) {
+    	return GestorRanking.getPuntajePromedioEnCategoria(rankings, categoria);
 	}
 	
 	public void agregarReserva(Reserva reserva) {
@@ -256,5 +298,6 @@ public class Inmueble { // casa // departamento // lordes.casa.13 --- bruno.casa
 			
 	}
  */
+
 
 }

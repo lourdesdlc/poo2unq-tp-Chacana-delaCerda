@@ -1,8 +1,7 @@
 package ranking;
 
 import categoria.Categoria;
-import usuario.Usuario;
-
+//L: para mi se podria eliminar
 /*
 public class RankingUsuario extends Ranking {
 

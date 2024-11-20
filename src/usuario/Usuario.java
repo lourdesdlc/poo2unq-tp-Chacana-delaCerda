@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import Inmueble.Inmueble;
+import categoria.Categoria;
+import ranking.GestorRanking;
 import ranking.Ranking;
 
 import reserva.Reserva;
@@ -49,8 +51,7 @@ public class Usuario implements Propietario, Inquilino{
 	}
 	
     public void rankear(Ranking ranking) {
-        //validar CheckOut
-        //validar categoria del ranking
+    	validarCheckOut(ranking);
         rankings.add(ranking);
     }
 	
@@ -86,33 +87,37 @@ public class Usuario implements Propietario, Inquilino{
 				.map(reserva -> reserva.ciudadDeReserva())
 				.toList();
 	}
-
+	
+	@Override
 	public void agregarRanking(Ranking ranking) {
         rankings.add(ranking);
     }
 	
+	@Override
     public List<Ranking> getRankings() {
-        return new ArrayList<>(rankings);
+        return rankings;
     }
     
     @Override
     public List<String> getComentarios() {
-        return rankings.stream()  
-                .map(Ranking::getComentario) 
-                .collect(Collectors.toList());
+        return GestorRanking.getComentarios(rankings); 
     }
 
+    @Override
     public double getPuntajePromedio() {
-        return rankings.stream()          
-                .mapToDouble(Ranking::getPuntajePromedio) 
-                .average()                           
-                .orElse(0.0);                        
+        return GestorRanking.getPuntajePromedio(rankings);                       
     }
 	
-	public void setReservas(List<Reserva> reservas) {
-		this.reservas = reservas;
+    @Override
+	public double getPuntajePromedioEnCategoria(Categoria categoria) {
+    	return GestorRanking.getPuntajePromedioEnCategoria(rankings, categoria);
 	}
+    
+    private void validarCheckOut(Ranking ranking) {
+    	//IMPLEMENTAR
+    }
 
+    //getters y setters
 	public String getEmail() {
 		return email;
 	}

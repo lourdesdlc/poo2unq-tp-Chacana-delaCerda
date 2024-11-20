@@ -2,7 +2,7 @@ package ranking;
 
 import Inmueble.Inmueble;
 import categoria.Categoria;
-
+//L: para mi se podria eliminar
 /*
 public class RankingInmueble extends Ranking {
 	private Inmueble inmueble;
