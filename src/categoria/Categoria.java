@@ -1,8 +1,8 @@
 package categoria;
 
 public class Categoria {
-	private String nombre;  // Limpieza
-	private TipoRankeable tipoRankeable;// casa 
+	private String nombre;  
+	private TipoRankeable tipoRankeable;
 	
 	public TipoRankeable getTipoRankeable() {
 		return tipoRankeable;

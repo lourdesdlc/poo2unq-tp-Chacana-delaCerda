@@ -13,7 +13,7 @@ public class Ranking {
 	 * puntuar categorias, se hace una por una, esto permite que se puedan 
 	 * validar las categorias que se intentan puntuar
 	 */
-	private SitioWeb sitio; //sitio o admin?
+	private SitioWeb sitio;
 	private List<PuntajePorCategoria> puntajePorCategoria; 
 	private String comentario;
 	
@@ -32,7 +32,6 @@ public class Ranking {
 	}
 	
 	private void validarCategoria(Categoria categoria) {
-		//es necesario un admin?
         if(!sitio.esCategoriaValida(categoria)){
         	throw new RuntimeException("La categoría ingresada no es válida");
         }
