@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import Inmueble.Inmueble;
 import tpgrupal.FormaDePago;
-import usuario.Inquilino;
 import usuario.Propietario;
 import usuario.Usuario;
 
@@ -15,8 +14,6 @@ public class Reserva {
 	private LocalDate fechaSalida;
 	private FormaDePago formaDePago;
 	private EstadoReserva estado;
-
-	private double precioTotal;
 
 	public Reserva(Usuario inquilino, Inmueble inmueble) {
 		this.inquilino = inquilino;
@@ -38,12 +35,12 @@ public class Reserva {
 		return !nuevaFechaSalida.isBefore(fechaEntrada) && !nuevaFechaEntrada.isAfter(fechaSalida);
 	}
 
-	public double calcularPenalidadPorCancelacion(LocalDate fechaEntrada, LocalDate fechaSalida) {
+	public double calcularPenalidadPorCancelacion(Reserva reserva) {
 		// le delega la responsabilidad de calcular la penalidad al inmueble
-		return inmueble.calcularPenalidadPorCancelacion(fechaEntrada, fechaSalida, precioTotal);
+		return inmueble.calcularPenalidadPorCancelacion(reserva);
 	}
 
-	public double precioTotal() {
+	public double getPrecioTotal() {
 		// retorna el valor total de la reserva.
 		// le delega el calculo al inmbueble reservado
 		return inmueble.getPrecio(fechaEntrada, fechaSalida);

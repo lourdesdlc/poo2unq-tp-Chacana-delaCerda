@@ -1,18 +1,18 @@
 package politicaCancelacion;
 
-import java.time.LocalDate;
+import reserva.Reserva;
 
 public class PoliticaGratuita extends PoliticaCancelacion{
 	@Override
-	public double calcularPenalidad(LocalDate fechaInicio, LocalDate fechaFinal, double precioTotal) {
+	public double calcularPenalidad(Reserva reserva) {
 		
-		int diasAntesDeInicio = diasAntesDeInicio(fechaInicio);
+		int diasAntesDeInicio = diasAntesDeInicio(reserva.getFechaEntrada());
 		
 		if (diasAntesDeInicio >= 10) {
 			return 0;
 		} else {
-			int diasReservados = (int) (fechaFinal.toEpochDay() - fechaInicio.toEpochDay());
-			return precioTotal - (2 * (precioTotal / diasReservados));
+			int diasReservados = (int) (reserva.getFechaSalida().toEpochDay() - reserva.getFechaEntrada().toEpochDay());
+			return reserva.getPrecioTotal() - (2 * (reserva.getPrecioTotal() / diasReservados));
 		}
 	}
 }

@@ -77,10 +77,10 @@ public class Inmueble implements Rankeable{ // casa // departamento // lordes.ca
 				.orElse(precioBasePorDia);
 	}
 
-	public double calcularPenalidadPorCancelacion(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal) {
+	public double calcularPenalidadPorCancelacion(Reserva reserva) {
 		// le delega la responsabilidad de calcular la penalidad a la
 		// politicaDeCancelacion
-		return this.politicaDeCancelacion.calcularPenalidad(fechaEntrada, fechaSalida, precioTotal);
+		return this.politicaDeCancelacion.calcularPenalidad(reserva);
 	}
 
 	public boolean estaDisponibleParaLasFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {

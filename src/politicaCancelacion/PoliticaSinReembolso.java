@@ -1,11 +1,11 @@
 package politicaCancelacion;
 
-import java.time.LocalDate;
+import reserva.Reserva;
 
 public class PoliticaSinReembolso extends PoliticaCancelacion{
 	@Override
-    public double calcularPenalidad(LocalDate fechaEntrada, LocalDate fechaSalida, double precioTotal) {
+    public double calcularPenalidad(Reserva reserva) {
 		//Se paga el total de la reserva
-        return precioTotal;
+        return reserva.getPrecioTotal();
     }
 }
