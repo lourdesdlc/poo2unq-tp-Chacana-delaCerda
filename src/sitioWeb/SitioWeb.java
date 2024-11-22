@@ -28,12 +28,6 @@ public class SitioWeb {
 	public void registrarUsuario(Usuario usuario) {
 		this.usuarios.add(usuario);
 	}
-
-	private List<Inmueble> getInmuebles(){
-        return usuarios.stream()
-        		.flatMap(u -> u.getInmuebles().stream())
-        		.collect(Collectors.toList());
-    }
 	
 	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
         return this.getInmuebles().stream()
@@ -45,7 +39,7 @@ public class SitioWeb {
 		
 	}
 	
-	public List<Categoria> getListaDeCategoriasValidas(TipoRankeable tipoRankeable) {
+	public List<Categoria> getListaDeCategoriasPara(TipoRankeable tipoRankeable) {
         return categorias.stream()
                          .filter(categoria -> categoria.perteneceATipoRankeable(tipoRankeable))
                          .toList();
@@ -53,7 +47,7 @@ public class SitioWeb {
 	
 	public boolean esCategoriaValida(Categoria categoria){
 		//evalua si es una categoria bien construida
-        return getListaDeCategoriasValidas(categoria.getTipoRankeable())
+        return getListaDeCategoriasPara(categoria.getTipoRankeable())
         		.contains(categoria);
     }
 
@@ -90,15 +84,29 @@ public class SitioWeb {
 		return null;
 	}
 	
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-	
 	public double tasaOcupacion() {
 		//FALTA IMPLEMENTAR  
 		return 0;
 	}
+
+	//Getters y setters
+	private List<Inmueble> getInmuebles(){
+        return usuarios.stream()
+        		.flatMap(u -> u.getInmuebles().stream())
+        		.collect(Collectors.toList());
+    }
 	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+	
+	public List<Servicio> getServiciosDeInmuebles(){
+		return serviciosInmuebles;
+	}
+
+	public List<Servicio> getTiposDeInmueble(){
+		return serviciosInmuebles;
+	}
 //COMENTADO PARA QUE NO DE ERROR
 	
 	// pensar en clase Validador.

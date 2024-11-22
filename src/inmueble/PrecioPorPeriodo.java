@@ -16,10 +16,14 @@ public class PrecioPorPeriodo {
 	}
 
 	public boolean incluye(LocalDate fecha) {
-		return (fecha.isEqual(fechaInicio) || fecha.isAfter(fechaInicio))
-				&& (fecha.isEqual(fechaFin) || fecha.isBefore(fechaFin));
-	}
+        return !fecha.isBefore(fechaInicio) && !fecha.isAfter(fechaFin);
+    }
 
+    public boolean interfiereCon(PrecioPorPeriodo periodo) {
+    	return !fechaInicio.isAfter(periodo.getFechaFin()) && !fechaFin.isBefore(periodo.getFechaInicio());
+        
+    }
+	
 	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}

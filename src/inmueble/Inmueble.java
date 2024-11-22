@@ -84,16 +84,22 @@ public class Inmueble implements Rankeable{ // casa // departamento // lordes.ca
 		// Método para verificar si el rango de fechas no interfiere con las reservas
 		// existentes
 
-		return reservas.stream().noneMatch(reserva -> reserva.reservaInterfiereCon(fechaEntrada, fechaSalida));
-	}
-
-	public void cambiarPolitica(PoliticaCancelacion politica) { // doble encapsulamiento
-		//L: No me parece necesario
-		this.setPoliticaDeCancelacion(politica);
+		return reservas.stream().noneMatch(reserva -> reserva.interfiereCon(fechaEntrada, fechaSalida));
 	}
 	
-	public void setPoliticaDeCancelacion(PoliticaCancelacion politica){
-		this.politicaDeCancelacion = politica;
+	public void agregarPreciosPorPeriodo(PrecioPorPeriodo precioPorPeriodo) {
+		validarPeriodo(precioPorPeriodo);
+		preciosPorPeriodos.add(precioPorPeriodo);
+	}
+	
+	private void validarPeriodo(PrecioPorPeriodo precioPorPeriodo){
+        if (interfiereConAlgunPeriodoDefinido(precioPorPeriodo)){
+        	throw new RuntimeException("Interfiere con otro periodo definido anteriormente");
+        }
+    }
+	
+	private boolean interfiereConAlgunPeriodoDefinido(PrecioPorPeriodo precioPorPeriodo){
+		return preciosPorPeriodos.stream().anyMatch(p -> p.interfiereCon(precioPorPeriodo));
 	}
 	
 	public void checkOut(Reserva reserva){
@@ -157,6 +163,11 @@ public class Inmueble implements Rankeable{ // casa // departamento // lordes.ca
         // IMPLEMENTAR
         return 0;
     }
+
+	//Getters y setters
+	public void setPoliticaDeCancelacion(PoliticaCancelacion politica){
+		this.politicaDeCancelacion = politica;
+	}
 	
 	public Propietario getPropietario() {
 		return propietario;

@@ -29,7 +29,7 @@ public class Reserva {
 		this.estado.confirmar();
 	}
 
-	public boolean reservaInterfiereCon(LocalDate nuevaFechaEntrada, LocalDate nuevaFechaSalida) {
+	public boolean interfiereCon(LocalDate nuevaFechaEntrada, LocalDate nuevaFechaSalida) {
 		// Verificamos si el rango de fechas de la nueva reserva interfiere con el rango
 		// actual
 		return !nuevaFechaSalida.isBefore(fechaEntrada) && !nuevaFechaEntrada.isAfter(fechaSalida);
