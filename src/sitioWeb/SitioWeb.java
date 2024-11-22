@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Inmueble.Inmueble;
-import Inmueble.TipoInmueble;
-import categoria.Categoria;
-import categoria.TipoRankeable;
 import filtroDeBusqueda.CriterioBusqueda;
-import tpgrupal.Servicio;
+import inmueble.Inmueble;
+import inmueble.Servicio;
+import inmueble.TipoInmueble;
+import ranking.Categoria;
+import ranking.TipoRankeable;
 import usuario.Usuario;
 
 public class SitioWeb {
@@ -47,11 +47,12 @@ public class SitioWeb {
 	
 	public List<Categoria> getListaDeCategoriasValidas(TipoRankeable tipoRankeable) {
         return categorias.stream()
-                         .filter(categoria -> categoria.getTipoRankeable() == (tipoRankeable))
+                         .filter(categoria -> categoria.perteneceATipoRankeable(tipoRankeable))
                          .toList();
     }
 	
 	public boolean esCategoriaValida(Categoria categoria){
+		//evalua si es una categoria bien construida
         return getListaDeCategoriasValidas(categoria.getTipoRankeable())
         		.contains(categoria);
     }

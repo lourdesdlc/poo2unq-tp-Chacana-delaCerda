@@ -10,8 +10,6 @@ import reserva.Reserva;
 public interface Inquilino extends Rankeable{
 
 	public void agregarReserva(Reserva reserva);
-
-	public void cancelarReserva(Reserva reserva);
 	
 	public List<Reserva> getReservas();
 	

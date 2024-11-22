@@ -2,8 +2,6 @@ package ranking;
 
 import java.util.List;
 
-import categoria.Categoria;
-
 public interface Rankeable {
 
 	public void agregarRanking(Ranking ranking);

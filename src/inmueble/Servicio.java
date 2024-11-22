@@ -1,4 +1,4 @@
-package tpgrupal;
+package inmueble;
 
 public class Servicio { // ENUM
     private String nombre;

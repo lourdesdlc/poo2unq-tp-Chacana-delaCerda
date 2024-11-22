@@ -2,8 +2,8 @@ package reserva;
 
 import java.time.LocalDate;
 
-import Inmueble.Inmueble;
-import tpgrupal.FormaDePago;
+import inmueble.FormaDePago;
+import inmueble.Inmueble;
 import usuario.Propietario;
 import usuario.Usuario;
 

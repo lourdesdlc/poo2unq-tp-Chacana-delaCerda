@@ -1,6 +1,6 @@
 package filtroDeBusqueda;
 
-import Inmueble.Inmueble;
+import inmueble.Inmueble;
 
 public class FiltroPorCantidadHuespedes implements FiltroDeBusqueda{
 	private Integer cantidadHuespedes;

@@ -2,8 +2,6 @@ package ranking;
 
 import java.util.List;
 
-import categoria.Categoria;
-
 public class GestorRanking {
 	
 	public static double getPuntajePromedio(List<Ranking> rankings){
@@ -27,4 +25,12 @@ public class GestorRanking {
                         .map(Ranking::getComentario)
                         .toList();
     }
+    
+    public static List<String> getComentariosPorRol(List<Ranking> rankings, TipoRankeable tipoCategoria) {
+        return rankings.stream()
+                .filter(ranking -> ranking.getTipoRankeable() == tipoCategoria)
+                .map(Ranking::getComentario)
+                .toList();
+    }
+
 }

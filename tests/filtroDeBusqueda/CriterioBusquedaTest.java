@@ -3,7 +3,7 @@ package filtroDeBusqueda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Inmueble.Inmueble;
+import inmueble.Inmueble;
 
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;

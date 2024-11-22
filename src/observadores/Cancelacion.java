@@ -1,4 +1,4 @@
-package Observadores;
+package observadores;
 
 import java.util.Set;
 

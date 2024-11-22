@@ -1,7 +1,5 @@
 package ranking;
 
-import categoria.Categoria;
-
 public class PuntajePorCategoria {
 	private Categoria categoria;
 	private int puntaje;

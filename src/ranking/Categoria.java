@@ -1,4 +1,4 @@
-package categoria;
+package ranking;
 
 public class Categoria {
 	private String nombre;  
@@ -15,5 +15,9 @@ public class Categoria {
 
 	public String getNombre() {
 		return nombre;
+	}
+	
+	public boolean perteneceATipoRankeable(TipoRankeable tipoRankeable) {
+		return this.tipoRankeable == (tipoRankeable);
 	}
 }

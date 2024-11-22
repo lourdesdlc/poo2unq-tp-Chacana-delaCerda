@@ -1,4 +1,4 @@
-package tpgrupal;
+package inmueble;
 
 public enum FormaDePago {
 	EFECTIVO,

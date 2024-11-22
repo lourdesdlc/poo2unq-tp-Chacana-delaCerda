@@ -1,6 +1,6 @@
 package filtroDeBusqueda;
 
-import Inmueble.Inmueble;
+import inmueble.Inmueble;
 
 public class FiltroPorCiudad implements FiltroDeBusqueda {
 	private String ciudad;

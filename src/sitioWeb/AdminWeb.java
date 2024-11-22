@@ -2,12 +2,12 @@ package sitioWeb;
 
 import java.util.List;
 
-import Inmueble.Inmueble;
-import Inmueble.TipoInmueble;
-import categoria.Categoria;
-import categoria.TipoRankeable;
+import inmueble.Inmueble;
+import inmueble.Servicio;
+import inmueble.TipoInmueble;
+import ranking.Categoria;
 import ranking.Ranking;
-import tpgrupal.Servicio;
+import ranking.TipoRankeable;
 import usuario.Usuario;
 
 public class AdminWeb { // ESTO SEGURO SE PUEDE MEJORAR MAS ADELANTE.

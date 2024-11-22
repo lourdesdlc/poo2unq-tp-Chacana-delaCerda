@@ -4,13 +4,12 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import Inmueble.Inmueble;
-import categoria.Categoria;
+import inmueble.Inmueble;
+import ranking.Categoria;
 import ranking.GestorRanking;
 import ranking.Ranking;
-
+import ranking.TipoRankeable;
 import reserva.Reserva;
 
 public class Usuario implements Propietario, Inquilino{
@@ -35,25 +34,12 @@ public class Usuario implements Propietario, Inquilino{
 	@Override
 	public void agregarReserva(Reserva reserva) {
 		reservas.add(reserva);
-		
-	}
-
-	@Override
-	public void cancelarReserva(Reserva reserva) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
 	public void agregarInmueble(Inmueble inmueble) {
 		inmuebles.add(inmueble);
-		
 	}
-	
-    public void rankear(Ranking ranking) {
-    	validarCheckOut(ranking);
-        rankings.add(ranking);
-    }
 	
 	@Override
 	public List<Inmueble> getInmuebles() {
@@ -87,9 +73,10 @@ public class Usuario implements Propietario, Inquilino{
 				.map(reserva -> reserva.ciudadDeReserva())
 				.toList();
 	}
-	
+//RANKING/////////////////////////////////////////////////////////
 	@Override
 	public void agregarRanking(Ranking ranking) {
+    	validarCheckOut(ranking);
         rankings.add(ranking);
     }
 	
@@ -113,6 +100,14 @@ public class Usuario implements Propietario, Inquilino{
     	return GestorRanking.getPuntajePromedioEnCategoria(rankings, categoria);
 	}
     
+    public List<String> getComentariosComoPropietario(){
+    	return GestorRanking.getComentariosPorRol(rankings, TipoRankeable.PROPIETARIO);
+    }
+    
+    public List<String> getComentariosComoInquilino(){
+    	return GestorRanking.getComentariosPorRol(rankings, TipoRankeable.INQUILINO);
+    }
+ //////////////////////////////////////////////////////////////////////7   
     private void validarCheckOut(Ranking ranking) {
     	//IMPLEMENTAR
     }

@@ -1,4 +1,4 @@
-package Inmueble;
+package inmueble;
 
 public class TipoInmueble {
 	//Elegi que sea una clase porque el Admin tiene que darlos de alta

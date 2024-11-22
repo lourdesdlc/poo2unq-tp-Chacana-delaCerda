@@ -1,6 +1,6 @@
 package filtroDeBusqueda;
 
-import Inmueble.Inmueble;
+import inmueble.Inmueble;
 
 public interface FiltroDeBusqueda {
 	boolean cumple(Inmueble inmueble);

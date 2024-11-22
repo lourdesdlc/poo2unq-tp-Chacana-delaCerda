@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import categoria.Categoria;
+import exepciones.CategoriaException;
+import exepciones.PuntajeException;
 import sitioWeb.SitioWeb;
 
 public class RankingTest {
@@ -16,15 +17,15 @@ public class RankingTest {
 
     @BeforeEach
     void setUp() {
-        sitioMock = mock(SitioWeb.class);
-        categoriaMock = mock(Categoria.class);
+        sitioMock = mock(SitioWeb.class); 
+        categoriaMock = mock(Categoria.class); 
     }
 
     @Test
     void testCrearRankingConDatosValidos() {
-        Ranking ranking = new Ranking("Buen servicio", sitioMock);
+        Ranking ranking = new Ranking("Muy amable", TipoRankeable.PROPIETARIO, sitioMock);
 
-        assertEquals("Buen servicio", ranking.getComentario());
+        assertEquals("Muy amable", ranking.getComentario());
         assertTrue(ranking.getPuntajePorCategoria().isEmpty());
     }
 
@@ -32,7 +33,7 @@ public class RankingTest {
     void testAgregarPuntajePorCategoriaConCategoriaValida() {
         when(sitioMock.esCategoriaValida(categoriaMock)).thenReturn(true);
 
-        Ranking ranking = new Ranking("Buen servicio", sitioMock);
+        Ranking ranking = new Ranking("Buen servicio", TipoRankeable.PROPIETARIO, sitioMock);
 
         PuntajePorCategoria puntaje = new PuntajePorCategoria(categoriaMock, 5);
 
@@ -45,21 +46,22 @@ public class RankingTest {
     void testAgregarPuntajePorCategoriaConCategoriaInvalida() {
         when(sitioMock.esCategoriaValida(categoriaMock)).thenReturn(false);
 
-        Ranking ranking = new Ranking("Buen servicio", sitioMock);
+        Ranking ranking = new Ranking("Buen servicio", TipoRankeable.INQUILINO, sitioMock);
 
         PuntajePorCategoria puntaje = new PuntajePorCategoria(categoriaMock, 5);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, 
+        CategoriaException exception = assertThrows(CategoriaException.class, 
             () -> ranking.agregarPuntajePorCategoria(puntaje));
         assertEquals("La categoría ingresada no es válida.", exception.getMessage());
         assertTrue(ranking.getPuntajePorCategoria().isEmpty());
     }
 
+
     @Test
     void testCalculoPuntajePromedioConPuntajesValidos() {
         when(sitioMock.esCategoriaValida(any())).thenReturn(true);
 
-        Ranking ranking = new Ranking("Buen servicio", sitioMock);
+        Ranking ranking = new Ranking("Buen servicio", TipoRankeable.INMUEBLE, sitioMock);
 
         ranking.agregarPuntajePorCategoria(new PuntajePorCategoria(categoriaMock, 4));
         ranking.agregarPuntajePorCategoria(new PuntajePorCategoria(categoriaMock, 5));
@@ -69,15 +71,15 @@ public class RankingTest {
 
     @Test
     void testCalculoPuntajePromedioSinPuntajesDevuelveCero() {
-        Ranking ranking = new Ranking("Buen servicio", sitioMock);
+        Ranking ranking = new Ranking("Buen servicio", TipoRankeable.PROPIETARIO, sitioMock);
 
         assertEquals(0.0, ranking.getPuntajePromedio());
     }
 
     @Test
     void testValidarPuntajeLanzaExcepcionSiEsInvalido() {
-        assertThrows(RuntimeException.class, () -> new PuntajePorCategoria(categoriaMock, 0));
-        assertThrows(RuntimeException.class, () -> new PuntajePorCategoria(categoriaMock, 6));
+        assertThrows(PuntajeException.class, () -> new PuntajePorCategoria(categoriaMock, 0));
+        assertThrows(PuntajeException.class, () -> new PuntajePorCategoria(categoriaMock, 6));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package tpgrupal;
+package inmueble;
 
 import java.time.LocalDate;
 

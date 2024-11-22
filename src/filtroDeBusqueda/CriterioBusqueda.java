@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import Inmueble.Inmueble;
+import inmueble.Inmueble;
 
 public class CriterioBusqueda {
 	private List<FiltroDeBusqueda> filtros = new ArrayList<>();

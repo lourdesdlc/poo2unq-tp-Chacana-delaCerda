@@ -3,8 +3,9 @@ package ranking;
 import java.util.ArrayList;
 import java.util.List;
 
-import categoria.Categoria;
+import exepciones.CategoriaException;
 import sitioWeb.SitioWeb;
+import usuario.Usuario;
 
 
 public class Ranking {
@@ -14,10 +15,13 @@ public class Ranking {
 	 * validar las categorias que se intentan puntuar
 	 */
 	private SitioWeb sitio;
+	private Usuario rankeador; //usuario que rankea
+	private TipoRankeable tipoRankeable;
+	
 	private List<PuntajePorCategoria> puntajePorCategoria; 
 	private String comentario;
 	
-	public Ranking(String comentario, SitioWeb sitio) {
+	public Ranking(String comentario, TipoRankeable tipoRankeable, SitioWeb sitio) {
 		this.setComentario(comentario);
 		this.setSitio(sitio);
 		this.puntajePorCategoria = new ArrayList<>();
@@ -33,16 +37,20 @@ public class Ranking {
 	}
 	
 	private void validarCategoria(Categoria categoria) {
-        if(!sitio.esCategoriaValida(categoria)){
-        	throw new RuntimeException("La categoría ingresada no es válida.");
-        }
-    }
+	    if (!sitio.esCategoriaValida(categoria)) {
+	        throw new CategoriaException("La categoría ingresada no es válida.");
+	    }
+	}
 	
 	public double getPuntajePromedio() {
 		return puntajePorCategoria.stream()          
 	        .mapToDouble(PuntajePorCategoria::getPuntaje) 
 	        .average()                           
 	        .orElse(0.0);
+	}
+	
+	public Usuario getRankeador() {
+		return rankeador;
 	}
 	
 	private void setSitio(SitioWeb sitio) {
@@ -55,6 +63,10 @@ public class Ranking {
 
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
+	}
+
+	public TipoRankeable getTipoRankeable() {
+		return tipoRankeable;
 	}
 
 }

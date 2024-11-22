@@ -3,7 +3,7 @@ package usuario;
 
 import java.util.List;
 
-import Inmueble.Inmueble;
+import inmueble.Inmueble;
 import ranking.Rankeable;
 
 public interface Propietario extends Rankeable{

@@ -1,4 +1,4 @@
-package Inmueble;
+package inmueble;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import categoria.Categoria;
 import politicaCancelacion.PoliticaCancelacion;
+import ranking.Categoria;
 import ranking.GestorRanking;
 import ranking.Rankeable;
 import ranking.Ranking;
 import reserva.Reserva;
-import tpgrupal.FormaDePago;
-import tpgrupal.PrecioPorPeriodo;
-import tpgrupal.Servicio;
 import usuario.Inquilino;
 import usuario.Propietario;
 
@@ -105,18 +102,26 @@ public class Inmueble implements Rankeable{ // casa // departamento // lordes.ca
     }
 	
 	public boolean fueHechoElCheckOut(Inquilino inquilino){
+		//IMPLEMENTAR
         return true;
-        //IMPLEMENTAR
+        //la idea seria que Inmueble tenga una lista controlada con los usuarios 
+        //que alquilaron anteriormente. Cuando un Usuario hace checkOut, se agrega a esa lista
+        //cuando
     }
 	
+	private void validarCheckOut(Inquilino inquilino) {
+        if(!fueHechoElCheckOut(inquilino)){
+            throw new RuntimeException("No se puede rankear antes de hacer el check-out");
+        }
+    }
+	
+//RANKING//////////////////////////////////////////////////
 	@Override
 	public void agregarRanking(Ranking ranking) {
-		//creo que no es necesario validar el ranking porque al crearlo
-		//ya se valida el puntaje y categoria. pero REVISAR
+		validarCheckOut(ranking.getRankeador());
 		rankings.add(ranking);
 		
 	}
-	
 	@Override
     public List<Ranking> getRankings() {
         return rankings;
@@ -136,7 +141,8 @@ public class Inmueble implements Rankeable{ // casa // departamento // lordes.ca
 	public double getPuntajePromedioEnCategoria(Categoria categoria) {
     	return GestorRanking.getPuntajePromedioEnCategoria(rankings, categoria);
 	}
-	
+///////////////////////////////////////////////////////////////////////////////
+    
 	public void agregarReserva(Reserva reserva) {
 		reservas.add(reserva);
 		
@@ -147,6 +153,11 @@ public class Inmueble implements Rankeable{ // casa // departamento // lordes.ca
 		
 	}
 
+	public int getCantidadDeVecesAlquilada() {
+        // IMPLEMENTAR
+        return 0;
+    }
+	
 	public Propietario getPropietario() {
 		return propietario;
 	}
