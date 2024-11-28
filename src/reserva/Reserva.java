@@ -13,12 +13,12 @@ public class Reserva {
 	private LocalDate fechaEntrada;
 	private LocalDate fechaSalida;
 	private FormaDePago formaDePago;
-	private EstadoReserva estado;
+	private Concretable estado;
 
 	public Reserva(Usuario inquilino, Inmueble inmueble) {
 		this.inquilino = inquilino;
 		this.inmueble = inmueble;
-		this.estado = new ReservaPendiente(); // Estado inicial
+		this.estado = new ReservaPendiente(); // Estado inicial, vincula la reserva con su estado...
 	}
 
 	public Propietario propietarioAsigando() {
@@ -26,7 +26,17 @@ public class Reserva {
 	}
 
 	public void confirmarReserva() {
-		this.estado.confirmar();
+		this.estado.confirmar(this);
+	}
+
+	public void finalizarReserva() {
+		this.estado.finalizar(this);
+
+	}
+
+	public void cancelarReserva() {
+		this.estado.cancelar(this);
+		// inmueble.verificarEncoladas(fechaEntrada);
 	}
 
 	public boolean interfiereCon(LocalDate nuevaFechaEntrada, LocalDate nuevaFechaSalida) {
@@ -46,9 +56,28 @@ public class Reserva {
 		return inmueble.getPrecio(fechaEntrada, fechaSalida);
 	}
 
-	public void cancelarReserva() {
-		this.estado.cancelar();
-		//inmueble.verificarEncoladas(fechaEntrada);
+	public Inmueble inmueble() {
+
+		return this.getInmueble();
+	}
+
+	public String mailInquilino() {
+
+		return this.inquilino.getEmail();
+	}
+
+	/*
+	 * public String mailPropietario() { // TODO Auto-generated method stub return
+	 * this.inmueble.getPropietario().getEmail(); }
+	 */
+	public String ciudadDeReserva() {
+
+		return this.getInmueble().getCiudad();
+	}
+
+	public boolean esCondicionalParaElInmueble(LocalDate fechaIncio, LocalDate fechaFin) {
+
+		return this.getInmueble().estaDisponibleParaLasFechas(fechaIncio, fechaFin);
 	}
 
 	public LocalDate getFechaEntrada() {
@@ -87,7 +116,7 @@ public class Reserva {
 		this.formaDePago = formaDePago;
 	}
 
-	public EstadoReserva getEstado() {
+	public Concretable getEstado() {
 		return estado;
 	}
 
@@ -103,29 +132,8 @@ public class Reserva {
 		this.inmueble = inmueble;
 	}
 
-	public Inmueble inmueble() {
+	public void cambiarEstado(EstadoReserva estado) {
+		this.setEstado(estado);
 
-		return this.getInmueble();
 	}
-
-	public String mailInquilino() {
-
-		return this.inquilino.getEmail();
-	}
-/*
-	public String mailPropietario() {
-		// TODO Auto-generated method stub
-		return this.inmueble.getPropietario().getEmail();
-	}
-*/
-	public String ciudadDeReserva() {
-
-		return this.getInmueble().getCiudad();
-	}
-
-	public boolean esCondicionalParaElInmueble(LocalDate fechaIncio, LocalDate fechaFin) {
-
-		return this.getInmueble().estaDisponibleParaLasFechas(fechaIncio, fechaFin);
-	}
-
 }

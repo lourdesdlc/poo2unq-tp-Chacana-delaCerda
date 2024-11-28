@@ -1,17 +1,10 @@
 package reserva;
 
-public class ReservaCancelada extends EstadoReserva {
+public class ReservaCancelada extends EstadoReserva { // tipada con Concretable
 
-	@Override
-	public void confirmar() {
-		// TODO Auto-generated method stub
+	// bach: tiene un comportamiento o cambio de estado? creo que no
 
+	public boolean esCancelada() {
+		return true;
 	}
-
-	@Override
-	public void cancelar() {
-		// TODO Auto-generated method stub
-
-	}
-
 }
