@@ -39,6 +39,20 @@ public class Reserva {
 		// inmueble.verificarEncoladas(fechaEntrada);
 	}
 
+	public boolean estaCancelada() {
+		return this.estado.esCancelada();
+	}
+
+	public boolean estaPendiente() {
+
+		return estado.esPendiente();
+	}
+
+	public boolean estaConfirmada() {
+
+		return estado.esConfirmada();
+	}
+
 	public boolean interfiereCon(LocalDate nuevaFechaEntrada, LocalDate nuevaFechaSalida) {
 		// Verificamos si el rango de fechas de la nueva reserva interfiere con el rango
 		// actual
@@ -136,4 +150,5 @@ public class Reserva {
 		this.setEstado(estado);
 
 	}
+
 }
