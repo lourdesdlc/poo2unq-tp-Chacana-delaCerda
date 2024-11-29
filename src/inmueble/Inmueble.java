@@ -96,13 +96,14 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	}
 
 	public void cancelarReserva(Reserva reserva) {
-		if (!reserva.estaCancelada()) // sino esta cancelada previamente...
+		if (!reserva.estaCancelada()) { // sino esta cancelada previamente...
 
 			reserva.cancelarReserva();
-		politicaDeCancelacion.calcularPenalidad(reserva);
-		notificarCancelacionDeReserva();
+			politicaDeCancelacion.calcularPenalidad(reserva);
+			notificarCancelacionDeReserva();
 
-		ejecutarReservaEncoladas();
+			ejecutarReservaEncoladas();
+		}
 
 	}
 
