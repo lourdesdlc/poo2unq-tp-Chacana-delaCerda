@@ -65,6 +65,8 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		this.formasDePago = formasDePago;
 		this.precioBasePorDia = precioBasePorDia;
 	}
+	
+	public Inmueble() {};
 
 ///////////////////////  Notificaciones ///////////////////////////
 	private void notificarNuevaReserva(LocalDate fi, LocalDate ff) {
@@ -361,6 +363,71 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	public TipoInmueble getTipoDeInmueble() {
 		return tipoDeInmueble;
 	}
+
+	public double getPrecioBasePorDia() {
+		return precioBasePorDia;
+	}
+
+	public void setPrecioBasePorDia(double precioBasePorDia) {
+		this.precioBasePorDia = precioBasePorDia;
+	}
+
+	public Set<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(Set<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public Queue<Reserva> getReservasEncoladas() {
+		return reservasEncoladas;
+	}
+
+	public void setReservasEncoladas(Queue<Reserva> reservasEncoladas) {
+		this.reservasEncoladas = reservasEncoladas;
+	}
+
+	public Notificador getNotificador() {
+		return notificador;
+	}
+
+	public void setNotificador(Notificador notificador) {
+		this.notificador = notificador;
+	}
+
+	public List<Inquilino> getVisitantes() {
+		return visitantes;
+	}
+
+	public void setVisitantes(List<Inquilino> visitantes) {
+		this.visitantes = visitantes;
+	}
+
+	public PoliticaCancelacion getPoliticaDeCancelacion() {
+		return politicaDeCancelacion;
+	}
+
+	public void setPropietario(Propietario propietario) {
+		this.propietario = propietario;
+	}
+
+	public void setTipoDeInmueble(TipoInmueble tipoDeInmueble) {
+		this.tipoDeInmueble = tipoDeInmueble;
+	}
+
+	public void setPreciosPorPeriodos(List<PrecioPorPeriodo> preciosPorPeriodos) {
+		this.preciosPorPeriodos = preciosPorPeriodos;
+	}
+
+	public void setRankings(List<Ranking> rankings) {
+		this.rankings = rankings;
+	}
+	
+	
+	
+	
+	
 	/*
 	 * public void encolar(Reserva reserva) { reservasEncoladas.add(reserva); }
 	 * 
@@ -386,5 +453,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	 * 
 	 * }
 	 */
+
+	
 
 }
