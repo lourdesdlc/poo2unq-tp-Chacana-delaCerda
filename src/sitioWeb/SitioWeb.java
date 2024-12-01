@@ -19,7 +19,7 @@ public class SitioWeb {
 	private List<TipoInmueble> tiposDeInmueble = new ArrayList<>();
 	private List<Categoria> categorias = new ArrayList<>();
 	private Set<Inmueble> inmuebles; // tiene sentido que esten los inmuebles publicados, con esta lista podemos
-									// obtener mucha informacion, ej todas las reservas, inmueble mas alquilado etc
+										// obtener mucha informacion, ej todas las reservas, inmueble mas alquilado etc
 
 	public SitioWeb(List<TipoInmueble> tiposDeInmueble, List<Categoria> categorias, List<Servicio> serviciosInmuebles) {
 		this.tiposDeInmueble.addAll(tiposDeInmueble);
@@ -29,7 +29,15 @@ public class SitioWeb {
 	}
 
 	public void registrarUsuario(Usuario usuario) {
-		this.usuarios.add(usuario);
+		if (!estaRegistrado(usuario)) {
+			usuarios.add(usuario);
+		} else {
+			throw new RuntimeException("El usuario ya está registrado");
+		}
+	}
+
+	public boolean estaRegistrado(Usuario usuario) {
+		return usuarios.contains(usuario);
 	}
 
 	public List<Inmueble> buscarInmuebles(CriterioBusqueda criterio) {
@@ -88,6 +96,15 @@ public class SitioWeb {
 		return 0;
 	}
 
+	public void darDeAltaInmueble(Inmueble i) {
+
+		inmuebles.add(i);
+	}
+
+	public void eliminarInmueble(Inmueble i) {
+		inmuebles.remove(i);
+	}
+
 	// Getters y setters
 	private List<Inmueble> getInmuebles() {
 		return usuarios.stream().flatMap(u -> u.getInmuebles().stream()).collect(Collectors.toList());
@@ -105,10 +122,6 @@ public class SitioWeb {
 		return serviciosInmuebles;
 	}
 
-	public void darDeAltaInmueble(Inmueble i) {
-
-		inmuebles.add(i);
-	}
 //COMENTADO PARA QUE NO DE ERROR
 
 	// pensar en clase Validador.
