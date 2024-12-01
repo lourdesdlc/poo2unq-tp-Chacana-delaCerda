@@ -1,10 +1,9 @@
-package observadores;
+package observer;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import inmueble.Inmueble;
-import notificaciones.Notificable;
 
 public class Subscripcion implements Notificable {
 	private Notificable entidad; // sitio , appMobile, cualquier entidad que implemente notifiacable.

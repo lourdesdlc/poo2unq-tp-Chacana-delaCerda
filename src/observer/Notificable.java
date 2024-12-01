@@ -1,4 +1,4 @@
-package notificaciones;
+package observer;
 
 import inmueble.Inmueble;
 

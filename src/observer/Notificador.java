@@ -1,4 +1,4 @@
-package notificaciones;
+package observer;
 
 import java.util.ArrayList;
 import java.util.List;

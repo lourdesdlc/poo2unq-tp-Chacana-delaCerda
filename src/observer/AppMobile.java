@@ -1,8 +1,6 @@
-package observadores;
+package observer;
 
 import inmueble.Inmueble;
-import notificaciones.Notificable;
-
 import notificaciones.PopUpWindow;
 
 public class AppMobile implements Notificable {
