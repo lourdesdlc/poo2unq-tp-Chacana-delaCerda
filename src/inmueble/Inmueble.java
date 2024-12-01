@@ -8,6 +8,8 @@ import java.util.Queue;
 import java.util.Set;
 
 import notificaciones.Notificable;
+import notificaciones.Notificador;
+import observadores.Subscripcion;
 import politicaCancelacion.PoliticaCancelacion;
 import ranking.Categoria;
 import ranking.GestorRanking;
@@ -42,7 +44,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	private Queue<Reserva> reservasEncoladas;
 
-	private Notificable notificador;
+	private Notificador notificador;
 
 	private List<Inquilino> visitantes;
 
@@ -80,6 +82,18 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 				+ precioBasePorDia + " pesos", this);
 	}
 
+///////////////////////  Subscripcion de interesado /////////////////
+
+	public void recibirSubscriptor(Notificable n) { // ej la AppMobile o la pagina de trivago
+		Subscripcion s = new Subscripcion(n);
+		s.agregarInteresEnInmuble(this);
+
+		notificador.suscribir(s);
+	}
+
+	public void eliminarSubscriptor(Subscripcion s) {
+		s.eliminarInteresEnInmuble(this);
+	}
 ///////////////////////  Concrecion de Reserva  ///////////////////////////
 
 	public void recibirSolicitudDeReserva(Reserva r) {
