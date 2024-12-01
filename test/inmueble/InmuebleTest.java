@@ -9,6 +9,7 @@ import ranking.Ranking;
 import reserva.Reserva;
 import usuario.Inquilino;
 import usuario.Propietario;
+import usuario.Usuario;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.mock;
 public class InmuebleTest {
 
 	private Inmueble inmueble;
-	private Propietario propietario;
+	private Usuario propietario;
 	private TipoInmueble tipoDeInmueble;
 	private Servicio servicioMock;
 	private FormaDePago formaDePagoMock;
@@ -38,7 +39,7 @@ public class InmuebleTest {
 
 		inmueble = new Inmueble();
 
-		propietario = mock(Propietario.class);
+		propietario = mock(Usuario.class);
 		tipoDeInmueble = mock(TipoInmueble.class);
 		servicioMock = mock(Servicio.class);
 		formaDePagoMock = mock(FormaDePago.class);

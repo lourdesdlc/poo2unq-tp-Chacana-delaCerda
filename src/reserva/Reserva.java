@@ -53,6 +53,11 @@ public class Reserva {
 		return estado.esConfirmada();
 	}
 
+	public boolean estaFinalizada() {
+
+		return estado.esFinalizada();
+	}
+
 	public boolean interfiereCon(LocalDate nuevaFechaEntrada, LocalDate nuevaFechaSalida) {
 		// Verificamos si el rango de fechas de la nueva reserva interfiere con el rango
 		// actual

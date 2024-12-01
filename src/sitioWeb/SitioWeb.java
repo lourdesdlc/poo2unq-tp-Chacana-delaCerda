@@ -11,6 +11,7 @@ import inmueble.Servicio;
 import inmueble.TipoInmueble;
 import ranking.Categoria;
 import ranking.TipoRankeable;
+import usuario.Propietario;
 import usuario.Usuario;
 
 public class SitioWeb {
@@ -26,6 +27,9 @@ public class SitioWeb {
 		this.categorias.addAll(categorias);
 		this.serviciosInmuebles.addAll(serviciosInmuebles);
 
+	}
+
+	public SitioWeb() {
 	}
 
 	public void registrarUsuario(Usuario usuario) {
@@ -120,6 +124,44 @@ public class SitioWeb {
 
 	public List<Servicio> getTiposDeInmueble() {
 		return serviciosInmuebles;
+	}
+
+/////////// " Visualizacion " ///////
+
+	public String mostrarDatosDe(Inmueble i) {
+		StringBuilder datos = new StringBuilder();
+
+		// Manejar lista de comentarios
+		datos.append("Comentarios del inmueble:\n");
+		i.getComentarios().forEach(comentario -> datos.append("- ").append(comentario).append("\n"));
+
+		// Puntaje promedio
+		datos.append("Puntaje promedio: ").append(i.getPuntajePromedio()).append("\n");
+
+		// Puntaje promedio en categoría
+		datos.append("Puntaje promedio en categoría: ").append(i.getPuntajePromedioEnCategoria(new Categoria()))
+				.append("\n");
+
+		return datos.toString();
+	}
+
+	public String mostrarDatosDelPropietarioDe(Inmueble i) {
+		Usuario propietario = i.getPropietario();
+
+		StringBuilder datos = new StringBuilder();
+
+		datos.append("Propietario del inmueble:\n").append("Puntaje promedio del propietario: ")
+				.append(propietario.getPuntajePromedio()).append("\n").append("Antigüedad del propietario: ")
+				.append(propietario.getAntiguedad()).append(" años\n")
+				.append("Cantidad de alquileres realizados por el propietario: ")
+				.append(propietario.cantidadDeAlquileres()).append("\n")
+				.append("Cantidad de alquileres de este inmueble: ").append(i.cantidadDeAlquileres()).append("\n")
+				.append("Inmuebles alquilados por el propietario:\n");
+
+		// Manejar lista de inmuebles alquilados
+		propietario.inmueblesAlquilados().forEach(alquilado -> datos.append("- ").append(alquilado).append("\n"));
+
+		return datos.toString();
 	}
 
 //COMENTADO PARA QUE NO DE ERROR

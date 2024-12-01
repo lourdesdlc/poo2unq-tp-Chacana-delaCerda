@@ -19,9 +19,10 @@ import reserva.Reserva;
 import reserva.ReservaCancelada;
 import usuario.Inquilino;
 import usuario.Propietario;
+import usuario.Usuario;
 
 public class Inmueble implements Rankeable { // casa // departamento // lordes.casa.13 --- bruno.casa.13
-	private Propietario propietario;
+	private Usuario propietario;
 	private TipoInmueble tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -48,25 +49,8 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	private List<Inquilino> visitantes;
 
-	public Inmueble(Propietario propietario, TipoInmueble tipoDeInmueble, int superficie, String pais, String ciudad,
-			String direccion, List<Servicio> servicios, int capacidad, List<String> fotos, LocalTime checkIn,
-			LocalTime checkOut, List<FormaDePago> formasDePago, double precioBasePorDia) {
-		this.propietario = propietario;
-		this.tipoDeInmueble = tipoDeInmueble;
-		this.superficie = superficie;
-		this.pais = pais;
-		this.ciudad = ciudad;
-		this.direccion = direccion;
-		this.servicios = servicios;
-		this.capacidad = capacidad;
-		this.fotos = fotos;
-		this.checkIn = checkIn;
-		this.checkOut = checkOut;
-		this.formasDePago = formasDePago;
-		this.precioBasePorDia = precioBasePorDia;
-	}
-	
-	public Inmueble() {};
+	public Inmueble() {
+	};
 
 ///////////////////////  Notificaciones ///////////////////////////
 	private void notificarNuevaReserva(LocalDate fi, LocalDate ff) {
@@ -219,6 +203,10 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	}
 ///////////////////////////////////////////////////////////////////////////////
 
+	public int cantidadDeAlquileres() {
+		return (int) reservas.stream().filter(Reserva::estaFinalizada).count();
+	}
+
 	public void agregarReserva(Reserva reserva) {
 		reservas.add(reserva);
 
@@ -229,17 +217,13 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	}
 
-	public int getCantidadDeVecesAlquilada() {
-		// IMPLEMENTAR
-		return 0;
-	}
 
 	// Getters y setters
 	public void setPoliticaDeCancelacion(PoliticaCancelacion politica) {
 		this.politicaDeCancelacion = politica;
 	}
 
-	public Propietario getPropietario() {
+	public Usuario getPropietario() {
 		return propietario;
 	}
 
@@ -408,7 +392,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		return politicaDeCancelacion;
 	}
 
-	public void setPropietario(Propietario propietario) {
+	public void setPropietario(Usuario propietario) {
 		this.propietario = propietario;
 	}
 
@@ -423,11 +407,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	public void setRankings(List<Ranking> rankings) {
 		this.rankings = rankings;
 	}
-	
-	
-	
-	
-	
+
 	/*
 	 * public void encolar(Reserva reserva) { reservasEncoladas.add(reserva); }
 	 * 
@@ -453,7 +433,5 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	 * 
 	 * }
 	 */
-
-	
 
 }
