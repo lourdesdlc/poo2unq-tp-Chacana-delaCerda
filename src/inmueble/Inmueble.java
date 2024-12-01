@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import notificaciones.EmailSender;
 import observer.Notificable;
 import observer.Notificador;
 import observer.Subscripcion;
@@ -49,6 +50,8 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	private List<Inquilino> visitantes;
 
+	private EmailSender email; // pagina 4 del tp, es solo para cumplir el envio de email
+
 	public Inmueble() {
 	};
 
@@ -80,18 +83,33 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	public void eliminarSubscriptor(Subscripcion s) {
 		s.eliminarInteresEnInmuble(this);
 	}
+
 ///////////////////////  Concrecion de Reserva  ///////////////////////////
 
+	// el propietario tiene tiempo de resivsar la solicitud (esto puede que no sea
+	// necesario, lo dejo a tu criterio Lourdes jaja)
 	public void recibirSolicitudDeReserva(Reserva r) {
+		if (r.estaPendiente()) {
+			email.enviarMail(propietario.getEmail(), "Nueva solicitud de reserva para uno de sus inmubles", r);
+			propietario.agregarReserva(r);
+		}
+	}
+
+	public void aceptarReserva(Reserva r) {
 
 		if (r.estaPendiente() && estaDisponibleParaLasFechas(r.getFechaEntrada(), r.getFechaSalida())) {
 			reservas.add(r);
+			// observer
 			notificarNuevaReserva(r.getFechaEntrada(), r.getFechaSalida()); // pensar en clase periodo
-
+			// envio de email
+			email.enviarMail(r.mailInquilino(), "Su reserva ha sido aceptada", r);
 			// si el iniquilino tiene que conocer sus reservas, entonces que se agregue aca
+
+			r.getInquilino().agregarReserva(r);
 		} else {
 			reservasEncoladas.add(r);
 			// posible notificaccion para inquilino diciendo que su reserva fue encolada...
+			email.enviarMail(r.mailInquilino(), "Su reserva ha sido encolada", r);
 		}
 	}
 
@@ -216,7 +234,6 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		reservas.remove(reserva);
 
 	}
-
 
 	// Getters y setters
 	public void setPoliticaDeCancelacion(PoliticaCancelacion politica) {

@@ -85,10 +85,14 @@ public class Reserva {
 		return this.inquilino.getEmail();
 	}
 
-	/*
-	 * public String mailPropietario() { // TODO Auto-generated method stub return
-	 * this.inmueble.getPropietario().getEmail(); }
-	 */
+	public String mailPropietario() {
+		return this.inmueble.getPropietario().getEmail();
+	}
+
+	public Usuario getPropietario() {
+		return inmueble.getPropietario();
+	}
+	
 	public String ciudadDeReserva() {
 
 		return this.getInmueble().getCiudad();
