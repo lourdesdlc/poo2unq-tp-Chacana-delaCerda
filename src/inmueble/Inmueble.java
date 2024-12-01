@@ -88,14 +88,14 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	// el propietario tiene tiempo de resivsar la solicitud (esto puede que no sea
 	// necesario, lo dejo a tu criterio Lourdes jaja)
-	public void recibirSolicitudDeReserva(Reserva r) {
+	public void recibirSolicitudDeReserva(Reserva r) { // a) el potencial inquilino realiza una reserva
 		if (r.estaPendiente()) {
 			email.enviarMail(propietario.getEmail(), "Nueva solicitud de reserva para uno de sus inmubles", r);
 			propietario.agregarReserva(r);
 		}
 	}
 
-	public void aceptarReserva(Reserva r) {
+	public void aceptarReserva(Reserva r) { // b) el dueño debe aceptarla.
 
 		if (r.estaPendiente() && estaDisponibleParaLasFechas(r.getFechaEntrada(), r.getFechaSalida())) {
 			reservas.add(r);
@@ -118,8 +118,10 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 			reserva.cancelarReserva();
 			politicaDeCancelacion.calcularPenalidad(reserva);
+			// observer
 			notificarCancelacionDeReserva();
-
+			// notificacion
+			email.enviarMail(propietario.getEmail(), "El inquilino ha cancelado la reserva", reserva);
 			ejecutarReservaEncoladas();
 		}
 
