@@ -3,7 +3,7 @@ package inmueble;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import notificaciones.Notificador;
+import observer.Notificador;
 import politicaCancelacion.PoliticaCancelacion;
 import ranking.Ranking;
 import reserva.Reserva;

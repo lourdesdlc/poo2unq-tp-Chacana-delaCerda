@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import notificaciones.Notificable;
-import notificaciones.Notificador;
-import observadores.Subscripcion;
+import observer.Notificable;
+import observer.Notificador;
+import observer.Subscripcion;
 import politicaCancelacion.PoliticaCancelacion;
 import ranking.Categoria;
 import ranking.GestorRanking;
