@@ -1,8 +1,10 @@
 package sitioWeb;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+
 import java.util.stream.Collectors;
 
 import filtroDeBusqueda.CriterioBusqueda;
@@ -11,25 +13,22 @@ import inmueble.Servicio;
 import inmueble.TipoInmueble;
 import ranking.Categoria;
 import ranking.TipoRankeable;
+
 import usuario.Propietario;
 import usuario.Usuario;
 
 public class SitioWeb {
-	private List<Usuario> usuarios = new ArrayList<>();
+	private List<Usuario> usuarios;
 	private List<Servicio> serviciosInmuebles = new ArrayList<>();
 	private List<TipoInmueble> tiposDeInmueble = new ArrayList<>();
 	private List<Categoria> categorias = new ArrayList<>();
-	private Set<Inmueble> inmuebles; // tiene sentido que esten los inmuebles publicados, con esta lista podemos
-										// obtener mucha informacion, ej todas las reservas, inmueble mas alquilado etc
-
-	public SitioWeb(List<TipoInmueble> tiposDeInmueble, List<Categoria> categorias, List<Servicio> serviciosInmuebles) {
-		this.tiposDeInmueble.addAll(tiposDeInmueble);
-		this.categorias.addAll(categorias);
-		this.serviciosInmuebles.addAll(serviciosInmuebles);
-
-	}
 
 	public SitioWeb() {
+		this.usuarios = new ArrayList<>();
+		this.serviciosInmuebles = new ArrayList<>();
+		this.tiposDeInmueble = new ArrayList<>();
+		this.categorias = new ArrayList<>();
+
 	}
 
 	public void registrarUsuario(Usuario usuario) {
@@ -85,28 +84,31 @@ public class SitioWeb {
 		this.serviciosInmuebles.remove(servicio);
 	}
 
-	public List<Usuario> topTenInquilinos() {
-		// FALTA IMPLEMENTAR
-		return null;
+	public List<Usuario> topTenInquilinosQueMasHanAlquilado() {
+		return usuarios.stream().sorted(Comparator.comparingInt(Usuario::cantidadDeAlquileres).reversed()).limit(10)
+				.collect(Collectors.toList());
 	}
 
 	public List<Inmueble> inmueblesLibres() {
-		// FALTA IMPLEMENTAR
-		return null;
+		List<Inmueble> inmuebles = getInmuebles();
+
+		return inmuebles.stream().filter(i -> i.estaDisponibleParaLasFechas(LocalDate.now(), LocalDate.now())).toList();
 	}
 
-	public double tasaOcupacion() {
-		// FALTA IMPLEMENTAR
-		return 0;
+	public double tasaOcupacion() { // bach: verificar si es lo que se pide
+
+		List<Inmueble> inmuebles = getInmuebles();
+
+		return ((double) inmuebles.stream().filter(i -> i.estaDisponibleParaLasFechas(LocalDate.now(), LocalDate.now()))
+				.count() / inmuebles.size()) * 100;
 	}
 
-	public void darDeAltaInmueble(Inmueble i) {
-
-		inmuebles.add(i);
+	public void darDeAltaInmueble(Propietario p, Inmueble i) {
+		p.agregarInmueble(i);
 	}
 
-	public void eliminarInmueble(Inmueble i) {
-		inmuebles.remove(i);
+	public void eliminarInmueble(Usuario u, Inmueble i) {
+		u.removerInmueble(i);
 	}
 
 	// Getters y setters

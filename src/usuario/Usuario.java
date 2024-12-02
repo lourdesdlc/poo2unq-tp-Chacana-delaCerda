@@ -39,9 +39,15 @@ public class Usuario implements Propietario, Inquilino {
 
 	@Override
 	public void agregarInmueble(Inmueble inmueble) {
-		inmuebles.add(inmueble);
+		if (!inmuebles.contains(inmueble))
+			inmuebles.add(inmueble);
 	}
 
+	public void removerInmueble(Inmueble inmueble) {
+		if (inmuebles.contains(inmueble))
+			inmuebles.remove(inmueble);
+	}
+	
 	@Override
 	public List<Inmueble> getInmuebles() {
 		return inmuebles;
@@ -74,14 +80,10 @@ public class Usuario implements Propietario, Inquilino {
 	}
 
 	public List<Inmueble> inmueblesAlquilados() {
-	    return reservas.stream()
-	                   .filter(Reserva::estaFinalizada) 
-	                   .map(Reserva::getInmueble)      
-	                   .distinct()                   
-	                   .collect(Collectors.toList()); 
+		return reservas.stream().filter(Reserva::estaFinalizada).map(Reserva::getInmueble).distinct()
+				.collect(Collectors.toList());
 	}
 
-	
 //RANKING/////////////////////////////////////////////////////////
 	@Override
 	public void agregarRanking(Ranking ranking) {
@@ -150,7 +152,5 @@ public class Usuario implements Propietario, Inquilino {
 	public LocalDate getfechaDeCreacion() {
 		return fechaDeCreacion;
 	}
-
-
 
 }
