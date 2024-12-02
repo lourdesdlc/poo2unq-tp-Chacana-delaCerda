@@ -17,4 +17,18 @@ public class FiltroPorFecha implements FiltroDeBusqueda {
     	//return inmueble.estaDisponibleEntre(fechaEntrada, fechaSalida);
     	return true;
     }
+	public LocalDate getFechaEntrada() {
+		return fechaEntrada;
+	}
+	public void setFechaEntrada(LocalDate fechaEntrada) {
+		this.fechaEntrada = fechaEntrada;
+	}
+	public LocalDate getFechaSalida() {
+		return fechaSalida;
+	}
+	public void setFechaSalida(LocalDate fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
+
+    
 }

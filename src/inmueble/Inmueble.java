@@ -17,9 +17,9 @@ import ranking.GestorRanking;
 import ranking.Rankeable;
 import ranking.Ranking;
 import reserva.Reserva;
-import reserva.ReservaCancelada;
+
 import usuario.Inquilino;
-import usuario.Propietario;
+
 import usuario.Usuario;
 
 public class Inmueble implements Rankeable { // casa // departamento // lordes.casa.13 --- bruno.casa.13
@@ -98,9 +98,9 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	public void aceptarReserva(Reserva r) { // b) el dueño debe aceptarla.
 
 		if (r.estaPendiente() && estaDisponibleParaLasFechas(r.getFechaEntrada(), r.getFechaSalida())) {
-			
+
 			r.confirmarReserva();
-			
+
 			reservas.add(r);
 			// observer
 			notificarNuevaReserva(r.getFechaEntrada(), r.getFechaSalida()); // pensar en clase periodo
@@ -120,7 +120,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		if (!reserva.estaCancelada()) { // sino esta cancelada previamente...
 
 			reserva.cancelarReserva();
-			
+
 			politicaDeCancelacion.calcularPenalidad(reserva);
 			// observer
 			notificarCancelacionDeReserva();

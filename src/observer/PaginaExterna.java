@@ -1,11 +1,7 @@
 package observer;
 
-import java.util.List;
-import java.util.Set;
-
 import inmueble.Inmueble;
 import notificaciones.HomePagePublisher;
-import sitioWeb.SitioWeb;
 
 public class PaginaExterna implements Notificable {
 	private HomePagePublisher publicador;
