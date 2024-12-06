@@ -8,6 +8,7 @@ public class AppMobile implements Notificable {
 	private String color;
 	private int front;
 
+	
 	@Override
 	public void notificarCancelacionReserva(String evento, Inmueble i) {
 		// Bach:
@@ -16,7 +17,7 @@ public class AppMobile implements Notificable {
 		// futuro
 		// es un detalle no mas... pero me hizo pensar
 
-		String mensajePerzonalizado = "El/la " + i.getTipoDeInmueble()
+		String mensajePerzonalizado = "El/la " + i.getNombreDeTipoInmueble()
 				+ " que te interesa se ha liberado! Corre a reservarlo!";
 
 		notificadorCelular.popUp(mensajePerzonalizado, this.getColor(), this.getFront());

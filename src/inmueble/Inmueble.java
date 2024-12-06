@@ -242,6 +242,10 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	}
 
 	// Getters y setters
+	
+	public String getNombreDeTipoInmueble() {
+		return tipoDeInmueble.getNombre();
+	}
 	public void setPoliticaDeCancelacion(PoliticaCancelacion politica) {
 		this.politicaDeCancelacion = politica;
 	}
@@ -431,30 +435,5 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		this.rankings = rankings;
 	}
 
-	/*
-	 * public void encolar(Reserva reserva) { reservasEncoladas.add(reserva); }
-	 * 
-	 * public void verificarEncoladas(LocalDate fechaEntrada) {
-	 * 
-	 * }
-	 * 
-	 * public void agregarReservaCondicional(Reserva reserva) {
-	 * this.reservasEncoladas.add(reserva); // reserva duplicada
-	 * 
-	 * } public void evaluarEncoladas(LocalDate fechaInicio, LocalDate fechaFin) {
-	 * if (reservasEncoladas != null && !reservasEncoladas.isEmpty()) { // Encuentra
-	 * la primera reserva encolada que interfiera con las fechas // proporcionadas
-	 * reservasEncoladas.stream().filter(r -> r.reservaInterfiereCon(fechaInicio,
-	 * fechaFin)).findFirst() .ifPresent(reserva -> {
-	 * this.getPropietario().aceptarReserva(reserva);
-	 * reservasEncoladas.remove(reserva); // Elimina la reserva de la cola }); } }
-	 * 
-	 * 
-	 * public void evaluarReservasEncoladasParaInmueble() {
-	 * if(!reservasEncoladas.isEmpty())
-	 * this.getPropietario().evaluarSolicitudDeReserva(reservasEncoladas.poll());
-	 * 
-	 * }
-	 */
-
+	
 }

@@ -26,9 +26,17 @@ public class PaginaExterna implements Notificable {
 		// futuro
 		// es un detalle no mas... pero me hizo pensar
 
-		String mensaje = "No te pierdas esta oferta: Un inmueble " + i.getTipo() + " a tan sólo " + i.getPrecioPorDia()
+		String mensaje = "No te pierdas esta oferta: Un inmueble " + i.getNombreDeTipoInmueble() + " a tan sólo " + i.getPrecioPorDia()
 				+ " pesos.";
 		publicador.publish(mensaje);
+	}
+
+	public HomePagePublisher getPublicador() {
+		return publicador;
+	}
+
+	public void setPublicador(HomePagePublisher publicador) {
+		this.publicador = publicador;
 	}
 
 }
