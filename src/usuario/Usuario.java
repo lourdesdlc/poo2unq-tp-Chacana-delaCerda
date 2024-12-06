@@ -47,7 +47,7 @@ public class Usuario implements Propietario, Inquilino {
 		if (inmuebles.contains(inmueble))
 			inmuebles.remove(inmueble);
 	}
-	
+
 	@Override
 	public List<Inmueble> getInmuebles() {
 		return inmuebles;
@@ -84,11 +84,32 @@ public class Usuario implements Propietario, Inquilino {
 				.collect(Collectors.toList());
 	}
 
-//RANKING/////////////////////////////////////////////////////////
+/////// RANKING/////////////////////////////////////////////////////////
 	@Override
-	public void agregarRanking(Ranking ranking) {
-		validarCheckOut(ranking);
+	public void agregarRanking(Ranking ranking) { // recibis opinion de criticador
+
+		validarCheckOut(ranking.getRankeador()); // QUIEN te esta criticando...
 		rankings.add(ranking);
+	}
+
+	private void validarCheckOut(Usuario u) {
+
+		if (!(fueHechoCheckOutConPropietario(u) || fueHechoCheckOutConInquilino(u))) {
+			throw new RuntimeException("No se puede rankear antes de hacer el check-out");
+		}
+	}
+
+	private boolean fueHechoCheckOutConPropietario(Usuario usuarioPropietario) { // caso: Inquilino es criticado por
+																				// Propietario
+		// reservasDeInquilino
+		return reservas.stream().anyMatch(reserva -> reserva.propietarioAsigando().equals(usuarioPropietario)
+				&& reserva.estaFinalizada()); // por ende se realizo check out
+	}
+
+	private boolean fueHechoCheckOutConInquilino(Usuario usuarioInquilino) { // caso: Propietario es criticado por
+																				// Inquilino
+		return usuarioInquilino.getReservas().stream().anyMatch(reserva -> reserva.propietarioAsigando().equals(this)
+				&& reserva.estaFinalizada());
 	}
 
 	@Override
@@ -120,10 +141,6 @@ public class Usuario implements Propietario, Inquilino {
 	}
 
 	////////////////////////////////////////////////////////////////////// 7
-	private void validarCheckOut(Ranking ranking) {
-		// IMPLEMENTAR
-	}
-
 	// getters y setters
 	public String getEmail() {
 		return email;
