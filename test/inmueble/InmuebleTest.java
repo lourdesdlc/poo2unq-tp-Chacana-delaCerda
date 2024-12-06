@@ -3,7 +3,10 @@ package inmueble;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import notificaciones.EmailSender;
+import observer.Notificable;
 import observer.Notificador;
+import observer.Subscripcion;
 import politicaCancelacion.PoliticaCancelacion;
 import ranking.Ranking;
 import reserva.Reserva;
@@ -11,6 +14,7 @@ import usuario.Inquilino;
 import usuario.Propietario;
 import usuario.Usuario;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,13 @@ import java.util.Queue;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InmuebleTest {
 
@@ -33,11 +43,10 @@ public class InmuebleTest {
 	private Reserva reservaMock;
 	private Notificador notificador;
 	private Inquilino inquilinoMock;
+	private EmailSender email;
 
 	@BeforeEach
 	void setUp() {
-
-		inmueble = new Inmueble();
 
 		propietario = mock(Usuario.class);
 		tipoDeInmueble = mock(TipoInmueble.class);
@@ -49,6 +58,16 @@ public class InmuebleTest {
 		reservaMock = mock(Reserva.class);
 		notificador = mock(Notificador.class);
 		inquilinoMock = mock(Inquilino.class);
+		email = mock(EmailSender.class);
+
+		inmueble = new Inmueble(propietario, tipoDeInmueble, "Argentina", "BsAs", "calle");
+		email = mock(EmailSender.class);
+		inmueble.setEmailSender(email);
+		inmueble.setNotificador(notificador); // Inyectar el mock en el inmueble
+
+		when(reservaMock.getFechaEntrada()).thenReturn(LocalDate.of(2024, 12, 6));
+		when(reservaMock.getFechaSalida()).thenReturn(LocalDate.of(2024, 12, 10));
+
 	}
 
 	@Test
@@ -168,7 +187,7 @@ public class InmuebleTest {
 
 	@Test
 	void testReservasGetterSetter() {
-		Set<Reserva> reservas = mock(Set.class);
+		List<Reserva> reservas = mock(List.class);
 		inmueble.setReservas(reservas);
 		assertEquals(reservas, inmueble.getReservas());
 	}
@@ -193,4 +212,79 @@ public class InmuebleTest {
 		inmueble.setVisitantes(visitantes);
 		assertEquals(visitantes, inmueble.getVisitantes());
 	}
+
+	@Test
+	void testAgregarReserva() {
+		List<Reserva> reservas = inmueble.getReservas();
+		reservas.add(reservaMock);
+		assertEquals(1, reservas.size());
+	}
+
+	@Test
+	void testAgregarReservaEnCola() {
+		Queue<Reserva> reservasEncoladas = inmueble.getReservasEncoladas();
+		reservasEncoladas.add(reservaMock);
+		assertEquals(1, reservasEncoladas.size());
+	}
+
+	@Test
+	void testReservaCondicional() {
+		Queue<Reserva> reservasEncoladas = inmueble.getReservasEncoladas();
+		reservasEncoladas.add(reservaMock);
+		inmueble.cancelarReserva(reservaMock);
+		assertEquals(0, reservasEncoladas.size());
+	}
+
+	@Test
+	void testNotificarNuevaReserva() {
+		LocalDate fechaInicio = LocalDate.of(2024, 12, 10);
+		LocalDate fechaFin = LocalDate.of(2024, 12, 15);
+
+		inmueble.notificarNuevaReserva(fechaInicio, fechaFin);
+
+		verify(notificador).notificarReserva("El inmueble " + inmueble.getTipoDeInmueble()
+				+ " que te interesa, ha sido reservado desde el " + fechaInicio + " hasta el " + fechaFin + ".",
+				inmueble);
+	}
+
+	@Test
+	void testNotificarCancelacionDeReserva() {
+		inmueble.notificarCancelacionDeReserva();
+
+		verify(notificador).notificarCancelacionReserva("El/la " + inmueble.getTipoDeInmueble().getNombre()
+				+ " que te interesa se ha liberado! Corre a reservarlo!", inmueble);
+	}
+
+	@Test
+	void testNotificarBajaDePrecioDeInmueble() {
+
+		when(tipoDeInmueble.getNombre()).thenReturn("departamento");
+
+		inmueble.setPrecioBasePorDia(100.0); // Precio inicial
+
+		inmueble.cambiarPrecio(50.0); // Nuevo precio más bajo
+
+		// Verificar que el mock de Notificador haya sido invocado
+		verify(notificador).notificarBajaDePrecio(
+				"No te pierdas esta oferta: Un inmueble departamento a tan sólo 50.0 pesos", inmueble);
+	}
+
+	@Test
+	void testRecibirSubscriptor() {
+		Notificable appMobile = mock(Notificable.class);
+
+		inmueble.recibirSubscriptor(appMobile);
+
+		verify(notificador).suscribir(any(Subscripcion.class));
+	}
+
+	@Test
+	void testEliminarSubscriptor() {
+		Subscripcion subscripcion = mock(Subscripcion.class);
+
+		inmueble.eliminarSubscriptor(subscripcion);
+
+		verify(subscripcion).eliminarInteresEnInmuble(inmueble);
+	}
+
 }

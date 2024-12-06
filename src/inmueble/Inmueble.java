@@ -3,6 +3,7 @@ package inmueble;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -12,6 +13,7 @@ import observer.Notificable;
 import observer.Notificador;
 import observer.Subscripcion;
 import politicaCancelacion.PoliticaCancelacion;
+import politicaCancelacion.PoliticaGratuita;
 import ranking.Categoria;
 import ranking.GestorRanking;
 import ranking.Rankeable;
@@ -30,7 +32,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	private String ciudad;
 	private String direccion;
 	private int capacidad;
-	private List<String> fotos; // Máximo de 5 fotos
+	private List<String> fotos;// Máximo de 5 fotos
 	private LocalTime checkIn; // representa solo la hora, formato: hh:mm:ss.nnn (hora:minuto.nanosegundo).
 	private LocalTime checkOut;
 	private List<Servicio> servicios;
@@ -40,9 +42,9 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	private List<PrecioPorPeriodo> preciosPorPeriodos;
 	private double precioBasePorDia; // un valor por defecto(por si no es un periodo existente)
 	private PoliticaCancelacion politicaDeCancelacion;
-	private List<Ranking> rankings = new ArrayList<>();
+	private List<Ranking> rankings;
 
-	private Set<Reserva> reservas; // reservasFuturas
+	private List<Reserva> reservas;
 
 	private Queue<Reserva> reservasEncoladas;
 
@@ -55,19 +57,42 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	public Inmueble() {
 	};
 
+	// Constructor simplificado
+	public Inmueble(Usuario propietario, TipoInmueble tipoDeInmueble, String pais, String ciudad, String direccion) {
+		this.propietario = propietario;
+		this.tipoDeInmueble = tipoDeInmueble;
+		this.pais = pais;
+		this.ciudad = ciudad;
+		this.direccion = direccion;
+		this.capacidad = 0; // valor por defecto, si es necesario ajustarlo
+		this.fotos = new ArrayList<>(); // Inicia la lista vacía
+		this.checkIn = LocalTime.of(15, 0); // ejemplo: por defecto a las 15:00
+		this.checkOut = LocalTime.of(11, 0); // ejemplo: por defecto a las 11:00
+		this.servicios = new ArrayList<>();
+		this.formasDePago = new ArrayList<>();
+		this.preciosPorPeriodos = new ArrayList<>();
+		this.precioBasePorDia = 0.0; // valor por defecto
+		this.politicaDeCancelacion = new PoliticaGratuita(); // ejemplo: se crea por defecto
+		this.rankings = new ArrayList<>();
+		this.reservas = new ArrayList<>();
+		this.reservasEncoladas = new LinkedList<>();
+		this.notificador = new Notificador(); // Suponiendo que se inicializa vacío
+		this.visitantes = new ArrayList<>();
+	}
+
 ///////////////////////  Notificaciones ///////////////////////////
-	private void notificarNuevaReserva(LocalDate fi, LocalDate ff) {
+	void notificarNuevaReserva(LocalDate fi, LocalDate ff) {
 		notificador.notificarReserva("El inmueble " + tipoDeInmueble + " que te interesa, ha sido reservado desde el "
 				+ fi + " hasta el " + ff + ".", this);
 	}
 
-	private void notificarCancelacionDeReserva() {
+	void notificarCancelacionDeReserva() {
 		notificador.notificarCancelacionReserva(
 				"El/la " + tipoDeInmueble.getNombre() + " que te interesa se ha liberado! Corre a reservarlo!", this);
 	}
 
 	void notificarBajaDePrecioDeInmueble() {
-		notificador.notificarBajaDePrecio("No te pierdas esta oferta: Un inmueble " + tipoDeInmueble + " a tan sólo "
+		notificador.notificarBajaDePrecio("No te pierdas esta oferta: Un inmueble " + tipoDeInmueble.getNombre() + " a tan sólo "
 				+ precioBasePorDia + " pesos", this);
 	}
 
@@ -153,7 +178,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		// cuando
 	}
 
-	private void validarCheckOut(Inquilino inquilino) {
+	void validarCheckOut(Inquilino inquilino) {
 		if (!fueHechoElCheckOut(inquilino)) {
 			throw new RuntimeException("No se puede rankear antes de hacer el check-out");
 		} // supongo que para rankear basta con que haya estado una vez.
@@ -188,7 +213,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		preciosPorPeriodos.add(precioPorPeriodo);
 	}
 
-	private void validarPeriodo(PrecioPorPeriodo precioPorPeriodo) {
+	void validarPeriodo(PrecioPorPeriodo precioPorPeriodo) {
 		if (interfiereConAlgunPeriodoDefinido(precioPorPeriodo)) {
 			throw new RuntimeException("Interfiere con otro periodo definido anteriormente");
 		}
@@ -242,10 +267,11 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	}
 
 	// Getters y setters
-	
+
 	public String getNombreDeTipoInmueble() {
 		return tipoDeInmueble.getNombre();
 	}
+
 	public void setPoliticaDeCancelacion(PoliticaCancelacion politica) {
 		this.politicaDeCancelacion = politica;
 	}
@@ -383,11 +409,11 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		this.precioBasePorDia = precioBasePorDia;
 	}
 
-	public Set<Reserva> getReservas() {
+	public List<Reserva> getReservas() {
 		return reservas;
 	}
 
-	public void setReservas(Set<Reserva> reservas) {
+	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
 
@@ -435,5 +461,9 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		this.rankings = rankings;
 	}
 
-	
+	public void setEmailSender(EmailSender email2) {
+		this.email = email2;
+		
+	}
+
 }

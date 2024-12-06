@@ -7,10 +7,13 @@ import reserva.Reserva;
 
 //Patrón Strategy para Políticas de Cancelación
 public abstract class PoliticaCancelacion {
-	
+
+	public PoliticaCancelacion() { // constructor vacio
+	}
+
 	public int diasAntesDeInicio(LocalDate fechaInicio) {
 		return (int) ChronoUnit.DAYS.between(LocalDate.now(), fechaInicio);
 	}
-	
+
 	public abstract double calcularPenalidad(Reserva reserva);
 }
