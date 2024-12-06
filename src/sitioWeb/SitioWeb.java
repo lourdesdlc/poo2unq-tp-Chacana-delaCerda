@@ -90,9 +90,9 @@ public class SitioWeb {
 	}
 
 	public List<Inmueble> inmueblesLibres() {
-		List<Inmueble> inmuebles = getInmuebles();
 
-		return inmuebles.stream().filter(i -> i.estaDisponibleParaLasFechas(LocalDate.now(), LocalDate.now())).toList();
+		return getInmuebles().stream().filter(i -> i.estaDisponibleParaLasFechas(LocalDate.now(), LocalDate.now()))
+				.toList();
 	}
 
 	public double tasaOcupacion() { // bach: verificar si es lo que se pide
