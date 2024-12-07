@@ -99,30 +99,31 @@ public class Usuario implements Propietario, Inquilino {
 		rankings.add(ranking);
 	}
 
-	private void validarCheckOut(Usuario u) {
+	void validarCheckOut(Usuario u) {
 
 		if (!(fueHechoCheckOutConPropietario(u) || fueHechoCheckOutConInquilino(u))) {
 			throw new RuntimeException("No se puede rankear antes de hacer el check-out");
 		}
 	}
 
-	private boolean fueHechoCheckOutConPropietario(Usuario usuarioPropietario) { // caso: Inquilino es criticado por
+	boolean fueHechoCheckOutConPropietario(Usuario usuarioPropietario) { // caso: Inquilino es criticado por
 																					// Propietario
 		// reservasDeInquilino
 		return reservas.stream().anyMatch(
-				reserva -> reserva.propietarioAsigando().equals(usuarioPropietario) && reserva.estaFinalizada()); // por
-																													// ende
-																													// se
+				 // por
+				reserva -> reserva.fueHechoCheckOutPara(usuarioPropietario));																								// ende
+		//reserva -> reserva.propietarioAsigando().equals(usuarioPropietario) && reserva.estaFinalizada());																									// se
 																													// realizo
 																													// check
 																													// out
 	}
 
-	private boolean fueHechoCheckOutConInquilino(Usuario usuarioInquilino) { // caso: Propietario es criticado por
+	boolean fueHechoCheckOutConInquilino(Usuario usuarioInquilino) { // caso: Propietario es criticado por
 																				// Inquilino
 		return usuarioInquilino.getReservas().stream()
-				.anyMatch(reserva -> reserva.propietarioAsigando().equals(this) && reserva.estaFinalizada());
-	}
+				.anyMatch(reserva -> reserva.fueHechoCheckOutPara(this));
+				////*reserva.propietarioAsigando().equals(this) && reserva.estaFinalizada())
+	}	
 
 	@Override
 	public List<Ranking> getRankings() {

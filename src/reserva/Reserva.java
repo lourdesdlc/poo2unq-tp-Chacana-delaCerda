@@ -21,6 +21,10 @@ public class Reserva {
 		this.estado = new ReservaPendiente(); // Estado inicial, vincula la reserva con su estado...
 	}
 
+	public boolean fueHechoCheckOutPara(Usuario u) {
+		return (this.propietarioAsigando() == u) && this.estaFinalizada(); // chequear.
+	}
+
 	public Propietario propietarioAsigando() {
 		return this.inmueble.getPropietario();
 	}

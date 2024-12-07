@@ -10,6 +10,7 @@ import reserva.Reserva;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -224,4 +225,73 @@ class UsuarioTest {
 		assertEquals(3, antiguedad);
 
 	}
+
+	@Test
+	void testValidarCheckOutConCheckOut() {
+		// Crear mocks necesarios
+		Usuario usuarioMock = mock(Usuario.class);
+		Reserva reservaMock = mock(Reserva.class);
+		when(usuarioMock.getReservas()).thenReturn(Collections.singletonList(reservaMock));
+		when(reservaMock.estaFinalizada()).thenReturn(true); // Simula que la reserva está finalizada
+
+		// Llamar al método validarCheckOut
+		usuarioMock.validarCheckOut(usuarioMock); // Simula que el usuario intenta validar su propio check-out
+		// No se espera ninguna excepción, el método debe ejecutarse sin problemas
+	}
+
+	@Test
+	void testFueHechoCheckOutConPropietarioSinCheckOut() {
+		// Crear mocks necesarios
+		Usuario propietarioMock = mock(Usuario.class);
+		Usuario usuarioMock = mock(Usuario.class);
+		Reserva reservaMock = mock(Reserva.class);
+
+		// Simular que la reserva tiene al propietarioMock y que la reserva no está
+		// finalizada
+		when(reservaMock.propietarioAsigando()).thenReturn(propietarioMock);
+		when(reservaMock.estaFinalizada()).thenReturn(false);
+		when(usuarioMock.getReservas()).thenReturn(Collections.singletonList(reservaMock));
+
+		// Llamar al método y verificar que retorna false
+		boolean resultado = usuarioMock.fueHechoCheckOutConPropietario(propietarioMock);
+		assertFalse(resultado); // Se espera que el check-out no haya sido realizado
+	}
+
+	@Test // ESTE ANDA
+	void testFueHechoCheckOutConPropietario() {
+		// Crear mocks necesarios
+		Usuario propietarioMock = mock(Usuario.class); // Mockear el propietario
+		Reserva reservaMock = mock(Reserva.class);
+
+		// Mockear que la reserva está finalizada y que la propiedad fue check-out
+		when(reservaMock.fueHechoCheckOutPara(propietarioMock)).thenReturn(true);
+
+		Usuario usuario = new Usuario();
+		usuario.agregarReserva(reservaMock);
+
+		// Llamar al método y verificar que retorna true
+		boolean resultado = usuario.fueHechoCheckOutConPropietario(propietarioMock);
+
+		// Verificar que el resultado sea true
+		assertTrue(resultado); // Se espera que el check-out haya sido realizado
+	}
+
+	@Test
+	void testFueHechoCheckOutConInquilinoSinCheckOut() {
+		// Crear mocks necesarios
+		Usuario inquilinoMock = mock(Usuario.class);
+		Usuario usuarioMock = mock(Usuario.class);
+		Reserva reservaMock = mock(Reserva.class);
+
+		// Simular que la reserva está finalizada y que la propiedad está asignada al
+		// usuarioMock
+		when(reservaMock.propietarioAsigando()).thenReturn(usuarioMock);
+		when(reservaMock.estaFinalizada()).thenReturn(false);
+		when(inquilinoMock.getReservas()).thenReturn(Collections.singletonList(reservaMock));
+
+		// Llamar al método y verificar que retorna false
+		boolean resultado = usuarioMock.fueHechoCheckOutConInquilino(inquilinoMock);
+		assertFalse(resultado); // Se espera que el check-out no haya sido realizado
+	}
+
 }
