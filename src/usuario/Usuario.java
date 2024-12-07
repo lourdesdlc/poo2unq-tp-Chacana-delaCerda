@@ -100,16 +100,21 @@ public class Usuario implements Propietario, Inquilino {
 	}
 
 	private boolean fueHechoCheckOutConPropietario(Usuario usuarioPropietario) { // caso: Inquilino es criticado por
-																				// Propietario
+																					// Propietario
 		// reservasDeInquilino
-		return reservas.stream().anyMatch(reserva -> reserva.propietarioAsigando().equals(usuarioPropietario)
-				&& reserva.estaFinalizada()); // por ende se realizo check out
+		return reservas.stream().anyMatch(
+				reserva -> reserva.propietarioAsigando().equals(usuarioPropietario) && reserva.estaFinalizada()); // por
+																													// ende
+																													// se
+																													// realizo
+																													// check
+																													// out
 	}
 
 	private boolean fueHechoCheckOutConInquilino(Usuario usuarioInquilino) { // caso: Propietario es criticado por
 																				// Inquilino
-		return usuarioInquilino.getReservas().stream().anyMatch(reserva -> reserva.propietarioAsigando().equals(this)
-				&& reserva.estaFinalizada());
+		return usuarioInquilino.getReservas().stream()
+				.anyMatch(reserva -> reserva.propietarioAsigando().equals(this) && reserva.estaFinalizada());
 	}
 
 	@Override
@@ -168,6 +173,11 @@ public class Usuario implements Propietario, Inquilino {
 
 	public LocalDate getfechaDeCreacion() {
 		return fechaDeCreacion;
+	}
+
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = reservas;
+
 	}
 
 }
