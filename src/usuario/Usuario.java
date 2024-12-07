@@ -32,6 +32,13 @@ public class Usuario implements Propietario, Inquilino {
 		rankings = new ArrayList<>();
 	}
 
+	public Usuario() {
+		fechaDeCreacion = LocalDate.now();
+		reservas = new ArrayList<>();
+		inmuebles = new ArrayList<>();
+		rankings = new ArrayList<>();
+	}
+
 	@Override
 	public void agregarReserva(Reserva reserva) {
 		reservas.add(reserva);
@@ -177,6 +184,11 @@ public class Usuario implements Propietario, Inquilino {
 
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
+
+	}
+
+	public void setFechaDeCreacion(LocalDate fecha) {
+		this.fechaDeCreacion = fecha;
 
 	}
 

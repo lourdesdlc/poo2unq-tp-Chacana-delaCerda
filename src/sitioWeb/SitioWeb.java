@@ -124,8 +124,16 @@ public class SitioWeb {
 		return serviciosInmuebles;
 	}
 
-	public List<Servicio> getTiposDeInmueble() {
-		return serviciosInmuebles;
+	public List<TipoInmueble> getTiposDeInmueble() {
+		return tiposDeInmueble;
+	}
+
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 
 /////////// " Visualizacion " ///////
