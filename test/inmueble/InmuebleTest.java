@@ -17,6 +17,7 @@ import usuario.Usuario;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -25,7 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +45,7 @@ public class InmuebleTest {
 	private Ranking rankingMock;
 	private Reserva reservaMock;
 	private Notificador notificador;
-	private Inquilino inquilinoMock;
+	private Usuario inquilinoMock;
 	private EmailSender email;
 
 	@BeforeEach
@@ -57,7 +60,7 @@ public class InmuebleTest {
 		rankingMock = mock(Ranking.class);
 		reservaMock = mock(Reserva.class);
 		notificador = mock(Notificador.class);
-		inquilinoMock = mock(Inquilino.class);
+		inquilinoMock = mock(Usuario.class);
 		email = mock(EmailSender.class);
 
 		inmueble = new Inmueble(propietario, tipoDeInmueble, "Argentina", "BsAs", "calle");
@@ -65,8 +68,11 @@ public class InmuebleTest {
 		inmueble.setEmailSender(email);
 		inmueble.setNotificador(notificador); // Inyectar el mock en el inmueble
 
+		// comportamiento predeterminado.
 		when(reservaMock.getFechaEntrada()).thenReturn(LocalDate.of(2024, 12, 6));
 		when(reservaMock.getFechaSalida()).thenReturn(LocalDate.of(2024, 12, 10));
+		when(reservaMock.mailInquilino()).thenReturn("inquilino@ejemplo.com");
+		when(reservaMock.getInquilino()).thenReturn(inquilinoMock);
 
 	}
 
@@ -285,6 +291,91 @@ public class InmuebleTest {
 		inmueble.eliminarSubscriptor(subscripcion);
 
 		verify(subscripcion).eliminarInteresEnInmuble(inmueble);
+	}
+
+	@Test
+	void testRecibirSolicitudDeReserva() {
+	    // Mockear la reserva
+	    Reserva reserva = mock(Reserva.class);
+	    when(reserva.estaPendiente()).thenReturn(true); // Simula que la reserva está pendiente
+
+	    // Configurar el mock del propietario con un email válido
+	    Usuario propietarioMock = mock(Usuario.class);
+	    when(propietarioMock.getEmail()).thenReturn("propietario@ejemplo.com");
+	    inmueble.setPropietario(propietarioMock); // Inyectar el propietario mockeado en el inmueble
+
+	    // Llamar al método que se prueba
+	    inmueble.recibirSolicitudDeReserva(reserva);
+
+	    // Verificar que el correo fue enviado al propietario con los argumentos correctos
+	    verify(email).enviarMail(
+	        eq("propietario@ejemplo.com"),
+	        eq("Nueva solicitud de reserva para uno de sus inmuebles"),
+	        eq(reserva)
+	    );
+
+	    // Verificar que la reserva fue agregada al propietario
+	    verify(propietarioMock).agregarReserva(reserva);
+	}
+
+
+
+	@Test
+	void testAceptarReserva() {
+	    // Configurar el mock de la reserva
+	    Reserva reserva = mock(Reserva.class);
+	    when(reserva.estaPendiente()).thenReturn(true);
+	    when(reserva.getFechaEntrada()).thenReturn(LocalDate.of(2024, 12, 10));
+	    when(reserva.getFechaSalida()).thenReturn(LocalDate.of(2024, 12, 15));
+	    when(reserva.mailInquilino()).thenReturn("inquilino@ejemplo.com");
+	    when(reserva.getInquilino()).thenReturn(inquilinoMock);
+
+	    // Crear un spy del inmueble para manejar métodos reales y mockeados
+	    Inmueble inmuebleSpy = spy(inmueble);
+
+	    // Mockear el comportamiento del método estaDisponibleParaLasFechas
+	    doReturn(true).when(inmuebleSpy).estaDisponibleParaLasFechas(LocalDate.of(2024, 12, 10), LocalDate.of(2024, 12, 15));
+
+	    // Llamar al método a testear
+	    inmuebleSpy.aceptarReserva(reserva);
+
+	    // Verificar que la reserva fue confirmada
+	    verify(reserva).confirmarReserva();
+
+	    // Verificar que la reserva fue agregada a las reservas
+	    assertTrue(inmuebleSpy.getReservas().contains(reserva));
+
+	    // Verificar que se envió el correo al inquilino
+	    verify(email).enviarMail(eq("inquilino@ejemplo.com"), eq("Su reserva ha sido aceptada"), eq(reserva));
+
+	    // Verificar que la reserva fue agregada al inquilino
+	    verify(inquilinoMock).agregarReserva(reserva);
+	}
+
+
+	@Test
+	void testAceptarReservaEncolada() {
+		// Configurar el estado de la reserva mock
+		when(reservaMock.estaPendiente()).thenReturn(true);
+
+		// Usar un spy para el inmueble
+		Inmueble inmuebleSpy = spy(inmueble);
+
+		// Mockear el método estaDisponibleParaLasFechas para devolver false
+		doReturn(false).when(inmuebleSpy).estaDisponibleParaLasFechas(any(LocalDate.class), any(LocalDate.class));
+
+		// Usar un spy para la cola de reservasEncoladas
+		Queue<Reserva> reservasEncoladasSpy = spy(new LinkedList<>());
+		inmuebleSpy.setReservasEncoladas(reservasEncoladasSpy);
+
+		// Llamar al método a testear
+		inmuebleSpy.aceptarReserva(reservaMock);
+
+		// Verificar que la reserva fue encolada
+		verify(reservasEncoladasSpy).add(reservaMock);
+
+		// Verificar que se envió el correo indicando que la reserva fue encolada
+		verify(email).enviarMail(eq("inquilino@ejemplo.com"), eq("Su reserva ha sido encolada"), eq(reservaMock));
 	}
 
 }

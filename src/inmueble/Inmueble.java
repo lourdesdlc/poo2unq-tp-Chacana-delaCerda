@@ -115,7 +115,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	// necesario, lo dejo a tu criterio Lourdes jaja)
 	public void recibirSolicitudDeReserva(Reserva r) { // a) el potencial inquilino realiza una reserva
 		if (r.estaPendiente()) {
-			email.enviarMail(propietario.getEmail(), "Nueva solicitud de reserva para uno de sus inmubles", r);
+			email.enviarMail(propietario.getEmail(), "Nueva solicitud de reserva para uno de sus inmuebles", r);
 			propietario.agregarReserva(r);
 		}
 	}
@@ -140,6 +140,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 			email.enviarMail(r.mailInquilino(), "Su reserva ha sido encolada", r);
 		}
 	}
+
 
 	public void cancelarReserva(Reserva reserva) {
 		if (!reserva.estaCancelada()) { // sino esta cancelada previamente...
