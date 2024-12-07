@@ -59,6 +59,24 @@ class ReservaTest {
 		assertTrue(reserva.estaPendiente());
 	}
 
+	void testEstadoConfirmada() {
+		when(estadoMock.esConfirmada()).thenReturn(true);
+		assertTrue(reserva.estaConfirmada());
+	}
+
+	
+	@Test
+	void testEstadoCancelada() {
+		when(estadoMock.esCancelada()).thenReturn(true);
+		assertTrue(reserva.estaCancelada());
+	}
+
+	@Test
+	void testEstadoFinalizada() {
+		when(estadoMock.esFinalizada()).thenReturn(true);
+		assertTrue(reserva.estaFinalizada());
+	}
+
 	@Test
 	void testInterfiereCon() {
 		reserva.setFechaEntrada(LocalDate.of(2024, 12, 1));
