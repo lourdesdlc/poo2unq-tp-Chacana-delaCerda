@@ -92,7 +92,7 @@ public class Reserva {
 	public Usuario getPropietario() {
 		return inmueble.getPropietario();
 	}
-	
+
 	public String ciudadDeReserva() {
 
 		return this.getInmueble().getCiudad();
@@ -143,7 +143,7 @@ public class Reserva {
 		return estado;
 	}
 
-	public void setEstado(EstadoReserva estado) {
+	public void setEstado(Concretable estado) {
 		this.estado = estado;
 	}
 
