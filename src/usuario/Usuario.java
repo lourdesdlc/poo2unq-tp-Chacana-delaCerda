@@ -107,23 +107,23 @@ public class Usuario implements Propietario, Inquilino {
 	}
 
 	boolean fueHechoCheckOutConPropietario(Usuario usuarioPropietario) { // caso: Inquilino es criticado por
-																					// Propietario
+																			// Propietario
 		// reservasDeInquilino
 		return reservas.stream().anyMatch(
-				 // por
-				reserva -> reserva.fueHechoCheckOutPara(usuarioPropietario));																								// ende
-		//reserva -> reserva.propietarioAsigando().equals(usuarioPropietario) && reserva.estaFinalizada());																									// se
-																													// realizo
-																													// check
-																													// out
+				// por
+				reserva -> reserva.fueHechoCheckOutPara(usuarioPropietario)); // ende
+		// reserva -> reserva.propietarioAsigando().equals(usuarioPropietario) &&
+		// reserva.estaFinalizada()); // se
+		// realizo
+		// check
+		// out
 	}
 
 	boolean fueHechoCheckOutConInquilino(Usuario usuarioInquilino) { // caso: Propietario es criticado por
-																				// Inquilino
-		return usuarioInquilino.getReservas().stream()
-				.anyMatch(reserva -> reserva.fueHechoCheckOutPara(this));
-				////*reserva.propietarioAsigando().equals(this) && reserva.estaFinalizada())
-	}	
+																		// Inquilino
+		return usuarioInquilino.getReservas().stream().anyMatch(reserva -> reserva.fueHechoCheckOutPara(this));
+		//// *reserva.propietarioAsigando().equals(this) && reserva.estaFinalizada())
+	}
 
 	@Override
 	public List<Ranking> getRankings() {
@@ -191,6 +191,18 @@ public class Usuario implements Propietario, Inquilino {
 	public void setFechaDeCreacion(LocalDate fecha) {
 		this.fechaDeCreacion = fecha;
 
+	}
+
+	public LocalDate getFechaDeCreacion() {
+		return fechaDeCreacion;
+	}
+
+	public void setInmuebles(List<Inmueble> inmuebles) {
+		this.inmuebles = inmuebles;
+	}
+
+	public void setRankings(List<Ranking> rankings) {
+		this.rankings = rankings;
 	}
 
 }

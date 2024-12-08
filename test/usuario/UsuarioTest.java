@@ -128,6 +128,57 @@ class UsuarioTest {
 	 * usuario.agregarRanking(rankingMock);
 	 * assertTrue(usuario.getRankings().contains(rankingMock)); }
 	 */
+	
+	@Test
+    void testAgregarRankingValid() {
+        // Create a spy of the real Usuario object
+        Usuario uReal = spy(new Usuario());
+        
+        // Create mock objects
+        Usuario mockRankeador = mock(Usuario.class);
+        Ranking mockRanking = mock(Ranking.class);
+
+        // Set up the behavior of the mock objects
+        when(mockRanking.getRankeador()).thenReturn(mockRankeador);
+        
+        // Use doReturn().when() for the spy object
+        doReturn(true).when(uReal).fueHechoCheckOutConPropietario(mockRankeador);
+
+        // Perform the action
+        uReal.agregarRanking(mockRanking);
+
+        // Verify the results
+        assertEquals(1, uReal.getRankings().size());
+        assertTrue(uReal.getRankings().contains(mockRanking));
+        
+        // Verify that fueHechoCheckOutConPropietario was called
+        verify(uReal).fueHechoCheckOutConPropietario(mockRankeador);
+    }
+	/*
+	@Test
+	void testAgregarRanking() {
+		
+		Usuario inquilinoMock = mock(Usuario.class);
+		Usuario propietarioMock = mock(Usuario.class);
+		
+		Ranking rankingMock = mock(Ranking.class);
+		
+		List<Ranking> rankingsReal = new ArrayList<>();
+		when(usuarioMock.validarCheckOut(uReal)).thenReturn(true);
+		when(rankingMock.validarCheckOut(uReal)).thenReturn(true);
+		
+		
+		inquilinoMock.agregarRanking(rankingMock);
+		uReal.setRankings(rankings);
+		uReal.agregarRanking(uReal);
+		
+		assertTrue(inquilinoMock.getRankings().size() == 1);
+		assertTrue(inquilinoMock.getRankings().contains(rankingMock));
+		
+	}*/
+	
+	
+	
 
 	@Test
 	void testGetReservasPorCiudad() {
