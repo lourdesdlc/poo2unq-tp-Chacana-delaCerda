@@ -226,7 +226,7 @@ public class InmuebleTest {
 
 	@Test
 	void testVisitantesGetterSetter() {
-		List<Inquilino> visitantes = new ArrayList<>();
+		List<Usuario> visitantes = new ArrayList<>();
 		visitantes.add(inquilinoMock);
 		inmueble.setVisitantes(visitantes);
 		assertEquals(visitantes, inmueble.getVisitantes());
@@ -613,6 +613,107 @@ public class InmuebleTest {
 
 		// Verificar que la reserva fue eliminada
 		assertFalse(inmueble.getReservas().contains(reserva));
+	}
+
+	@Test
+	void testAgregarRankingValid() {
+		// Create a spy of Inmueble
+		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
+
+		// Create mock objects
+		Ranking mockRanking = mock(Ranking.class);
+		Usuario mockInquilino = mock(Usuario.class);
+
+		// Set up the behavior of the mock objects
+		when(mockRanking.getRankeador()).thenReturn(mockInquilino);
+
+		// Mock the fueHechoElCheckOut method to return true
+		doReturn(true).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
+
+		// Perform the action
+		inmuebleSpy.agregarRanking(mockRanking);
+
+		// Verify the results
+		assertEquals(1, inmuebleSpy.getRankings().size());
+		assertTrue(inmuebleSpy.getRankings().contains(mockRanking));
+
+		// Verify that validarCheckOut and fueHechoElCheckOut were called
+		verify(inmuebleSpy).validarCheckOut(mockInquilino);
+		verify(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
+	}
+
+	@Test
+
+	void testAgregarRankingInvalid() {
+
+		//
+		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
+
+		Ranking mockRanking = mock(Ranking.class);
+		Usuario mockInquilino = mock(Usuario.class);
+
+		when(mockRanking.getRankeador()).thenReturn(mockInquilino);
+		doReturn(false).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
+
+		assertThrows(RuntimeException.class, () -> inmuebleSpy.agregarRanking(mockRanking));
+		assertTrue(inmuebleSpy.getRankings().isEmpty());
+		verify(inmuebleSpy).validarCheckOut(mockInquilino);
+	}
+
+	@Test
+	void testFueHechoElCheckOutTrue() {
+	    Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
+
+	    Usuario mockInquilino = mock(Usuario.class);
+
+	    List<Usuario> visitantes = new ArrayList<>();
+	    visitantes.add(mockInquilino);
+	    doReturn(visitantes).when(inmuebleSpy).getVisitantes();
+
+	    assertTrue(inmuebleSpy.fueHechoElCheckOut(mockInquilino));
+	    verify(inmuebleSpy).getVisitantes();
+	}
+
+	@Test
+
+	void testFueHechoElCheckOutFalse() {
+
+		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
+
+		Ranking mockRanking = mock(Ranking.class);
+		Usuario mockInquilino = mock(Usuario.class);
+
+		List<Inquilino> visitantes = new ArrayList<>();
+		doReturn(visitantes).when(inmuebleSpy).getVisitantes();
+
+		assertFalse(inmuebleSpy.fueHechoElCheckOut(mockInquilino));
+	}
+
+	@Test
+
+	void testValidarCheckOutValid() {
+
+		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
+
+		Ranking mockRanking = mock(Ranking.class);
+		Usuario mockInquilino = mock(Usuario.class);
+
+		doReturn(true).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
+
+		assertDoesNotThrow(() -> inmuebleSpy.validarCheckOut(mockInquilino));
+	}
+
+	@Test
+
+	void testValidarCheckOutInvalid() {
+
+		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
+
+		Usuario mockInquilino = mock(Usuario.class);
+
+		doReturn(false).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
+
+		assertThrows(RuntimeException.class, () -> inmuebleSpy.validarCheckOut(mockInquilino));
 	}
 
 }

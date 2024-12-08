@@ -50,7 +50,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	private Notificador notificador;
 
-	private List<Inquilino> visitantes;
+	private List<Usuario> visitantes;
 
 	private EmailSender email; // pagina 4 del tp, es solo para cumplir el envio de email
 
@@ -92,8 +92,8 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	}
 
 	void notificarBajaDePrecioDeInmueble() {
-		notificador.notificarBajaDePrecio("No te pierdas esta oferta: Un inmueble " + tipoDeInmueble.getNombre() + " a tan sólo "
-				+ precioBasePorDia + " pesos", this);
+		notificador.notificarBajaDePrecio("No te pierdas esta oferta: Un inmueble " + tipoDeInmueble.getNombre()
+				+ " a tan sólo " + precioBasePorDia + " pesos", this);
 	}
 
 ///////////////////////  Subscripcion de interesado /////////////////
@@ -141,7 +141,6 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		}
 	}
 
-
 	public void cancelarReserva(Reserva reserva) {
 		if (!reserva.estaCancelada()) { // sino esta cancelada previamente...
 
@@ -168,21 +167,6 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 			reserva.finalizarReserva();
 			visitantes.add(reserva.getInquilino());
 		}
-	}
-
-	public boolean fueHechoElCheckOut(Inquilino inquilino) {
-		// IMPLEMENTAR, resuelto en metodo checkout , firma bach.
-		return visitantes.contains(inquilino);
-		// la idea seria que Inmueble tenga una lista controlada con los usuarios
-		// que alquilaron anteriormente. Cuando un Usuario hace checkOut, se agrega a
-		// esa lista
-		// cuando
-	}
-
-	void validarCheckOut(Inquilino inquilino) {
-		if (!fueHechoElCheckOut(inquilino)) {
-			throw new RuntimeException("No se puede rankear antes de hacer el check-out");
-		} // supongo que para rankear basta con que haya estado una vez.
 	}
 
 	public double getPrecio(LocalDate fechaInicio, LocalDate fechaFin) {
@@ -230,6 +214,21 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		validarCheckOut(ranking.getRankeador());
 		rankings.add(ranking);
 
+	}
+
+	public boolean fueHechoElCheckOut(Usuario inquilino) {
+		// IMPLEMENTAR, resuelto en metodo checkout , firma bach.
+		return getVisitantes().contains(inquilino);
+		// la idea seria que Inmueble tenga una lista controlada con los usuarios
+		// que alquilaron anteriormente. Cuando un Usuario hace checkOut, se agrega a
+		// esa lista
+		// cuando
+	}
+
+	void validarCheckOut(Usuario inquilino) {
+		if (!fueHechoElCheckOut(inquilino)) {
+			throw new RuntimeException("No se puede rankear antes de hacer el check-out");
+		} 
 	}
 
 	@Override
@@ -434,11 +433,11 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		this.notificador = notificador;
 	}
 
-	public List<Inquilino> getVisitantes() {
+	public List<Usuario> getVisitantes() {
 		return visitantes;
 	}
 
-	public void setVisitantes(List<Inquilino> visitantes) {
+	public void setVisitantes(List<Usuario> visitantes) {
 		this.visitantes = visitantes;
 	}
 
@@ -464,7 +463,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	public void setEmailSender(EmailSender email2) {
 		this.email = email2;
-		
+
 	}
 
 }
