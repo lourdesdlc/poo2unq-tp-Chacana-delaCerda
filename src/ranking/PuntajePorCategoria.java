@@ -27,7 +27,7 @@ public class PuntajePorCategoria {
 		this.puntaje = puntaje;
 	}
 	
-	private void validarPuntaje(int puntaje) {
+	void validarPuntaje(int puntaje) {
 		if(puntaje < 1 || puntaje > 5){
 			throw new RuntimeException("El puntaje debe estar en una escala del 1 al 5.");
 		}
