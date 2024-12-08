@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import inmueble.FormaDePago;
 import inmueble.Inmueble;
 import usuario.Usuario;
 
@@ -17,6 +18,16 @@ class ReservaTest {
 	private Usuario inquilinoMock;
 	private Inmueble inmuebleMock;
 	private Concretable estadoMock;
+	private LocalDate fechaEntrada;
+	private LocalDate fechaSalida;
+
+	// extras
+	private Usuario mockInquilino;
+	private Inmueble mockInmueble;
+	private Concretable mockEstado;
+	private Reserva reservaExtra;
+	private FormaDePago mockFormaDePago;
+	private Usuario mockPropietario;
 
 	@BeforeEach
 	void setUp() {
@@ -26,6 +37,23 @@ class ReservaTest {
 
 		reserva = new Reserva(inquilinoMock, inmuebleMock);
 		reserva.setEstado(estadoMock); // Para pruebas específicas de estados
+
+		// extras
+		mockInquilino = mock(Usuario.class);
+		mockInmueble = mock(Inmueble.class);
+		mockEstado = mock(Concretable.class);
+
+		fechaEntrada = LocalDate.of(2024, 12, 10);
+		fechaSalida = LocalDate.of(2024, 12, 20);
+
+		reservaExtra = new Reserva();
+		reservaExtra.setInquilino(mockInquilino);
+		reservaExtra.setInmueble(mockInmueble);
+		reservaExtra.setFechaSalida(fechaSalida);
+		reservaExtra.setEstado(mockEstado);
+
+		mockFormaDePago = mock(FormaDePago.class);
+		mockPropietario = mock(Usuario.class);
 	}
 
 	@Test
@@ -64,7 +92,6 @@ class ReservaTest {
 		assertTrue(reserva.estaConfirmada());
 	}
 
-	
 	@Test
 	void testEstadoCancelada() {
 		when(estadoMock.esCancelada()).thenReturn(true);
@@ -129,4 +156,114 @@ class ReservaTest {
 		when(inmuebleMock.getCiudad()).thenReturn("Buenos Aires");
 		assertEquals("Buenos Aires", reserva.ciudadDeReserva());
 	}
+
+	// extras
+
+	/*
+	 * @Test void testInterfiereCon() { LocalDate nuevaFechaEntrada =
+	 * LocalDate.of(2024, 12, 15); LocalDate nuevaFechaSalida = LocalDate.of(2024,
+	 * 12, 25);
+	 * 
+	 * assertTrue(reserva.interfiereCon(nuevaFechaEntrada, nuevaFechaSalida));
+	 * 
+	 * nuevaFechaEntrada = LocalDate.of(2024, 12, 1); nuevaFechaSalida =
+	 * LocalDate.of(2024, 12, 9);
+	 * 
+	 * assertFalse(reserva.interfiereCon(nuevaFechaEntrada, nuevaFechaSalida)); }
+	 */
+
+	@Test
+	void testFueHechoCheckOutPara() {
+		Usuario propietario = mock(Usuario.class);
+		when(mockInmueble.getPropietario()).thenReturn(propietario);
+		when(mockEstado.esConfirmada()).thenReturn(true);
+
+		assertFalse(reservaExtra.fueHechoCheckOutPara(mockInquilino));
+
+		when(mockEstado.esConfirmada()).thenReturn(false);
+		assertFalse(reservaExtra.fueHechoCheckOutPara(propietario));
+	}
+
+	@Test
+	void testEstaConfirmada() {
+		when(mockEstado.esConfirmada()).thenReturn(true);
+		assertTrue(reservaExtra.estaConfirmada());
+
+		when(mockEstado.esConfirmada()).thenReturn(false);
+		assertFalse(reservaExtra.estaConfirmada());
+	}
+
+	@Test
+	void testEsCondicionalParaElInmueble() {
+		LocalDate fechaInicio = LocalDate.of(2024, 12, 15);
+		LocalDate fechaFin = LocalDate.of(2024, 12, 20);
+
+		when(mockInmueble.estaDisponibleParaLasFechas(fechaInicio, fechaFin)).thenReturn(true);
+		assertTrue(reservaExtra.esCondicionalParaElInmueble(fechaInicio, fechaFin));
+
+		when(mockInmueble.estaDisponibleParaLasFechas(fechaInicio, fechaFin)).thenReturn(false);
+		assertFalse(reservaExtra.esCondicionalParaElInmueble(fechaInicio, fechaFin));
+	}
+
+	@Test
+	void testCambiarEstado() {
+		reserva.cambiarEstado(mockEstado);
+		// Verificar que el estado fue asignado correctamente
+		assertDoesNotThrow(() -> reserva.cambiarEstado(mockEstado));
+	}
+
+	@Test
+	void testSetAndGetFormaDePago() {
+		reserva.setFormaDePago(mockFormaDePago);
+		assertEquals(mockFormaDePago, reserva.getFormaDePago());
+	}
+
+	@Test
+	void testCalcularCostoTotal() {
+		assertEquals(0d, reserva.calcularCostoTotal());
+	}
+
+	@Test
+	void testGetFechaEntrada() {
+		fechaEntrada = LocalDate.of(2024, 12, 10);
+
+		Reserva reserva1 = new Reserva();
+		reserva1.setInmueble(mockInmueble);
+
+		reserva1.setFechaEntrada(fechaEntrada);
+		assertEquals(fechaEntrada, reserva1.getFechaEntrada());
+	}
+
+	@Test
+	void testGetFechaSalida() {
+		fechaSalida = LocalDate.of(2024, 12, 20);
+
+		reserva = new Reserva();
+		reserva.setInmueble(mockInmueble);
+
+		reserva.setFechaSalida(fechaSalida);
+		assertEquals(fechaSalida, reserva.getFechaSalida());
+	}
+
+	@Test
+	void testGetPropietario() {
+		reserva = new Reserva();
+		reserva.setInmueble(mockInmueble);
+		reserva.setFechaSalida(fechaSalida);
+		reserva.setFechaSalida(fechaEntrada);
+
+		when(mockInmueble.getPropietario()).thenReturn(mockPropietario);
+		assertEquals(mockPropietario, reserva.getPropietario());
+		verify(mockInmueble).getPropietario();
+	}
+
+	@Test
+	void testInmueble() {
+		reserva = new Reserva();
+		reserva.setInmueble(mockInmueble);
+		reserva.setFechaSalida(fechaSalida);
+		reserva.setFechaSalida(fechaEntrada);
+		assertEquals(mockInmueble, reserva.inmueble());
+	}
+
 }
