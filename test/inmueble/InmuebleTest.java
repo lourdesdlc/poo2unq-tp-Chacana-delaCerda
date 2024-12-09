@@ -12,6 +12,7 @@ import politicaCancelacion.PoliticaCancelacion;
 import ranking.Categoria;
 import ranking.GestorRanking;
 import ranking.Ranking;
+import ranking.TipoRankeable;
 import reserva.Reserva;
 import usuario.Inquilino;
 import usuario.Usuario;
@@ -691,4 +692,42 @@ public class InmuebleTest {
 			assertEquals(comentariosEsperados, comentariosActuales);
 		}
 	}
+	
+	@Test
+
+	void testGetPuntajePromedio() {
+		Inmueble inmueble = new Inmueble();
+		List<Ranking> rankings = new ArrayList<>(); 
+		inmueble.setRankings(rankings);
+
+		double puntajeEsperado = 3.5;
+
+		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
+			mockedStatic.when(() -> GestorRanking.getPuntajePromedio(rankings)).thenReturn(puntajeEsperado);
+
+			double puntajeActual = inmueble.getPuntajePromedio();
+
+			assertEquals(puntajeEsperado, puntajeActual, 0.001);
+		}
+	}
+	@Test
+	void testGetPuntajePromedioEnCategoria() {
+		Inmueble inmueble = new Inmueble();
+		List<Ranking> rankings = new ArrayList<>();
+		inmueble.setRankings(rankings);
+
+		Categoria categoria = mock(Categoria.class);
+		
+		double puntajeEsperado = 4.2;
+
+		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
+			mockedStatic.when(() -> GestorRanking.getPuntajePromedioEnCategoria(rankings, categoria))
+					.thenReturn(puntajeEsperado);
+
+			double puntajeActual = inmueble.getPuntajePromedioEnCategoria(categoria);
+
+			assertEquals(puntajeEsperado, puntajeActual, 0.001);
+		}
+	}
+	
 }
