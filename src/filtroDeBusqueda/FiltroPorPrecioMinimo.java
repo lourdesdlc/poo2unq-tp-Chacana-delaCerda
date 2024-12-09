@@ -8,6 +8,7 @@ public class FiltroPorPrecioMinimo implements FiltroDeBusqueda {
     private Double precioMinimo;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
+    
     public FiltroPorPrecioMinimo(Double precioMinimo, LocalDate fechaInicio, LocalDate fechaFin) {
         this.precioMinimo = precioMinimo;
         this.fechaInicio = fechaInicio;

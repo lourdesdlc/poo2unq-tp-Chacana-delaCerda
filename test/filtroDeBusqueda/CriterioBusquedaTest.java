@@ -80,8 +80,12 @@ class FiltroDeBusquedaTest {
         when(inmueble.getCiudad()).thenReturn("Buenos Aires");
         when(inmueble.getCapacidad()).thenReturn(4);
 
+        
         LocalDate fechaInicio = LocalDate.now();
         LocalDate fechaFin = fechaInicio.plusDays(5);
+        
+        when(inmueble.estaDisponibleParaLasFechas(fechaInicio, fechaFin)).thenReturn(true);
+        
         when(inmueble.getPrecio(any(), any())).thenReturn(500.0);
 
         CriterioBusqueda criterio = new CriterioBusqueda("Buenos Aires", fechaInicio, fechaFin)
@@ -99,6 +103,9 @@ class FiltroDeBusquedaTest {
 
         LocalDate fechaInicio = LocalDate.now();
         LocalDate fechaFin = fechaInicio.plusDays(5);
+        
+        when(inmueble.estaDisponibleParaLasFechas(fechaInicio, fechaFin)).thenReturn(true);
+        
         when(inmueble.getPrecio(any(), any())).thenReturn(700.0);
 
         CriterioBusqueda criterio = new CriterioBusqueda("Buenos Aires", fechaInicio, fechaFin)

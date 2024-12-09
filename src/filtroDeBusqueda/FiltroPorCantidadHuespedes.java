@@ -4,6 +4,7 @@ import inmueble.Inmueble;
 
 public class FiltroPorCantidadHuespedes implements FiltroDeBusqueda{
 	private Integer cantidadHuespedes;
+	
     public FiltroPorCantidadHuespedes(Integer cantidadHuespedes) {
         this.cantidadHuespedes = cantidadHuespedes;
     }
