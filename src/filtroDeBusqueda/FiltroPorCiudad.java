@@ -1,5 +1,6 @@
 package filtroDeBusqueda;
 
+
 import inmueble.Inmueble;
 
 public class FiltroPorCiudad implements FiltroDeBusqueda {
@@ -12,4 +13,8 @@ public class FiltroPorCiudad implements FiltroDeBusqueda {
     public boolean cumple(Inmueble inmueble) {
         return inmueble.getCiudad().equals(ciudad);
     }
+    
+	public String getCiudad() {
+		return ciudad;
+	}
 }

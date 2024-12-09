@@ -51,7 +51,6 @@ public class Usuario implements Propietario, Inquilino {
 	}
 
 	public void removerInmueble(Inmueble inmueble) {
-		if (inmuebles.contains(inmueble))
 			inmuebles.remove(inmueble);
 	}
 

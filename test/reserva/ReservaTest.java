@@ -209,7 +209,7 @@ class ReservaTest {
 	@Test
 	void testCambiarEstado() {
 		reserva.cambiarEstado(mockEstado);
-		// Verificar que el estado fue asignado correctamente
+
 		assertDoesNotThrow(() -> reserva.cambiarEstado(mockEstado));
 	}
 
@@ -217,11 +217,6 @@ class ReservaTest {
 	void testSetAndGetFormaDePago() {
 		reserva.setFormaDePago(mockFormaDePago);
 		assertEquals(mockFormaDePago, reserva.getFormaDePago());
-	}
-
-	@Test
-	void testCalcularCostoTotal() {
-		assertEquals(0d, reserva.calcularCostoTotal());
 	}
 
 	@Test

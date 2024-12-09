@@ -126,10 +126,6 @@ public class Reserva {
 		this.fechaSalida = fechaSalida;
 	}
 
-	public double calcularCostoTotal() {
-		return 0d;
-	};
-
 	public Inmueble getInmueble() {
 		return inmueble;
 	}
@@ -162,8 +158,8 @@ public class Reserva {
 		this.inmueble = inmueble;
 	}
 
-	public void cambiarEstado(Concretable mockEstado) {
-		this.setEstado(mockEstado);
+	public void cambiarEstado(Concretable estado) {
+		this.setEstado(estado);
 
 	}
 

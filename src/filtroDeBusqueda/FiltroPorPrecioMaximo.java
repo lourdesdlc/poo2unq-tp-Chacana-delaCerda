@@ -17,6 +17,6 @@ public class FiltroPorPrecioMaximo implements FiltroDeBusqueda {
     @Override
     public boolean cumple(Inmueble inmueble) {
         double precioTotal = inmueble.getPrecio(fechaInicio, fechaFin);
-        return precioMaximo == null || precioTotal <= precioMaximo;
+        return precioTotal <= precioMaximo;
     }
 }

@@ -17,6 +17,6 @@ public class FiltroPorPrecioMinimo implements FiltroDeBusqueda {
     @Override
     public boolean cumple(Inmueble inmueble) {
         double precioTotal = inmueble.getPrecio(fechaInicio, fechaFin);
-        return precioMinimo == null || precioTotal >= precioMinimo;
+        return precioTotal >= precioMinimo;
     }
 }
