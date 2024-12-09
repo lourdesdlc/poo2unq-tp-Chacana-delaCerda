@@ -2,6 +2,8 @@ package inmueble;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+
 import notificaciones.EmailSender;
 import observer.Notificable;
 import observer.Notificador;
@@ -12,7 +14,6 @@ import ranking.GestorRanking;
 import ranking.Ranking;
 import reserva.Reserva;
 import usuario.Inquilino;
-import usuario.Propietario;
 import usuario.Usuario;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,6 +36,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -291,9 +293,9 @@ public class InmuebleTest {
 	@Test
 	void testNotificarBajaDePrecioDeInmueble() {
 		when(tipoDeInmueble.getNombre()).thenReturn("departamento");
-		inmueble.setPrecioBasePorDia(100.0); // Precio inicial
-		inmueble.cambiarPrecio(50.0); // Nuevo precio más bajo
-		// Verificar que el mock de Notificador haya sido invocado
+		inmueble.setPrecioBasePorDia(100.0); 
+		inmueble.cambiarPrecio(50.0);
+		
 		verify(notificador).notificarBajaDePrecio(
 				"No te pierdas esta oferta: Un inmueble departamento a tan sólo 50.0 pesos", inmueble);
 	}
@@ -376,6 +378,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testCheckOutReservaConfirmada() {
+		
 		Reserva reserva = mock(Reserva.class);
 		Usuario inquilino = mock(Usuario.class);
 		when(reserva.estaConfirmada()).thenReturn(true);
@@ -387,6 +390,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testCheckOutReservaNoConfirmada() {
+		
 		Reserva reserva = mock(Reserva.class);
 		when(reserva.estaConfirmada()).thenReturn(false);
 		inmueble.checkOut(reserva);
@@ -396,6 +400,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testFueHechoElCheckOut() {
+		
 		Usuario inquilino = mock(Usuario.class);
 		inmueble.getVisitantes().add(inquilino);
 		assertTrue(inmueble.fueHechoElCheckOut(inquilino));
@@ -403,12 +408,14 @@ public class InmuebleTest {
 	
 	@Test
 	void testNoFueHechoElCheckOut() {
+		
 		Usuario inquilino = mock(Usuario.class);
 		assertFalse(inmueble.fueHechoElCheckOut(inquilino));
 	}
 	
 	@Test
 	void testValidarCheckOutConExito() {
+		
 		Usuario inquilino = mock(Usuario.class);
 		inmueble.getVisitantes().add(inquilino);
 		assertDoesNotThrow(() -> inmueble.validarCheckOut(inquilino));
@@ -416,6 +423,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testValidarCheckOutLanzaExcepcion() {
+		
 		Usuario inquilino = mock(Usuario.class);
 		RuntimeException exception = assertThrows(RuntimeException.class, () -> inmueble.validarCheckOut(inquilino));
 		assertEquals("No se puede rankear antes de hacer el check-out", exception.getMessage());
@@ -423,6 +431,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testGetPrecio() {
+		
 		PrecioPorPeriodo periodo = mock(PrecioPorPeriodo.class);
 		when(periodo.incluye(any())).thenReturn(true);
 		when(periodo.getPrecioPorDia()).thenReturn(100.0);
@@ -435,6 +444,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testCalcularPenalidadPorCancelacion() {
+		
 		Reserva reserva = mock(Reserva.class);
 		PoliticaCancelacion politica = mock(PoliticaCancelacion.class);
 		when(politica.calcularPenalidad(reserva)).thenReturn(50.0);
@@ -445,6 +455,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testEstaDisponibleParaLasFechas() {
+		
 		Reserva reserva = mock(Reserva.class);
 		when(reserva.interfiereCon(any(), any())).thenReturn(false);
 		inmueble.getReservas().add(reserva);
@@ -455,6 +466,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testNoEstaDisponibleParaLasFechas() {
+		
 		Reserva reserva = mock(Reserva.class);
 		when(reserva.interfiereCon(any(), any())).thenReturn(true);
 		inmueble.getReservas().add(reserva);
@@ -465,6 +477,7 @@ public class InmuebleTest {
 	
 	@Test
 	void testAgregarPreciosPorPeriodo() {
+		
 		PrecioPorPeriodo precioPorPeriodo = mock(PrecioPorPeriodo.class);
 		when(precioPorPeriodo.interfiereCon(any())).thenReturn(false);
 		assertDoesNotThrow(() -> inmueble.agregarPreciosPorPeriodo(precioPorPeriodo));
@@ -473,78 +486,78 @@ public class InmuebleTest {
 	
 	@Test
 	void testAgregarRanking() {
-		// Mockear el inquilino y el ranking
+		
 		Usuario inquilinoMock = mock(Usuario.class);
 		Ranking rankingPrueba = mock(Ranking.class);
-		// Crear una lista real de rankings para la prueba
+		
 		List<Ranking> rankings = new ArrayList<>();
-		// Mockear el inmueble
+		
 		Inmueble inmueblePrueba = mock(Inmueble.class);
-		// Configurar el comportamiento de los mocks
+		
 		when(rankingPrueba.getRankeador()).thenReturn(inquilinoMock);
 		doNothing().when(inmueblePrueba).validarCheckOut(inquilinoMock); // Asegurarse de que 'inmueble' sea mockeado
 																			// correctamente también
-		// En vez de mockear getRankings(), utilizamos la lista real
+		
 		doAnswer(invocation -> {
 			rankings.add(rankingPrueba);
-			return null; // No es necesario devolver nada
+			return null; 
 		}).when(inmueblePrueba).agregarRanking(any(Ranking.class));
-		// Ejecutar
+		
 		inmueblePrueba.agregarRanking(rankingPrueba);
-		// Verificar que el ranking se agregó
-		assertTrue(rankings.contains(rankingPrueba)); // Ahora verificamos en la lista real
+		
+		assertTrue(rankings.contains(rankingPrueba)); 
 	}
 	
 	@Test
 	void testCantidadDeAlquileres() {
-		// Configurar mocks de reservas
+		
 		Reserva reserva1 = mock(Reserva.class);
 		Reserva reserva2 = mock(Reserva.class);
 		when(reserva1.estaFinalizada()).thenReturn(true);
 		when(reserva2.estaFinalizada()).thenReturn(false);
-		// Agregar reservas al inmueble
+		
 		inmueble.agregarReserva(reserva1);
 		inmueble.agregarReserva(reserva2);
-		// Verificar que cuenta solo las reservas finalizadas
+		
 		assertEquals(1, inmueble.cantidadDeAlquileres());
 	}
 	
 	@Test
 	void testAgregarReservaALista() {
 		Reserva reserva = mock(Reserva.class);
-		// Agregar reserva al inmueble
+		
 		inmueble.agregarReserva(reserva);
-		// Verificar que la reserva está en la lista
+		
 		assertTrue(inmueble.getReservas().contains(reserva));
 	}
 	
 	@Test
 	void testEliminarReserva() {
 		Reserva reserva = mock(Reserva.class);
-		// Agregar y luego eliminar la reserva
+		
 		inmueble.agregarReserva(reserva);
 		inmueble.eliminarReserva(reserva);
-		// Verificar que la reserva fue eliminada
+		
 		assertFalse(inmueble.getReservas().contains(reserva));
 	}
 	
 	@Test
 	void testAgregarRankingValid() {
-		// Create a spy of Inmueble
+		
 		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
-		// Create mock objects
+		
 		Ranking mockRanking = mock(Ranking.class);
 		Usuario mockInquilino = mock(Usuario.class);
-		// Set up the behavior of the mock objects
+		
 		when(mockRanking.getRankeador()).thenReturn(mockInquilino);
-		// Mock the fueHechoElCheckOut method to return true
+		
 		doReturn(true).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
-		// Perform the action
+		
 		inmuebleSpy.agregarRanking(mockRanking);
-		// Verify the results
+		
 		assertEquals(1, inmuebleSpy.getRankings().size());
 		assertTrue(inmuebleSpy.getRankings().contains(mockRanking));
-		// Verify that validarCheckOut and fueHechoElCheckOut were called
+		
 		verify(inmuebleSpy).validarCheckOut(mockInquilino);
 		verify(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
 	}
@@ -577,7 +590,7 @@ public class InmuebleTest {
 	void testFueHechoElCheckOutFalse() {
 		
 		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
-		Ranking mockRanking = mock(Ranking.class);
+		
 		Usuario mockInquilino = mock(Usuario.class);
 		List<Inquilino> visitantes = new ArrayList<>();
 		doReturn(visitantes).when(inmuebleSpy).getVisitantes();
@@ -587,7 +600,7 @@ public class InmuebleTest {
 	@Test
 	void testValidarCheckOutValid() {
 		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
-		Ranking mockRanking = mock(Ranking.class);
+		
 		Usuario mockInquilino = mock(Usuario.class);
 		doReturn(true).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
 		assertDoesNotThrow(() -> inmuebleSpy.validarCheckOut(mockInquilino));
@@ -611,25 +624,25 @@ public class InmuebleTest {
 	@Test
 	void testGetTipo() {
 		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
-		// Crear el objeto SUT (Sistema Bajo Prueba)
+		
 		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
-		// Llamar al método
+		
 		TipoInmueble tipoInmueble = inmuebleA.getTipo();
-		// Verificar que el objeto devuelto es el esperado
+		
 		assertEquals(tipoInmuebleA, tipoInmueble);
 	}
 	
 	@Test
 	void testGetTipoDeCancelacion() {
-		// Crear un mock de PoliticaCancelacion
+		
 		PoliticaCancelacion politicaCancelacionMock = mock(PoliticaCancelacion.class);
 		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
-		// Crear el objeto SUT (Sistema Bajo Prueba)
+		
 		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
 		inmuebleA.setPoliticaDeCancelacion(politicaCancelacionMock);
-		// Llamar al método
+		
 		PoliticaCancelacion politicaCancelacion = inmuebleA.getTipoDeCancelacion();
-		// Verificar que el objeto devuelto es el esperado
+		
 		assertEquals(politicaCancelacionMock, politicaCancelacion);
 	}
 	
@@ -649,16 +662,33 @@ public class InmuebleTest {
 	
 	@Test
 	void testPrecioBasePorDia() {
-		// Valor del precio base por día
+		
 		double precioEsperado = 100.0;
 		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
-		// Crear el objeto SUT (Sistema Bajo Prueba)
+		
 		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
-		// Llamar al método
+		
 		inmuebleA.setPrecioBasePorDia(precioEsperado);
 		double precioBase = inmuebleA.precioBasePorDia();
-		// Verificar que el precio base es el esperado
+		
 		assertEquals(precioEsperado, precioBase, 0.001);
 	}
 	
+	@Test
+
+	void testGetComentarios() {
+		Inmueble inmueble = new Inmueble();
+		List<Ranking> rankings = new ArrayList<>();
+		inmueble.setRankings(rankings);
+
+		List<String> comentariosEsperados = List.of("Muy linda iluminacion", "Amplio y limpio");
+
+		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
+			mockedStatic.when(() -> GestorRanking.getComentarios(rankings)).thenReturn(comentariosEsperados);
+
+			List<String> comentariosActuales = inmueble.getComentarios();
+
+			assertEquals(comentariosEsperados, comentariosActuales);
+		}
+	}
 }

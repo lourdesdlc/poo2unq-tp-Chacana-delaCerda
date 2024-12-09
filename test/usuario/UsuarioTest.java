@@ -78,29 +78,6 @@ class UsuarioTest {
 		assertTrue(u.getReservas().contains(reservaMock));
 	}
 
-	/*
-	 * arreglar
-	 * 
-	 * @Test void testGetReservasFuturas() { // Simular fecha actual LocalDate hoy =
-	 * LocalDate.now();
-	 * 
-	 * // Crear mocks necesarios Reserva reservaMock = mock(Reserva.class); Usuario
-	 * usuarioMock = spy(usuario); // Usar spy para mockear parcialmente
-	 * 
-	 * // Mockear el comportamiento de la reserva
-	 * when(reservaMock.getFechaEntrada()).thenReturn(hoy.plusDays(1)); // Fecha
-	 * futura
-	 * 
-	 * // Agregar la reserva mockeada al usuario
-	 * usuarioMock.agregarReserva(reservaMock);
-	 * 
-	 * // Llamar al método y verificar List<Reserva> futuras =
-	 * usuarioMock.getReservasFuturas();
-	 * 
-	 * // Verificar resultados assertEquals(1, futuras.size());
-	 * assertTrue(futuras.contains(reservaMock)); }
-	 */
-
 	@Test
 	void testAgregarInmueble() {
 		usuario.agregarInmueble(inmuebleMock);
@@ -120,22 +97,6 @@ class UsuarioTest {
 		assertEquals(0, usuario.getInmuebles().size());
 		assertFalse(usuario.getInmuebles().contains(inmuebleMock));
 	}
-
-	/*
-	 * arreglar
-	 * 
-	 * @Test void testAgregarRanking() { Usuario rankeadorMock =
-	 * mock(Usuario.class);
-	 * when(rankingMock.getRankeador()).thenReturn(rankeadorMock);
-	 * 
-	 * // Mock de una reserva finalizada para validar check-out
-	 * when(reservaMock.propietarioAsigando()).thenReturn(rankeadorMock);
-	 * when(reservaMock.estaFinalizada()).thenReturn(true);
-	 * usuario.agregarReserva(reservaMock);
-	 * 
-	 * usuario.agregarRanking(rankingMock);
-	 * assertTrue(usuario.getRankings().contains(rankingMock)); }
-	 */
 
 	@Test
 	void testAgregarRankingValid() {
@@ -243,27 +204,6 @@ class UsuarioTest {
 		assertFalse(usuarioSpy.fueHechoCheckOutConPropietario(mockRankeador));
 	}
 
-	/*
-	 * @Test void testAgregarRanking() {
-	 * 
-	 * Usuario inquilinoMock = mock(Usuario.class); Usuario propietarioMock =
-	 * mock(Usuario.class);
-	 * 
-	 * Ranking rankingMock = mock(Ranking.class);
-	 * 
-	 * List<Ranking> rankingsReal = new ArrayList<>();
-	 * when(usuarioMock.validarCheckOut(uReal)).thenReturn(true);
-	 * when(rankingMock.validarCheckOut(uReal)).thenReturn(true);
-	 * 
-	 * 
-	 * inquilinoMock.agregarRanking(rankingMock); uReal.setRankings(rankings);
-	 * uReal.agregarRanking(uReal);
-	 * 
-	 * assertTrue(inquilinoMock.getRankings().size() == 1);
-	 * assertTrue(inquilinoMock.getRankings().contains(rankingMock));
-	 * 
-	 * }
-	 */
 
 	@Test
 	void testGetReservasPorCiudad() {
@@ -430,27 +370,6 @@ class UsuarioTest {
 		assertFalse(resultado); // Se espera que el check-out no haya sido realizado
 	}
 
-	/*
-	 * @Test
-	 * 
-	 * @DisplayName("getReservasFuturas should return only future reservations")
-	 * void testGetReservasFuturas() { LocalDate today = LocalDate.now(); Reserva
-	 * pastReserva = mock(Reserva.class); Reserva futureReserva =
-	 * mock(Reserva.class);
-	 * 
-	 * when(pastReserva.getFechaEntrada()).thenReturn(today.minusDays(1));
-	 * when(futureReserva.getFechaEntrada()).thenReturn(today.plusDays(1));
-	 * 
-	 * usuario.getReservas().add(pastReserva);
-	 * usuario.getReservas().add(futureReserva);
-	 * 
-	 * List<Reserva> futureReservas = usuario.getReservasFuturas();
-	 * 
-	 * assertEquals(1, futureReservas.size());
-	 * assertTrue(futureReservas.contains(futureReserva));
-	 * assertFalse(futureReservas.contains(pastReserva)); }
-	 */
-
 	@Test
 
 	void testFueHechoCheckOutConInquilinoTrue() {
@@ -486,57 +405,57 @@ class UsuarioTest {
 		List<Ranking> rankings = new ArrayList<>();
 		usuario.setRankings(rankings);
 
-		List<String> expectedComments = List.of("bueno!", "canchero!");
+		List<String> comentariosEsperados = List.of("bueno!", "canchero!");
 
 		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
-			mockedStatic.when(() -> GestorRanking.getComentarios(rankings)).thenReturn(expectedComments);
+			mockedStatic.when(() -> GestorRanking.getComentarios(rankings)).thenReturn(comentariosEsperados);
 
-			List<String> actualComments = usuario.getComentarios();
+			List<String> comentariosActuales = usuario.getComentarios();
 
-			assertEquals(expectedComments, actualComments);
+			assertEquals(comentariosEsperados, comentariosActuales);
 		}
 	}
 
 	@Test
 
 	void testGetPuntajePromedio() {
-		Usuario usuario = new Usuario("John Doe", "john@example.com", "1234567890");
-		List<Ranking> rankings = new ArrayList<>(); // Assume this is populated with some rankings
+		Usuario usuario = new Usuario("Juan", "juan@example.com", "1234567890");
+		List<Ranking> rankings = new ArrayList<>(); 
 		usuario.setRankings(rankings);
 
-		double expectedScore = 4.5;
+		double puntajeEsperado = 4.5;
 
 		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
-			mockedStatic.when(() -> GestorRanking.getPuntajePromedio(rankings)).thenReturn(expectedScore);
+			mockedStatic.when(() -> GestorRanking.getPuntajePromedio(rankings)).thenReturn(puntajeEsperado);
 
-			double actualScore = usuario.getPuntajePromedio();
+			double puntajeActual = usuario.getPuntajePromedio();
 
-			assertEquals(expectedScore, actualScore, 0.001);
+			assertEquals(puntajeEsperado, puntajeActual, 0.001);
 		}
 	}
 
 	@Test
 	void testGetPuntajePromedioEnCategoria() {
-		Usuario usuario = new Usuario("Alice Smith", "alice@example.com", "5555555555");
+		Usuario usuario = new Usuario("Ana", "aana@example.com", "5555555555");
 		List<Ranking> rankings = new ArrayList<>();
 		usuario.setRankings(rankings);
 
 		Categoria categoria = mock(Categoria.class);
-		double expectedScore = 4.2;
+		double puntajeEsperado = 4.2;
 
 		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
 			mockedStatic.when(() -> GestorRanking.getPuntajePromedioEnCategoria(rankings, categoria))
-					.thenReturn(expectedScore);
+					.thenReturn(puntajeEsperado);
 
 			double actualScore = usuario.getPuntajePromedioEnCategoria(categoria);
 
-			assertEquals(expectedScore, actualScore, 0.001);
+			assertEquals(puntajeEsperado, actualScore, 0.001);
 		}
 	}
 
 	@Test
 	void testGetComentariosComoPropietario() {
-	    Usuario usuario = new Usuario("John Doe", "john@example.com", "1234567890");
+	    Usuario usuario = new Usuario("Juan", "juan@example.com", "1234567890");
 	    List<Ranking> rankings = new ArrayList<>();
 	    usuario.setRankings(rankings);
 
@@ -554,19 +473,20 @@ class UsuarioTest {
 	@Test
 
 	void testGetComentariosComoInquilino() {
-		Usuario usuario = new Usuario("John Doe", "john@example.com", "1234567890");
+		
+		Usuario usuario = new Usuario("Julian", "julianA@example.com", "1234567890");
 		List<Ranking> rankings = new ArrayList<>();
 		usuario.setRankings(rankings);
 
-		List<String> expectedComments = List.of("Clean guest!", "Respectful!");
+		List<String> comentariosEsperados = List.of("Amable!", "Responde rapido");
 
 		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
 			mockedStatic.when(() -> GestorRanking.getComentariosPorRol(rankings, TipoRankeable.INQUILINO))
-					.thenReturn(expectedComments);
+					.thenReturn(comentariosEsperados);
 
-			List<String> actualComments = usuario.getComentariosComoInquilino();
+			List<String> comentariosActuales = usuario.getComentariosComoInquilino();
 
-			assertEquals(expectedComments, actualComments);
+			assertEquals(comentariosEsperados, comentariosActuales);
 		}
 	}
 
@@ -574,7 +494,7 @@ class UsuarioTest {
 
 	void testGetFechaDeCreacion() {
 		LocalDate expectedDate = LocalDate.now();
-		Usuario newUser = new Usuario("Jane Doe", "jane@example.com", "9876543210");
+		Usuario newUser = new Usuario("Mariano", "mariano@example.com", "9876543210");
 
 		assertEquals(expectedDate, newUser.getFechaDeCreacion());
 	}
