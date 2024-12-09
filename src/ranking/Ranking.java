@@ -4,26 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exepciones.CategoriaException;
-import sitioWeb.SitioWeb;
 import usuario.Usuario;
 
 
 public class Ranking {
-	/*
-	 * Para inicializar Ranking solo se necesita un comentario, si quieren 
-	 * puntuar categorias, se hace una por una, esto permite que se puedan 
-	 * validar las categorias que se intentan puntuar
-	 */
-	private SitioWeb sitio;
+
+	private List<Categoria> categorias;
 	private Usuario rankeador; //usuario que rankea
 	private TipoRankeable tipoRankeable;
 	
 	private List<PuntajePorCategoria> puntajePorCategoria; 
 	private String comentario;
 	
-	public Ranking(String comentario, TipoRankeable tipoRankeable, SitioWeb sitio) {
+	public Ranking(String comentario, Usuario rankeador, TipoRankeable tipoRankeable, List<Categoria> categorias) {
 		this.setComentario(comentario);
-		this.setSitio(sitio);
+		this.setRankeador(rankeador);
+		this.tipoRankeable = tipoRankeable;
+		this.setCategorias(categorias);
 		this.puntajePorCategoria = new ArrayList<>();
 	}
 
@@ -37,7 +34,7 @@ public class Ranking {
 	}
 	
 	private void validarCategoria(Categoria categoria) {
-	    if (!sitio.esCategoriaValida(categoria)) {
+	    if (!categorias.contains(categoria)) {
 	        throw new CategoriaException("La categoría ingresada no es válida.");
 	    }
 	}
@@ -49,13 +46,21 @@ public class Ranking {
 	        .orElse(0.0);
 	}
 	
+	private void setCategorias(List<Categoria> categoriasValidas) {
+        this.categorias = categoriasValidas;
+    }
+	
+	public List<Categoria> getCategorias() {
+        return categorias;
+    }
+	
+	private void setRankeador(Usuario rankeador) {
+		this.rankeador = rankeador;
+	}
+	
 	public Usuario getRankeador() {
 		return rankeador;
 	}
-	
-	private void setSitio(SitioWeb sitio) {
-        this.sitio = sitio;
-    }
 	
 	public String getComentario() {
 		return comentario;

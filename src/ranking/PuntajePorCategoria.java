@@ -1,5 +1,7 @@
 package ranking;
 
+import exepciones.PuntajeException;
+
 public class PuntajePorCategoria {
 	private Categoria categoria;
 	private int puntaje;
@@ -29,7 +31,7 @@ public class PuntajePorCategoria {
 	
 	void validarPuntaje(int puntaje) {
 		if(puntaje < 1 || puntaje > 5){
-			throw new RuntimeException("El puntaje debe estar en una escala del 1 al 5.");
+			throw new PuntajeException("El puntaje debe estar en una escala del 1 al 5.");
 		}
 	}
 }
