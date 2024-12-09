@@ -1,6 +1,6 @@
 package inmueble;
 
-public class Servicio { // ENUM
+public class Servicio {
     private String nombre;
 
     public Servicio(String nombre) {
