@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
@@ -160,21 +161,44 @@ public class InmuebleTest {
 	}
 
 	@Test
-	void testServiciosGetterSetter() {
-		List<Servicio> servicios = new ArrayList<>();
-		servicios.add(servicioMock);
-		inmueble.setServicios(servicios);
-		assertEquals(servicios, inmueble.getServicios());
+	void testAgregaryEliminarServicios() {
+
+		inmueble.agregarServicio(servicioMock);
+		
+		assertEquals(1, inmueble.getServicios().size());
+		assertTrue(inmueble.getServicios().contains(servicioMock));
+		
+		inmueble.eliminarServicio(servicioMock);
+		
+		assertEquals(0, inmueble.getServicios().size());
+		assertFalse(inmueble.getServicios().contains(servicioMock));
 	}
 
 	@Test
 	void testFormasDePagoGetterSetter() {
-		List<FormaDePago> formasDePago = new ArrayList<>();
-		formasDePago.add(formaDePagoMock);
-		inmueble.setFormasDePago(formasDePago);
-		assertEquals(formasDePago, inmueble.getFormasDePago());
+		inmueble.agregarFormaDePago(formaDePagoMock);
+		
+		assertEquals(1, inmueble.getFormasDePago().size());
+		assertTrue(inmueble.getFormasDePago().contains(formaDePagoMock));
+		
+		inmueble.eliminarFormaDePago(formaDePagoMock);
+		
+		assertEquals(0, inmueble.getFormasDePago().size());
+		assertFalse(inmueble.getFormasDePago().contains(formaDePagoMock));
 	}
-
+	
+	@Test
+	void testAgregarMasDe5Fotos() {
+		inmueble.agregarFoto("foto1");
+		inmueble.agregarFoto("foto2");
+		inmueble.agregarFoto("foto3");
+		inmueble.agregarFoto("foto4");
+		inmueble.agregarFoto("foto5");
+		RuntimeException exception = assertThrows(RuntimeException.class, () -> 
+		inmueble.agregarFoto("foto5"));
+		assertEquals("No se pueden agregar mas de 5 fotos.", exception.getMessage());
+	}
+	
 	@Test
 	void testPreciosPorPeriodosGetterSetter() {
 		List<PrecioPorPeriodo> preciosPorPeriodos = new ArrayList<>();

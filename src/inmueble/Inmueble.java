@@ -254,6 +254,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	public int cantidadDeAlquileres() {
 		return (int) reservas.stream().filter(Reserva::estaFinalizada).count();
+		
 	}
 
 	public void agregarReserva(Reserva reserva) {
@@ -265,7 +266,18 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		reservas.remove(reserva);
 
 	}
-
+	
+	public void agregarFoto(String foto) {
+		validarMaximoDeFotos();
+		fotos.add(foto);
+	}
+	
+	public void validarMaximoDeFotos() {
+		if(fotos.size() >= 5) {
+			throw new RuntimeException("No se pueden agregar mas de 5 fotos.");
+		}
+	}
+	
 	// Getters y setters
 
 	public String getNombreDeTipoInmueble() {
@@ -352,22 +364,26 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		return servicios;
 	}
 
-	public void setServicios(List<Servicio> servicios) {
-		// L: No me parece necesario, yo pondria "agregar/eliminar servicio" en todo
-		// caso
-		this.servicios = servicios;
+	public void eliminarServicio(Servicio servicio) {
+		servicios.remove(servicio);
 	}
-
+	
+	public void agregarServicio(Servicio servicio) {
+		servicios.add(servicio);
+	}
+	
 	public List<FormaDePago> getFormasDePago() {
 		return formasDePago;
 	}
 
-	public void setFormasDePago(List<FormaDePago> formasDePago) {
-		// L: No me parece necesario, yo pondria "agregar/eliminar forma de pago" en
-		// todo caso
-		this.formasDePago = formasDePago;
+	public void eliminarFormaDePago(FormaDePago formaDePago) {
+		formasDePago.remove(formaDePago);
 	}
-
+	
+	public void agregarFormaDePago(FormaDePago formaDePago) {
+		formasDePago.add(formaDePago);
+	}
+	
 	public List<PrecioPorPeriodo> getPreciosPorPeriodos() {
 		return preciosPorPeriodos;
 	}
@@ -385,7 +401,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 	}
 
 	public void cambiarPrecio(Double monto) {
-		// L: No me parece necesario
+
 		// bach: necesito este mensaje para el observer
 
 		this.setPrecioPorDia(monto);
