@@ -122,7 +122,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	public void aceptarReserva(Reserva r) { // b) el dueño debe aceptarla.
 
-		if (r.estaPendiente() && estaDisponibleParaLasFechas(r.getFechaEntrada(), r.getFechaSalida())) {
+		if (estaDisponibleParaLasFechas(r.getFechaEntrada(), r.getFechaSalida())) {
 
 			r.confirmarReserva();
 

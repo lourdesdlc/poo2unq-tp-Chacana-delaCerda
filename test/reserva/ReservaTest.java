@@ -183,6 +183,7 @@ class ReservaTest {
 		when(mockEstado.esConfirmada()).thenReturn(false);
 		assertFalse(reservaExtra.fueHechoCheckOutPara(propietario));
 	}
+	
 
 	@Test
 	void testEstaConfirmada() {

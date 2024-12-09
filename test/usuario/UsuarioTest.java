@@ -482,11 +482,11 @@ class UsuarioTest {
 	@Test
 
 	void testGetComentarios() {
-		Usuario usuario = new Usuario("Jane Doe", "jane@example.com", "9876543210");
+		Usuario usuario = new Usuario("messi", "messi@", "11");
 		List<Ranking> rankings = new ArrayList<>();
 		usuario.setRankings(rankings);
 
-		List<String> expectedComments = List.of("Great!", "Awesome!");
+		List<String> expectedComments = List.of("bueno!", "canchero!");
 
 		try (MockedStatic<GestorRanking> mockedStatic = mockStatic(GestorRanking.class)) {
 			mockedStatic.when(() -> GestorRanking.getComentarios(rankings)).thenReturn(expectedComments);

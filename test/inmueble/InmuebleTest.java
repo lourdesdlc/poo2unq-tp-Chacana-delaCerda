@@ -331,7 +331,7 @@ public class InmuebleTest {
 
 	@Test
 	void testAceptarReserva() {
-		// Configurar el mock de la reserva
+		
 		Reserva reserva = mock(Reserva.class);
 		when(reserva.estaPendiente()).thenReturn(true);
 		when(reserva.getFechaEntrada()).thenReturn(LocalDate.of(2024, 12, 10));
@@ -339,51 +339,51 @@ public class InmuebleTest {
 		when(reserva.mailInquilino()).thenReturn("inquilino@ejemplo.com");
 		when(reserva.getInquilino()).thenReturn(inquilinoMock);
 
-		// Crear un spy del inmueble para manejar métodos reales y mockeados
+	
 		Inmueble inmuebleSpy = spy(inmueble);
 
-		// Mockear el comportamiento del método estaDisponibleParaLasFechas
+	
 		doReturn(true).when(inmuebleSpy).estaDisponibleParaLasFechas(LocalDate.of(2024, 12, 10),
 				LocalDate.of(2024, 12, 15));
 
-		// Llamar al método a testear
+
 		inmuebleSpy.aceptarReserva(reserva);
 
-		// Verificar que la reserva fue confirmada
+		
 		verify(reserva).confirmarReserva();
 
-		// Verificar que la reserva fue agregada a las reservas
+		
 		assertTrue(inmuebleSpy.getReservas().contains(reserva));
 
-		// Verificar que se envió el correo al inquilino
+	
 		verify(email).enviarMail(eq("inquilino@ejemplo.com"), eq("Su reserva ha sido aceptada"), eq(reserva));
 
-		// Verificar que la reserva fue agregada al inquilino
+		
 		verify(inquilinoMock).agregarReserva(reserva);
 	}
 
 	@Test
 	void testAceptarReservaEncolada() {
-		// Configurar el estado de la reserva mock
+		
 		when(reservaMock.estaPendiente()).thenReturn(true);
 
-		// Usar un spy para el inmueble
+		
 		Inmueble inmuebleSpy = spy(inmueble);
 
-		// Mockear el método estaDisponibleParaLasFechas para devolver false
+		
 		doReturn(false).when(inmuebleSpy).estaDisponibleParaLasFechas(any(LocalDate.class), any(LocalDate.class));
 
-		// Usar un spy para la cola de reservasEncoladas
+		
 		Queue<Reserva> reservasEncoladasSpy = spy(new LinkedList<>());
 		inmuebleSpy.setReservasEncoladas(reservasEncoladasSpy);
 
-		// Llamar al método a testear
+		
 		inmuebleSpy.aceptarReserva(reservaMock);
 
-		// Verificar que la reserva fue encolada
+		
 		verify(reservasEncoladasSpy).add(reservaMock);
 
-		// Verificar que se envió el correo indicando que la reserva fue encolada
+		
 		verify(email).enviarMail(eq("inquilino@ejemplo.com"), eq("Su reserva ha sido encolada"), eq(reservaMock));
 	}
 
@@ -536,45 +536,6 @@ public class InmuebleTest {
 		// Verificar que el ranking se agregó
 		assertTrue(rankings.contains(rankingPrueba)); // Ahora verificamos en la lista real
 	}
-
-	/*
-	 * @Test void testAgregarRankingSinCheckOutLanzaExcepcion() { // Configurar
-	 * mocks Ranking rankingPrueba = mock(Ranking.class);
-	 * when(rankingPrueba.getRankeador()).thenReturn(inquilinoMock);
-	 * 
-	 * // Crear un objeto real de Inmueble Inmueble inmueble = new Inmueble(); //
-	 * Instancia real, no un mock
-	 * 
-	 * // Simular que el inquilino no tiene el check-out hecho doThrow(new
-	 * RuntimeException("No se puede rankear antes de hacer el check-out"))
-	 * .when(inmueble).validarCheckOut(inquilinoMock);
-	 * 
-	 * // Ejecutar y verificar que la excepción se lanza RuntimeException exception
-	 * = assertThrows(RuntimeException.class, () ->
-	 * inmueble.agregarRanking(rankingPrueba));
-	 * assertEquals("No se puede rankear antes de hacer el check-out",
-	 * exception.getMessage()); }
-	 */
-
-	/*
-	 * falla por que Gestor rankin usa metodos stacticos.
-	 * 
-	 * @Test void testGetPuntajePromedio() { // Configurar mock de GestorRanking
-	 * when(gestorRankingMock.getPuntajePromedio(anyList())).thenReturn(4.5);
-	 * 
-	 * // Verificar que devuelve el puntaje promedio assertEquals(4.5,
-	 * inmueble.getPuntajePromedio()); }
-	 */
-	/*
-	 * falla por que Gestor rankin usa metodos stacticos.
-	 * 
-	 * @Test void testGetPuntajePromedioEnCategoria() { // Configurar mock de
-	 * GestorRanking when(gestorRankingMock.getPuntajePromedioEnCategoria(anyList(),
-	 * eq(categoriaMock))).thenReturn(3.8);
-	 * 
-	 * // Verificar que devuelve el puntaje promedio en la categoría
-	 * assertEquals(3.8, inmueble.getPuntajePromedioEnCategoria(categoriaMock)); }
-	 */
 
 	@Test
 	void testCantidadDeAlquileres() {
