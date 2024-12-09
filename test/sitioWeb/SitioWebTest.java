@@ -218,4 +218,33 @@ class SitioWebTest {
 		assertEquals(categorias, sitioWebMock.getCategorias());
 	}
 
+	@Test
+	void testGetReservasFuturas() {
+	   
+	    LocalDate fechaHoy = LocalDate.now();
+	    LocalDate fechaFutura = fechaHoy.plusDays(1);
+	    LocalDate fechaPasada = fechaHoy.minusDays(1);
+
+	    
+	    Reserva reservaFuturaMock = mock(Reserva.class);
+	    when(reservaFuturaMock.getFechaEntrada()).thenReturn(fechaFutura);
+
+	    Reserva reservaPasadaMock = mock(Reserva.class);
+	    when(reservaPasadaMock.getFechaEntrada()).thenReturn(fechaPasada);
+
+	 
+	    Usuario usuarioMock = new Usuario();
+	    List<Reserva> reservasMock = List.of(reservaFuturaMock, reservaPasadaMock);
+	    usuarioMock.setReservas(reservasMock); // 
+
+	    
+	    List<Reserva> reservasFuturas = usuarioMock.getReservasFuturas();
+
+	   
+	    assertEquals(1, reservasFuturas.size(), "Debe haber solo una reserva futura");
+	    assertTrue(reservasFuturas.contains(reservaFuturaMock), "Debe contener la reserva futura");
+	    assertFalse(reservasFuturas.contains(reservaPasadaMock), "No debe contener la reserva pasada");
+	}
+
+
 }

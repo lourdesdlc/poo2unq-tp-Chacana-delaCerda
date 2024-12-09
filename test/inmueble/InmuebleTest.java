@@ -662,16 +662,16 @@ public class InmuebleTest {
 
 	@Test
 	void testFueHechoElCheckOutTrue() {
-	    Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
+		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
 
-	    Usuario mockInquilino = mock(Usuario.class);
+		Usuario mockInquilino = mock(Usuario.class);
 
-	    List<Usuario> visitantes = new ArrayList<>();
-	    visitantes.add(mockInquilino);
-	    doReturn(visitantes).when(inmuebleSpy).getVisitantes();
+		List<Usuario> visitantes = new ArrayList<>();
+		visitantes.add(mockInquilino);
+		doReturn(visitantes).when(inmuebleSpy).getVisitantes();
 
-	    assertTrue(inmuebleSpy.fueHechoElCheckOut(mockInquilino));
-	    verify(inmuebleSpy).getVisitantes();
+		assertTrue(inmuebleSpy.fueHechoElCheckOut(mockInquilino));
+		verify(inmuebleSpy).getVisitantes();
 	}
 
 	@Test
@@ -714,6 +714,80 @@ public class InmuebleTest {
 		doReturn(false).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
 
 		assertThrows(RuntimeException.class, () -> inmuebleSpy.validarCheckOut(mockInquilino));
+	}
+
+	@Test
+	void testGetNombreDeTipoInmueble() {
+
+		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
+
+		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
+
+		assertEquals("Apartamento", inmuebleA.getNombreDeTipoInmueble());
+	}
+
+	@Test
+	void testGetTipo() {
+
+		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
+
+		// Crear el objeto SUT (Sistema Bajo Prueba)
+		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
+
+		// Llamar al método
+		TipoInmueble tipoInmueble = inmuebleA.getTipo();
+
+		// Verificar que el objeto devuelto es el esperado
+		assertEquals(tipoInmuebleA, tipoInmueble);
+	}
+
+	@Test
+	void testGetTipoDeCancelacion() {
+		// Crear un mock de PoliticaCancelacion
+		PoliticaCancelacion politicaCancelacionMock = mock(PoliticaCancelacion.class);
+		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
+		// Crear el objeto SUT (Sistema Bajo Prueba)
+		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
+
+		inmuebleA.setPoliticaDeCancelacion(politicaCancelacionMock);
+		// Llamar al método
+		PoliticaCancelacion politicaCancelacion = inmuebleA.getTipoDeCancelacion();
+
+		// Verificar que el objeto devuelto es el esperado
+		assertEquals(politicaCancelacionMock, politicaCancelacion);
+	}
+
+	@Test
+	void testGetPrecioPorDia() {
+		// Valor del precio base por día
+		double precioEsperado = 100.0;
+
+		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
+		// Crear el objeto SUT (Sistema Bajo Prueba)
+		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
+
+		inmuebleA.setPrecioBasePorDia(precioEsperado);
+		// Llamar al método
+		double precioPorDia = inmuebleA.getPrecioPorDia();
+
+		// Verificar que el precio por día es el esperado
+		assertEquals(precioEsperado, precioPorDia, 0.001);
+	}
+
+	@Test
+	void testPrecioBasePorDia() {
+		// Valor del precio base por día
+		double precioEsperado = 100.0;
+
+		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
+		// Crear el objeto SUT (Sistema Bajo Prueba)
+		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
+		// Llamar al método
+		inmuebleA.setPrecioBasePorDia(precioEsperado);
+		double precioBase = inmuebleA.precioBasePorDia();
+
+		// Verificar que el precio base es el esperado
+		assertEquals(precioEsperado, precioBase, 0.001);
 	}
 
 }
