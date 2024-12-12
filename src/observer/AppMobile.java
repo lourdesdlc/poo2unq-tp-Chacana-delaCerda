@@ -15,7 +15,7 @@ public class AppMobile implements Notificable {
 		// el sitio de alquiler tiene su propio mensaje general de notifaciones
 		// en este caso, la AppMobile tiene el suyo propio, y podria cambiar en un
 		// futuro
-		// es un detalle no mas... pero me hizo pensar
+		
 
 		String mensajePerzonalizado = "El/la " + i.getNombreDeTipoInmueble()
 				+ " que te interesa se ha liberado! Corre a reservarlo!";

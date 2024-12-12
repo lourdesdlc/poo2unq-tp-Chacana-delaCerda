@@ -66,14 +66,13 @@ class UsuarioTest {
 
 	@Test
 	void testAgregarReserva() {
-		// Usar una instancia real de Usuario en lugar de un mock
+		
 		Usuario u = new Usuario();
-		Reserva reservaMock = mock(Reserva.class); // Crear un mock para la reserva
+		Reserva reservaMock = mock(Reserva.class); 
 
-		u.agregarReserva(reservaMock); // Agregar la reserva al usuario
+		u.agregarReserva(reservaMock); 
 
-		// Verificar que la lista de reservas tiene el tamaño esperado y contiene la
-		// reserva mockeada
+		
 		assertEquals(1, u.getReservas().size());
 		assertTrue(u.getReservas().contains(reservaMock));
 	}
@@ -84,7 +83,7 @@ class UsuarioTest {
 		assertEquals(1, usuario.getInmuebles().size());
 		assertTrue(usuario.getInmuebles().contains(inmuebleMock));
 
-		// Agregar un duplicado no debe cambiar la lista
+	
 		usuario.agregarInmueble(inmuebleMock);
 		assertEquals(1, usuario.getInmuebles().size());
 	}
@@ -99,33 +98,33 @@ class UsuarioTest {
 	}
 
 	@Test
-	void testAgregarRankingValid() {
-		// Create a spy of the real Usuario object
+	void testAgregarRankingValido() {
+		
 		Usuario uReal = spy(new Usuario());
 
-		// Create mock objects
+		
 		Usuario mockRankeador = mock(Usuario.class);
 		Ranking mockRanking = mock(Ranking.class);
 
-		// Set up the behavior of the mock objects
+		
 		when(mockRanking.getRankeador()).thenReturn(mockRankeador);
 
-		// Use doReturn().when() for the spy object
+		
 		doReturn(true).when(uReal).fueHechoCheckOutConPropietario(mockRankeador);
 
-		// Perform the action
+		
 		uReal.agregarRanking(mockRanking);
 
-		// Verify the results
+		
 		assertEquals(1, uReal.getRankings().size());
 		assertTrue(uReal.getRankings().contains(mockRanking));
 
-		// Verify that fueHechoCheckOutConPropietario was called
+		
 		verify(uReal).fueHechoCheckOutConPropietario(mockRankeador);
 	}
 
 	@Test
-	void testAgregarRankingInvalid() {
+	void testAgregarRankingInvalido() {
 		Usuario usuarioSpy = spy(new Usuario());
 
 		// Create mock objects

@@ -109,8 +109,9 @@ public class Usuario implements Propietario, Inquilino {
 																			// Propietario
 		// reservasDeInquilino
 		return reservas.stream().anyMatch(
-				// por
-				reserva -> reserva.fueHechoCheckOutPara(usuarioPropietario)); // ende
+				
+				reserva -> reserva.fueHechoCheckOutPara(usuarioPropietario)); 
+		
 		// reserva -> reserva.propietarioAsigando().equals(usuarioPropietario) &&
 		// reserva.estaFinalizada()); // se
 		// realizo

@@ -24,24 +24,37 @@ import usuario.Inquilino;
 
 import usuario.Usuario;
 
-public class Inmueble implements Rankeable { // casa // departamento // lordes.casa.13 --- bruno.casa.13
+public class Inmueble implements Rankeable { 
 	private Usuario propietario;
+	
 	private TipoInmueble tipoDeInmueble;
+	
 	private double superficie;
+	
 	private String pais;
+	
 	private String ciudad;
+	
 	private String direccion;
+	
 	private int capacidad;
-	private List<String> fotos;// Máximo de 5 fotos
-	private LocalTime checkIn; // representa solo la hora, formato: hh:mm:ss.nnn (hora:minuto.nanosegundo).
+	
+	private List<String> fotos;
+	
+	private LocalTime checkIn; 
+	
 	private LocalTime checkOut;
+	
 	private List<Servicio> servicios;
-	// Enum FormaDePago
+	
 	private List<FormaDePago> formasDePago;
 	// Lista de períodos con precios variables
 	private List<PrecioPorPeriodo> preciosPorPeriodos;
+	
 	private double precioBasePorDia; // un valor por defecto(por si no es un periodo existente)
+	
 	private PoliticaCancelacion politicaDeCancelacion;
+	
 	private List<Ranking> rankings;
 
 	private List<Reserva> reservas;
@@ -76,7 +89,7 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 		this.rankings = new ArrayList<>();
 		this.reservas = new ArrayList<>();
 		this.reservasEncoladas = new LinkedList<>();
-		this.notificador = new Notificador(); // Suponiendo que se inicializa vacío
+		this.notificador = new Notificador(); 
 		this.visitantes = new ArrayList<>();
 	}
 
@@ -134,7 +147,9 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 			// si el iniquilino tiene que conocer sus reservas, entonces que se agregue aca
 
 			r.getInquilino().agregarReserva(r);
+			
 		} else {
+			
 			reservasEncoladas.add(r);
 			// posible notificaccion para inquilino diciendo que su reserva fue encolada...
 			email.enviarMail(r.mailInquilino(), "Su reserva ha sido encolada", r);
@@ -216,13 +231,8 @@ public class Inmueble implements Rankeable { // casa // departamento // lordes.c
 
 	}
 
-	public boolean fueHechoElCheckOut(Usuario inquilino) {
-		// IMPLEMENTAR, resuelto en metodo checkout , firma bach.
+	public boolean fueHechoElCheckOut(Usuario inquilino) {	
 		return getVisitantes().contains(inquilino);
-		// la idea seria que Inmueble tenga una lista controlada con los usuarios
-		// que alquilaron anteriormente. Cuando un Usuario hace checkOut, se agrega a
-		// esa lista
-		// cuando
 	}
 
 	void validarCheckOut(Usuario inquilino) {
