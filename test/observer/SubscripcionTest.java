@@ -19,7 +19,6 @@ class SubscripcionTest {
         mockInmuebleInteres = mock(Inmueble.class);
         mockInmuebleNoInteres = mock(Inmueble.class);
 
-        // Crear una Subscripcion con la entidad mockeada
         subscripcion = new Subscripcion(mockEntidad);
     }
 
@@ -27,7 +26,6 @@ class SubscripcionTest {
     void testAgregarInteresEnInmueble() {
         subscripcion.agregarInteresEnInmuble(mockInmuebleInteres);
 
-        // Validar que el inmueble está en la lista de intereses
         subscripcion.notificarReserva("Reserva creada", mockInmuebleInteres);
         verify(mockEntidad).notificarReserva("Reserva creada", mockInmuebleInteres);
     }
@@ -37,7 +35,6 @@ class SubscripcionTest {
         subscripcion.agregarInteresEnInmuble(mockInmuebleInteres);
         subscripcion.eliminarInteresEnInmuble(mockInmuebleInteres);
 
-        // Confirmar que ya no se envían notificaciones para este inmueble
         subscripcion.notificarReserva("Reserva eliminada", mockInmuebleInteres);
         verifyNoInteractions(mockEntidad);
     }
@@ -48,7 +45,6 @@ class SubscripcionTest {
 
         subscripcion.notificarReserva("Reserva confirmada", mockInmuebleInteres);
 
-        // Verificar que se notificó correctamente
         verify(mockEntidad).notificarReserva("Reserva confirmada", mockInmuebleInteres);
     }
 
@@ -58,7 +54,6 @@ class SubscripcionTest {
 
         subscripcion.notificarReserva("Reserva confirmada", mockInmuebleNoInteres);
 
-        // Verificar que no hubo notificación para el inmueble no interesado
         verifyNoInteractions(mockEntidad);
     }
 
@@ -68,7 +63,6 @@ class SubscripcionTest {
 
         subscripcion.notificarCancelacionReserva("Reserva cancelada", mockInmuebleInteres);
 
-        // Verificar que se notificó correctamente
         verify(mockEntidad).notificarCancelacionReserva("Reserva cancelada", mockInmuebleInteres);
     }
 
@@ -78,7 +72,6 @@ class SubscripcionTest {
 
         subscripcion.notificarCancelacionReserva("Reserva cancelada", mockInmuebleNoInteres);
 
-        // Verificar que no hubo notificación para el inmueble no interesado
         verifyNoInteractions(mockEntidad);
     }
 
@@ -88,7 +81,6 @@ class SubscripcionTest {
 
         subscripcion.notificarBajaDePrecio("Baja de precio", mockInmuebleInteres);
 
-        // Verificar que se notificó correctamente
         verify(mockEntidad).notificarBajaDePrecio("Baja de precio", mockInmuebleInteres);
     }
 
@@ -98,7 +90,6 @@ class SubscripcionTest {
 
         subscripcion.notificarBajaDePrecio("Baja de precio", mockInmuebleNoInteres);
 
-        // Verificar que no hubo notificación para el inmueble no interesado
         verifyNoInteractions(mockEntidad);
     }
 }

@@ -152,7 +152,8 @@ public class Inmueble implements Rankeable {
 	}
 
 	public void cancelarReserva(Reserva reserva) {
-
+		if (!reserva.estaCancelada()) {
+			
 			reserva.cancelarReserva();
 
 			politicaDeCancelacion.calcularPenalidad(reserva);
@@ -162,6 +163,7 @@ public class Inmueble implements Rankeable {
 			email.enviarMail(propietario.getEmail(), "El inquilino ha cancelado la reserva", reserva);
 			
 			ejecutarReservaEncoladas();
+		}
 
 	}
 

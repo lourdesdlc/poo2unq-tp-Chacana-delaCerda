@@ -30,7 +30,6 @@ class NotificadorTest {
 
         List<Notificable> suscriptores = notificador.getSuscriptores();
 
-        // Validar que los suscriptores están en la lista
         assert(suscriptores.contains(mockSuscriptor1));
         assert(suscriptores.contains(mockSuscriptor2));
     }
@@ -42,7 +41,6 @@ class NotificadorTest {
 
         List<Notificable> suscriptores = notificador.getSuscriptores();
 
-        // Validar que el suscriptor fue removido
         assert(!suscriptores.contains(mockSuscriptor1));
     }
 
@@ -55,7 +53,6 @@ class NotificadorTest {
 
         notificador.notificarReserva(mensaje, mockInmueble);
 
-        // Verificar que ambos suscriptores fueron notificados
         verify(mockSuscriptor1).notificarReserva(mensaje, mockInmueble);
         verify(mockSuscriptor2).notificarReserva(mensaje, mockInmueble);
     }
@@ -68,7 +65,6 @@ class NotificadorTest {
 
         notificador.notificarCancelacionReserva(mensaje, mockInmueble);
 
-        // Verificar que el suscriptor fue notificado
         verify(mockSuscriptor1).notificarCancelacionReserva(mensaje, mockInmueble);
     }
 
@@ -80,7 +76,6 @@ class NotificadorTest {
 
         notificador.notificarBajaDePrecio(mensaje, mockInmueble);
 
-        // Verificar que el suscriptor fue notificado
         verify(mockSuscriptor1).notificarBajaDePrecio(mensaje, mockInmueble);
     }
 
@@ -90,7 +85,6 @@ class NotificadorTest {
 
         notificador.notificarReserva(mensaje, mockInmueble);
 
-        // No debería haber interacciones con suscriptores
         verifyNoInteractions(mockSuscriptor1);
     }
 }
