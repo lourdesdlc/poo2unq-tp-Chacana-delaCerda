@@ -8,7 +8,6 @@ public class ReservaPendiente extends EstadoReserva {
 
 	public void cancelar(Reserva r) {
 		r.cambiarEstado(new ReservaCancelada());
-		// logica observer?
 	}
 
 	public boolean esPendiente() {

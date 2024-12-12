@@ -9,10 +9,10 @@ class EstadoReservaTest {
 
     @Test
     void testConfirmarLanzaExcepcion() {
-        // Crear una instancia de EstadoReserva usando una subclase anónima
+
         EstadoReserva estado = new EstadoReserva() {};
 
-        Reserva reservaMock = mock(Reserva.class); // Mock de Reserva
+        Reserva reservaMock = mock(Reserva.class); 
         Exception exception = assertThrows(RuntimeException.class, () -> estado.confirmar(reservaMock));
         assertEquals("No es posible confirmar la reserva en su estado actual.", exception.getMessage());
     }

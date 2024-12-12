@@ -92,9 +92,9 @@ public class Usuario implements Propietario, Inquilino {
 
 /////// RANKING/////////////////////////////////////////////////////////
 	@Override
-	public void agregarRanking(Ranking ranking) { // recibis opinion de criticador
+	public void agregarRanking(Ranking ranking) { 
 
-		validarCheckOut(ranking.getRankeador()); // QUIEN te esta criticando...
+		validarCheckOut(ranking.getRankeador()); 
 		rankings.add(ranking);
 	}
 
@@ -105,24 +105,16 @@ public class Usuario implements Propietario, Inquilino {
 		}
 	}
 
-	boolean fueHechoCheckOutConPropietario(Usuario usuarioPropietario) { // caso: Inquilino es criticado por
-																			// Propietario
-		// reservasDeInquilino
+	boolean fueHechoCheckOutConPropietario(Usuario usuarioPropietario) {																	
+		//verifico si el propietario que me quiere rankear es realmente un propietario de alguna de mis reservas finalizadas
 		return reservas.stream().anyMatch(
-				
 				reserva -> reserva.fueHechoCheckOutPara(usuarioPropietario)); 
-		
-		// reserva -> reserva.propietarioAsigando().equals(usuarioPropietario) &&
-		// reserva.estaFinalizada()); // se
-		// realizo
-		// check
-		// out
 	}
 
-	boolean fueHechoCheckOutConInquilino(Usuario usuarioInquilino) { // caso: Propietario es criticado por
-																		// Inquilino
-		return usuarioInquilino.getReservas().stream().anyMatch(reserva -> reserva.fueHechoCheckOutPara(this));
-		//// *reserva.propietarioAsigando().equals(this) && reserva.estaFinalizada())
+	boolean fueHechoCheckOutConInquilino(Usuario usuarioInquilino) { 
+		//verifico si soy propietario de alguna de las reservas finalizadas del inquilino que me quiere rankear													
+		return usuarioInquilino.getReservas().stream().anyMatch(
+				reserva -> reserva.fueHechoCheckOutPara(this));
 	}
 
 	@Override
@@ -153,7 +145,8 @@ public class Usuario implements Propietario, Inquilino {
 		return GestorRanking.getComentariosPorRol(rankings, TipoRankeable.INQUILINO);
 	}
 
-	////////////////////////////////////////////////////////////////////// 7
+	//////////////////////////////////////////////////////////////////////
+	
 	// getters y setters
 	public String getEmail() {
 		return email;

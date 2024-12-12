@@ -19,7 +19,7 @@ class ReservaPendienteTest {
 
         reservaPendiente.confirmar(reservaMock);
 
-        verify(reservaMock).cambiarEstado(any(ReservaConfirmada.class)); // Verifica que se cambió el estado a ReservaConfirmada
+        verify(reservaMock).cambiarEstado(any(ReservaConfirmada.class));
     }
 
     @Test
@@ -29,6 +29,6 @@ class ReservaPendienteTest {
 
         reservaPendiente.cancelar(reservaMock);
 
-        verify(reservaMock).cambiarEstado(any(ReservaCancelada.class)); // Verifica que se cambió el estado a ReservaCancelada
+        verify(reservaMock).cambiarEstado(any(ReservaCancelada.class));
     }
 }

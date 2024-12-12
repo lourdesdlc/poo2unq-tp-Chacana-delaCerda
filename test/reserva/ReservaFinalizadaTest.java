@@ -19,6 +19,6 @@ class ReservaFinalizadaTest {
 
         reservaFinalizada.finalizar(reservaMock);
 
-        verify(reservaMock).cambiarEstado(any(ReservaFinalizada.class)); // Verifica que se mantenga en ReservaFinalizada
+        verify(reservaMock).cambiarEstado(any(ReservaFinalizada.class));
     }
 }

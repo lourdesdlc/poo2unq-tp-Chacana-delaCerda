@@ -12,7 +12,6 @@ import politicaCancelacion.PoliticaCancelacion;
 import ranking.Categoria;
 import ranking.GestorRanking;
 import ranking.Ranking;
-import ranking.TipoRankeable;
 import reserva.Reserva;
 import usuario.Inquilino;
 import usuario.Usuario;
@@ -28,14 +27,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.contains;
+
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -57,8 +53,6 @@ public class InmuebleTest {
 	private Notificador notificador;
 	private Usuario inquilinoMock;
 	private EmailSender email;
-	private Categoria categoriaMock;
-	private GestorRanking gestorRankingMock;
 	
 	@BeforeEach
 	void setUp() {
@@ -74,13 +68,11 @@ public class InmuebleTest {
 		inquilinoMock = mock(Usuario.class);
 		email = mock(EmailSender.class);
 		rankingMock = mock(Ranking.class);
-		categoriaMock = mock(Categoria.class);
 		inmueble = new Inmueble(propietario, tipoDeInmueble, "Argentina", "BsAs", "calle");
 		email = mock(EmailSender.class);
 		inmueble.setEmailSender(email);
-		inmueble.setNotificador(notificador); // Inyectar el mock en el inmueble
-		gestorRankingMock = mock(GestorRanking.class);
-		// comportamiento predeterminado.
+		inmueble.setNotificador(notificador); 
+
 		when(reservaMock.getFechaEntrada()).thenReturn(LocalDate.of(2024, 12, 6));
 		when(reservaMock.getFechaSalida()).thenReturn(LocalDate.of(2024, 12, 10));
 		when(reservaMock.mailInquilino()).thenReturn("inquilino@ejemplo.com");
@@ -496,8 +488,7 @@ public class InmuebleTest {
 		Inmueble inmueblePrueba = mock(Inmueble.class);
 		
 		when(rankingPrueba.getRankeador()).thenReturn(inquilinoMock);
-		doNothing().when(inmueblePrueba).validarCheckOut(inquilinoMock); // Asegurarse de que 'inmueble' sea mockeado
-																			// correctamente también
+		doNothing().when(inmueblePrueba).validarCheckOut(inquilinoMock);
 		
 		doAnswer(invocation -> {
 			rankings.add(rankingPrueba);
@@ -543,7 +534,7 @@ public class InmuebleTest {
 	}
 	
 	@Test
-	void testAgregarRankingValid() {
+	void testAgregarRankingValido() {
 		
 		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
 		
@@ -564,7 +555,7 @@ public class InmuebleTest {
 	}
 	
 	@Test
-	void testAgregarRankingInvalid() {
+	void testAgregarRankingInvalido() {
 		//
 		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
 		Ranking mockRanking = mock(Ranking.class);
@@ -599,7 +590,7 @@ public class InmuebleTest {
 	}
 	
 	@Test
-	void testValidarCheckOutValid() {
+	void testValidarCheckOutValido() {
 		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
 		
 		Usuario mockInquilino = mock(Usuario.class);
@@ -608,7 +599,7 @@ public class InmuebleTest {
 	}
 	
 	@Test
-	void testValidarCheckOutInvalid() {
+	void testValidarCheckOutInvalido() {
 		Inmueble inmuebleSpy = spy(new Inmueble(propietario, tipoDeInmueble, "A", "B", "calle"));
 		Usuario mockInquilino = mock(Usuario.class);
 		doReturn(false).when(inmuebleSpy).fueHechoElCheckOut(mockInquilino);
@@ -649,15 +640,15 @@ public class InmuebleTest {
 	
 	@Test
 	void testGetPrecioPorDia() {
-		// Valor del precio base por día
+
 		double precioEsperado = 100.0;
 		TipoInmueble tipoInmuebleA = new TipoInmueble("Apartamento");
-		// Crear el objeto SUT (Sistema Bajo Prueba)
+
 		Inmueble inmuebleA = new Inmueble(propietario, tipoInmuebleA, "A", "B", "calle");
 		inmuebleA.setPrecioBasePorDia(precioEsperado);
-		// Llamar al método
+
 		double precioPorDia = inmuebleA.getPrecioPorDia();
-		// Verificar que el precio por día es el esperado
+
 		assertEquals(precioEsperado, precioPorDia, 0.001);
 	}
 	
@@ -694,7 +685,6 @@ public class InmuebleTest {
 	}
 	
 	@Test
-
 	void testGetPuntajePromedio() {
 		Inmueble inmueble = new Inmueble();
 		List<Ranking> rankings = new ArrayList<>(); 
@@ -710,6 +700,7 @@ public class InmuebleTest {
 			assertEquals(puntajeEsperado, puntajeActual, 0.001);
 		}
 	}
+	
 	@Test
 	void testGetPuntajePromedioEnCategoria() {
 		Inmueble inmueble = new Inmueble();

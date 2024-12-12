@@ -3,9 +3,7 @@ package politicaCancelacion;
 import reserva.Reserva;
 
 public class PoliticaGratuita extends PoliticaCancelacion{
-	
-	
-	
+
 	@Override
 	public double calcularPenalidad(Reserva reserva) {
 		

@@ -2,7 +2,6 @@ package sitioWeb;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import filtroDeBusqueda.CriterioBusqueda;
 import inmueble.Inmueble;
@@ -133,24 +132,24 @@ class SitioWebTest {
 		sitioWeb.registrarUsuario(usuarioMock);
 
 		double tasaOcupacion = sitioWeb.tasaOcupacion();
-		assertEquals(0.0, tasaOcupacion, 0.01); // porque no hay alquileres.
+		assertEquals(0.0, tasaOcupacion, 0.01); 
 	}
 
 	@Test
 	void testEsCategoriaValida() {
-		// Creamos un mock de la categoria
+
 		Categoria categoriaMock = mock(Categoria.class);
 		when(categoriaMock.getTipoRankeable()).thenReturn(TipoRankeable.PROPIETARIO);
 		when(categoriaMock.getNombre()).thenReturn("Responsable");
 
-		// Creamos una lista con el mock
+
 		List<Categoria> categoriasMock = List.of(categoriaMock);
 
-		// Mockeamos el comportamiento de getListaDeCategoriasPara
+
 		SitioWeb sitioWebMock = spy(sitioWeb);
 		doReturn(categoriasMock).when(sitioWebMock).getListaDeCategoriasPara(TipoRankeable.PROPIETARIO);
 
-		// Llamamos al método
+
 		assertTrue(sitioWebMock.esCategoriaValida(categoriaMock));
 
 	}
@@ -160,61 +159,54 @@ class SitioWebTest {
 		Categoria categoriaMock = mock(Categoria.class);
 		when(categoriaMock.getTipoRankeable()).thenReturn(TipoRankeable.INQUILINO);
 
-		// Creando el SUT (SitioWeb)
+
 		SitioWeb sitioWebMock = spy(sitioWeb);
 
-		// Configuramos una lista vacía de categorías
+
 		List<Categoria> categorias = List.of();
 		doReturn(categorias).when(sitioWebMock).getCategorias();
 
-		// Llamamos al método y verificamos que la categoría es inválida
+
 		assertFalse(sitioWebMock.esCategoriaValida(categoriaMock));
 	}
 
 	@Test
 	void testDarDeAltaInmueble() {
-		// Creamos los mocks
+
 		Usuario propietarioMock = mock(Usuario.class);
 		Inmueble inmuebleMock = mock(Inmueble.class);
 
-		// Creando el SUT
+
 		SitioWeb sitioWebMock = spy(sitioWeb);
 
-		// Llamamos al método darDeAltaInmueble
+
 		sitioWebMock.darDeAltaInmueble(propietarioMock, inmuebleMock);
 
-		// Verificamos que el método agregarInmueble haya sido llamado
 		verify(propietarioMock).agregarInmueble(inmuebleMock);
 	}
 
 	@Test
 	void testEliminarInmueble() {
-		// Creamos los mocks
+
 		Usuario usuarioMock = mock(Usuario.class);
 		Inmueble inmuebleMock = mock(Inmueble.class);
 
-		// Creando el SUT
+
 		SitioWeb sitioWebMock = spy(sitioWeb);
 
-		// Llamamos al método eliminarInmueble
 		sitioWebMock.eliminarInmueble(usuarioMock, inmuebleMock);
 
-		// Verificamos que el método removerInmueble haya sido llamado
 		verify(usuarioMock).removerInmueble(inmuebleMock);
 	}
 
 	@Test
 	void testSetCategorias() {
-		// Creamos el SUT
 		SitioWeb sitioWebMock = new SitioWeb();
 
-		// Creamos la lista de categorías mockeadas
 		List<Categoria> categorias = List.of(mock(Categoria.class), mock(Categoria.class));
 
-		// Llamamos al método setCategorias
 		sitioWebMock.setCategorias(categorias);
 
-		// Verificamos que las categorías se hayan asignado correctamente
 		assertEquals(categorias, sitioWebMock.getCategorias());
 	}
 

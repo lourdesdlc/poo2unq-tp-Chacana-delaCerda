@@ -51,11 +51,6 @@ public class SitioWeb {
 		return categorias.stream().filter(categoria -> categoria.perteneceATipoRankeable(tipoRankeable)).toList();
 	}
 
-	public boolean esCategoriaValida(Categoria categoria) {
-		// evalua si es una categoria bien construida
-		return getListaDeCategoriasPara(categoria.getTipoRankeable()).contains(categoria);
-	}
-
 	public void darDeAltaTipoInmueble(TipoInmueble tipoInmueble) {
 		this.tiposDeInmueble.add(tipoInmueble);
 	}
@@ -132,19 +127,19 @@ public class SitioWeb {
 		this.categorias = categorias;
 	}
 
+	public boolean esCategoriaValida(Categoria categoria) {
+		return getListaDeCategoriasPara(categoria.getTipoRankeable()).contains(categoria);
+	}
 /////////// " Visualizacion " ///////
 
 	public String mostrarDatosDe(Inmueble i) {
 		StringBuilder datos = new StringBuilder();
 
-		// Manejar lista de comentarios
 		datos.append("Comentarios del inmueble:\n");
 		i.getComentarios().forEach(comentario -> datos.append("- ").append(comentario).append("\n"));
 
-		// Puntaje promedio
 		datos.append("Puntaje promedio: ").append(i.getPuntajePromedio()).append("\n");
 
-		// Puntaje promedio en categoría
 		datos.append("Puntaje promedio en categoría: ").append(i.getPuntajePromedioEnCategoria(new Categoria()))
 				.append("\n");
 
@@ -164,7 +159,6 @@ public class SitioWeb {
 				.append("Cantidad de alquileres de este inmueble: ").append(i.cantidadDeAlquileres()).append("\n")
 				.append("Inmuebles alquilados por el propietario:\n");
 
-		// Manejar lista de inmuebles alquilados
 		propietario.inmueblesAlquilados().forEach(alquilado -> datos.append("- ").append(alquilado).append("\n"));
 
 		return datos.toString();

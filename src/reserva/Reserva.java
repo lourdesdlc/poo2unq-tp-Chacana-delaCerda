@@ -25,6 +25,7 @@ public class Reserva {
 	}
 
 	public boolean fueHechoCheckOutPara(Usuario u) {
+		//verifico que el propietario de esta reserva sea el usuario que me quiere rankear
 		return (this.propietarioAsigando() == u) && this.estaFinalizada(); 
 	}
 

@@ -19,7 +19,7 @@ class ReservaConfirmadaTest {
 
         reservaConfirmada.finalizar(reservaMock);
 
-        verify(reservaMock).cambiarEstado(any(ReservaFinalizada.class)); // Verifica que se cambió el estado
+        verify(reservaMock).cambiarEstado(any(ReservaFinalizada.class)); 
     }
 
     @Test
@@ -29,6 +29,6 @@ class ReservaConfirmadaTest {
 
         reservaConfirmada.cancelar(reservaMock);
 
-        verify(reservaMock).cambiarEstado(any(ReservaCancelada.class)); // Verifica que se cambió el estado
+        verify(reservaMock).cambiarEstado(any(ReservaCancelada.class)); 
     }
 }

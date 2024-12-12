@@ -1,6 +1,6 @@
 package reserva;
 
-public class ReservaFinalizada extends EstadoReserva { // el resto responde la clase padre
+public class ReservaFinalizada extends EstadoReserva {
 
 	public void finalizar(Reserva r) {
 		r.cambiarEstado(new ReservaFinalizada());

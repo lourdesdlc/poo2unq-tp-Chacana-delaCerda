@@ -3,9 +3,6 @@ package ranking;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import ranking.Categoria;
-import ranking.TipoRankeable;
-
 public class CategoriaTest {
 
     @Test

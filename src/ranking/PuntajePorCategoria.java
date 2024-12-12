@@ -16,7 +16,6 @@ public class PuntajePorCategoria {
 	}
 
 	public void setCategoria(Categoria categoria) {
-		//el ranking luego se encarga de validar categoria
 		this.categoria = categoria;
 	}
 

@@ -2,7 +2,6 @@ package reserva;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import inmueble.FormaDePago;
 import inmueble.Inmueble;
@@ -36,9 +35,9 @@ class ReservaTest {
 		estadoMock = mock(Concretable.class);
 
 		reserva = new Reserva(inquilinoMock, inmuebleMock);
-		reserva.setEstado(estadoMock); // Para pruebas específicas de estados
+		reserva.setEstado(estadoMock); 
 
-		// extras
+
 		mockInquilino = mock(Usuario.class);
 		mockInmueble = mock(Inmueble.class);
 		mockEstado = mock(Concretable.class);
@@ -66,7 +65,7 @@ class ReservaTest {
 	@Test
 	void testConfirmarReserva() {
 		reserva.confirmarReserva();
-		verify(estadoMock).confirmar(reserva); // Verifica que delega correctamente
+		verify(estadoMock).confirmar(reserva);
 	}
 
 	@Test
@@ -109,10 +108,8 @@ class ReservaTest {
 		reserva.setFechaEntrada(LocalDate.of(2024, 12, 1));
 		reserva.setFechaSalida(LocalDate.of(2024, 12, 10));
 
-		// Caso de interferencia
 		assertTrue(reserva.interfiereCon(LocalDate.of(2024, 12, 5), LocalDate.of(2024, 12, 15)));
 
-		// Caso sin interferencia
 		assertFalse(reserva.interfiereCon(LocalDate.of(2024, 12, 11), LocalDate.of(2024, 12, 20)));
 	}
 
@@ -156,21 +153,6 @@ class ReservaTest {
 		when(inmuebleMock.getCiudad()).thenReturn("Buenos Aires");
 		assertEquals("Buenos Aires", reserva.ciudadDeReserva());
 	}
-
-	// extras
-
-	/*
-	 * @Test void testInterfiereCon() { LocalDate nuevaFechaEntrada =
-	 * LocalDate.of(2024, 12, 15); LocalDate nuevaFechaSalida = LocalDate.of(2024,
-	 * 12, 25);
-	 * 
-	 * assertTrue(reserva.interfiereCon(nuevaFechaEntrada, nuevaFechaSalida));
-	 * 
-	 * nuevaFechaEntrada = LocalDate.of(2024, 12, 1); nuevaFechaSalida =
-	 * LocalDate.of(2024, 12, 9);
-	 * 
-	 * assertFalse(reserva.interfiereCon(nuevaFechaEntrada, nuevaFechaSalida)); }
-	 */
 
 	@Test
 	void testFueHechoCheckOutPara() {

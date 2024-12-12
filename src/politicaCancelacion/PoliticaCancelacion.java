@@ -8,7 +8,7 @@ import reserva.Reserva;
 //Patrón Strategy para Políticas de Cancelación
 public abstract class PoliticaCancelacion {
 
-	public PoliticaCancelacion() { // constructor vacio
+	public PoliticaCancelacion() {
 	}
 
 	public int diasAntesDeInicio(LocalDate fechaInicio) {
