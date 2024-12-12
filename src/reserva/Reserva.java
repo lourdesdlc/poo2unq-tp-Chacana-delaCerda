@@ -25,7 +25,7 @@ public class Reserva {
 	}
 
 	public boolean fueHechoCheckOutPara(Usuario u) {
-		return (this.propietarioAsigando() == u) && this.estaFinalizada(); // chequear.
+		return (this.propietarioAsigando() == u) && this.estaFinalizada(); 
 	}
 
 	public Propietario propietarioAsigando() {
@@ -43,7 +43,6 @@ public class Reserva {
 
 	public void cancelarReserva() {
 		this.estado.cancelar(this);
-		// inmueble.verificarEncoladas(fechaEntrada);
 	}
 
 	public boolean estaCancelada() {
@@ -66,29 +65,23 @@ public class Reserva {
 	}
 
 	public boolean interfiereCon(LocalDate nuevaFechaEntrada, LocalDate nuevaFechaSalida) {
-		// Verificamos si el rango de fechas de la nueva reserva interfiere con el rango
-		// actual
+		// Verifica si el rango de fechas de la nueva reserva interfiere con el rango actual
 		return !nuevaFechaSalida.isBefore(fechaEntrada) && !nuevaFechaEntrada.isAfter(fechaSalida);
 	}
 
 	public double calcularPenalidadPorCancelacion(Reserva reserva) {
-		// le delega la responsabilidad de calcular la penalidad al inmueble
 		return inmueble.calcularPenalidadPorCancelacion(reserva);
 	}
 
 	public double getPrecioTotal() {
-		// retorna el valor total de la reserva.
-		// le delega el calculo al inmbueble reservado
 		return inmueble.getPrecio(fechaEntrada, fechaSalida);
 	}
 
 	public Inmueble inmueble() {
-
 		return this.getInmueble();
 	}
 
 	public String mailInquilino() {
-
 		return this.inquilino.getEmail();
 	}
 
@@ -101,12 +94,10 @@ public class Reserva {
 	}
 
 	public String ciudadDeReserva() {
-
 		return this.getInmueble().getCiudad();
 	}
 
 	public boolean esCondicionalParaElInmueble(LocalDate fechaIncio, LocalDate fechaFin) {
-
 		return this.getInmueble().estaDisponibleParaLasFechas(fechaIncio, fechaFin);
 	}
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 
 import notificaciones.EmailSender;
 import observer.Notificable;
@@ -19,8 +18,6 @@ import ranking.GestorRanking;
 import ranking.Rankeable;
 import ranking.Ranking;
 import reserva.Reserva;
-
-import usuario.Inquilino;
 
 import usuario.Usuario;
 
@@ -51,7 +48,7 @@ public class Inmueble implements Rankeable {
 	// Lista de períodos con precios variables
 	private List<PrecioPorPeriodo> preciosPorPeriodos;
 	
-	private double precioBasePorDia; // un valor por defecto(por si no es un periodo existente)
+	private double precioBasePorDia; // un valor por defecto (por si no es un periodo existente)
 	
 	private PoliticaCancelacion politicaDeCancelacion;
 	
@@ -111,7 +108,7 @@ public class Inmueble implements Rankeable {
 
 ///////////////////////  Subscripcion de interesado /////////////////
 
-	public void recibirSubscriptor(Notificable n) { // ej la AppMobile o la pagina de trivago
+	public void recibirSubscriptor(Notificable n) { // ej. la AppMobile o la pagina de trivago
 		Subscripcion s = new Subscripcion(n);
 		s.agregarInteresEnInmuble(this);
 
@@ -124,56 +121,53 @@ public class Inmueble implements Rankeable {
 
 ///////////////////////  Concrecion de Reserva  ///////////////////////////
 
-	// el propietario tiene tiempo de resivsar la solicitud (esto puede que no sea
-	// necesario, lo dejo a tu criterio Lourdes jaja)
-	public void recibirSolicitudDeReserva(Reserva r) { // a) el potencial inquilino realiza una reserva
+	// el propietario tiene tiempo de revisar la solicitud
+	public void recibirSolicitudDeReserva(Reserva r) { 
 		if (r.estaPendiente()) {
 			email.enviarMail(propietario.getEmail(), "Nueva solicitud de reserva para uno de sus inmuebles", r);
 			propietario.agregarReserva(r);
 		}
 	}
 
-	public void aceptarReserva(Reserva r) { // b) el dueño debe aceptarla.
+	public void aceptarReserva(Reserva r) { 
 
 		if (estaDisponibleParaLasFechas(r.getFechaEntrada(), r.getFechaSalida())) {
 
 			r.confirmarReserva();
 
 			reservas.add(r);
-			// observer
-			notificarNuevaReserva(r.getFechaEntrada(), r.getFechaSalida()); // pensar en clase periodo
-			// envio de email
+
+			notificarNuevaReserva(r.getFechaEntrada(), r.getFechaSalida());
+
 			email.enviarMail(r.mailInquilino(), "Su reserva ha sido aceptada", r);
-			// si el iniquilino tiene que conocer sus reservas, entonces que se agregue aca
 
 			r.getInquilino().agregarReserva(r);
 			
 		} else {
 			
 			reservasEncoladas.add(r);
-			// posible notificaccion para inquilino diciendo que su reserva fue encolada...
+			
 			email.enviarMail(r.mailInquilino(), "Su reserva ha sido encolada", r);
 		}
 	}
 
 	public void cancelarReserva(Reserva reserva) {
-		if (!reserva.estaCancelada()) { // sino esta cancelada previamente...
 
 			reserva.cancelarReserva();
 
 			politicaDeCancelacion.calcularPenalidad(reserva);
-			// observer
+			
 			notificarCancelacionDeReserva();
-			// notificacion
+			
 			email.enviarMail(propietario.getEmail(), "El inquilino ha cancelado la reserva", reserva);
+			
 			ejecutarReservaEncoladas();
-		}
 
 	}
 
 	public void ejecutarReservaEncoladas() {
-		if (!reservasEncoladas.isEmpty()) { // si existen reservar encoladas...
-			recibirSolicitudDeReserva(reservasEncoladas.poll()); // agarra la primera y ejecuta ciclo normal
+		if (!reservasEncoladas.isEmpty()) { 
+			recibirSolicitudDeReserva(reservasEncoladas.poll()); 
 		}
 	}
 
@@ -196,15 +190,10 @@ public class Inmueble implements Rankeable {
 	}
 
 	public double calcularPenalidadPorCancelacion(Reserva reserva) {
-		// le delega la responsabilidad de calcular la penalidad a la
-		// politicaDeCancelacion
 		return this.politicaDeCancelacion.calcularPenalidad(reserva);
 	}
 
 	public boolean estaDisponibleParaLasFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
-		// Método para verificar si el rango de fechas no interfiere con las reservas
-		// existentes
-
 		return reservas.stream().noneMatch(reserva -> reserva.interfiereCon(fechaEntrada, fechaSalida));
 	}
 
@@ -411,9 +400,6 @@ public class Inmueble implements Rankeable {
 	}
 
 	public void cambiarPrecio(Double monto) {
-
-		// bach: necesito este mensaje para el observer
-
 		this.setPrecioPorDia(monto);
 		notificarBajaDePrecioDeInmueble();
 
@@ -487,8 +473,8 @@ public class Inmueble implements Rankeable {
 		this.rankings = rankings;
 	}
 
-	public void setEmailSender(EmailSender email2) {
-		this.email = email2;
+	public void setEmailSender(EmailSender email) {
+		this.email = email;
 
 	}
 

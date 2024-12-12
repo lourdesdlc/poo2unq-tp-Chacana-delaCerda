@@ -7,16 +7,13 @@ public class AppMobile implements Notificable {
 	private PopUpWindow notificadorCelular;
 	private String color;
 	private int front;
-
 	
 	@Override
 	public void notificarCancelacionReserva(String evento, Inmueble i) {
-		// Bach:
-		// el sitio de alquiler tiene su propio mensaje general de notifaciones
+		// Bach: el sitio de alquiler tiene su propio mensaje general de notifaciones
 		// en este caso, la AppMobile tiene el suyo propio, y podria cambiar en un
 		// futuro
 		
-
 		String mensajePerzonalizado = "El/la " + i.getNombreDeTipoInmueble()
 				+ " que te interesa se ha liberado! Corre a reservarlo!";
 
@@ -27,7 +24,6 @@ public class AppMobile implements Notificable {
 	@Override
 	public void notificarBajaDePrecio(String evento, Inmueble i) {
 		// disponible para su uso en un futuro
-
 	}
 
 	@Override
